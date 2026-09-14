@@ -1,0 +1,1083 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="stc business — enterprise connectivity, sovereign cloud, cybersecurity and IoT for Saudi Arabia. Design concept.">
+<style>
+  :root{color-scheme:dark;}
+  body{margin:0;}
+  img{max-width:100%;}
+  [hidden]{display:none !important;}
+</style>
+<title>stc business</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
+<style>
+  :root{
+    /* single deliberate visual world: violet cinema, with paper interludes */
+    --ink:#0A0510;
+    --ink-2:#120A1C;
+    --ink-3:#1A0F28;
+    --purple:#4F008C;
+    --violet:#7A3BD1;
+    --violet-dim:#3C1A66;
+    --signal:#00E5C7;
+    --magenta:#E6007E;
+    --paper:#F7F5FA;
+    --paper-2:#EBE6F2;
+    --mist:#9A8FA8;
+    --mist-dim:#6E6478;
+    --on-ink:#F4F0F8;
+    --on-paper:#170C22;
+    --hair:rgba(244,240,248,.13);
+    --hair-strong:rgba(244,240,248,.26);
+    --hair-paper:rgba(23,12,34,.14);
+
+    --measure:62ch;
+    --shell:1180px;
+    --pad:clamp(20px,4vw,48px);
+    --sec-y:clamp(84px,10vw,160px);
+
+    --f-disp:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --f-ar:"IBM Plex Sans Arabic","Archivo",sans-serif;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  body{
+    background:var(--ink);
+    color:var(--on-ink);
+    font-family:var(--f-disp);
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4,p,ul,ol,figure,blockquote{margin:0;}
+  ul{list-style:none;padding:0;}
+  a{color:inherit;text-decoration:none;}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
+  :focus-visible{outline:2px solid var(--signal);outline-offset:4px;border-radius:2px;}
+  ::selection{background:var(--signal);color:var(--ink);}
+
+  .shell{max-width:var(--shell);margin:0 auto;padding-inline:var(--pad);}
+  .sec{padding-block:var(--sec-y);position:relative;}
+  .sec--paper{background:var(--paper);color:var(--on-paper);}
+  .sec--field{background:linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 42%,var(--ink) 100%);}
+
+  /* ── type scale ─────────────────────────────────────────── */
+  .d1{font-size:clamp(2.7rem,7.1vw,6.1rem);font-weight:600;line-height:.94;letter-spacing:-.042em;text-wrap:balance;}
+  .d2{font-size:clamp(2rem,4.5vw,3.6rem);font-weight:600;line-height:1.02;letter-spacing:-.033em;text-wrap:balance;}
+  .d3{font-size:clamp(1.35rem,2.1vw,1.75rem);font-weight:600;line-height:1.18;letter-spacing:-.022em;}
+  .lede{font-size:clamp(1.05rem,1.35vw,1.24rem);line-height:1.55;color:var(--mist);max-width:var(--measure);font-weight:400;}
+  .sec--paper .lede{color:var(--mist-dim);}
+  .body{max-width:var(--measure);color:var(--mist);}
+  .sec--paper .body{color:var(--mist-dim);}
+  .tel{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;font-weight:500;font-variant-numeric:tabular-nums;}
+  .ar{font-family:var(--f-ar);direction:rtl;}
+  .num{font-variant-numeric:tabular-nums;letter-spacing:-.03em;}
+
+  /* ── nav ────────────────────────────────────────────────── */
+  .nav{position:fixed;inset:0 0 auto;z-index:60;height:58px;display:flex;align-items:center;
+    background:rgba(10,5,16,.62);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);
+    border-bottom:1px solid transparent;transition:background .3s ease,border-color .3s ease;}
+  .nav[data-lift="1"]{background:rgba(10,5,16,.9);border-bottom-color:var(--hair);}
+  .nav__in{display:flex;align-items:center;gap:clamp(14px,2.4vw,34px);width:100%;}
+  .mark{display:flex;align-items:baseline;gap:.42em;margin-right:auto;}
+  .mark__stc{font-size:1.32rem;font-weight:700;letter-spacing:-.075em;line-height:1;}
+  .mark__biz{font-size:.86rem;font-weight:400;color:var(--mist);letter-spacing:-.01em;}
+  .nav__links{display:flex;gap:clamp(14px,2vw,28px);}
+  .nav__links a{font-size:.875rem;color:var(--mist);transition:color .18s ease;}
+  .nav__links a:hover{color:var(--on-ink);}
+  .pill{display:inline-flex;align-items:center;gap:.5em;padding:.52em 1.05em;border-radius:999px;
+    font-size:.875rem;font-weight:500;background:var(--on-ink);color:var(--ink);transition:transform .18s ease,background .18s ease;}
+  .pill:hover{transform:translateY(-1px);background:#fff;}
+  .pill--ghost{background:transparent;color:var(--on-ink);box-shadow:inset 0 0 0 1px var(--hair-strong);}
+  .pill--ghost:hover{background:rgba(244,240,248,.07);}
+  .pill--ink{background:var(--purple);color:#fff;}
+  .pill--ink:hover{background:#5F00A8;}
+  @media (max-width:880px){.nav__links{display:none;}}
+
+  /* ── hero ───────────────────────────────────────────────── */
+  .hero{position:relative;padding-top:calc(58px + clamp(48px,7vw,104px));padding-bottom:0;overflow:hidden;
+    min-height:min(860px,92vh);display:flex;flex-direction:column;}
+  .hero__canvas{position:absolute;top:-2%;right:-11%;width:70%;height:88%;z-index:0;pointer-events:none;}
+  .hero__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(120% 90% at 6% 34%,var(--ink) 0%,rgba(10,5,16,.94) 26%,rgba(10,5,16,.42) 52%,rgba(10,5,16,0) 72%);}
+  .hero__in{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;
+    padding-bottom:clamp(40px,6vw,72px);}
+  .hero__eyebrow{display:flex;align-items:center;gap:1em;flex-wrap:wrap;color:var(--mist);margin-bottom:clamp(20px,2.6vw,30px);}
+  .hero__eyebrow .ar{font-size:.95rem;letter-spacing:0;text-transform:none;color:var(--violet);opacity:.95;}
+  .dot{width:5px;height:5px;border-radius:50%;background:var(--signal);box-shadow:0 0 12px var(--signal);}
+  .hero h1{max-width:15.5em;}
+  .hero h1 span{display:block;}
+  .hero__sub{margin-top:clamp(20px,2.4vw,30px);max-width:34em;}
+  .hero__cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:clamp(28px,3.4vw,42px);}
+
+  .strip{position:relative;z-index:2;border-top:1px solid var(--hair);}
+  .strip__grid{display:grid;grid-template-columns:repeat(5,1fr);}
+  .strip__cell{padding:20px 0 22px;border-left:1px solid var(--hair);padding-left:clamp(12px,1.6vw,22px);}
+  .strip__cell:first-child{border-left:0;padding-left:0;}
+  .strip__k{color:var(--mist-dim);display:block;margin-bottom:.5em;}
+  .strip__v{font-size:clamp(1.05rem,1.7vw,1.42rem);font-weight:600;letter-spacing:-.03em;}
+  .strip__v small{font-size:.62em;font-weight:400;color:var(--mist);letter-spacing:0;margin-left:.25em;}
+  /* 5 cells never leave an orphan: 5 across, then 3 + 2 */
+  @media (max-width:900px){
+    .strip__grid{grid-template-columns:repeat(3,1fr);}
+    .strip__cell{border-top:1px solid var(--hair);}
+    .strip__cell:nth-child(3n+1){border-left:0;padding-left:0;}
+    .strip__cell:nth-child(-n+3){border-top:0;}
+    .strip__v{font-size:1.1rem;}
+  }
+  @media (max-width:760px){
+    .hero__canvas{top:5%;right:-7%;left:-7%;bottom:auto;width:auto;height:82%;opacity:.7;}
+    .hero__scrim{background:linear-gradient(180deg,var(--ink) 0%,rgba(10,5,16,.82) 30%,rgba(10,5,16,.3) 70%,rgba(10,5,16,.62) 100%);}
+  }
+
+  /* ── latency scrub ──────────────────────────────────────── */
+  .scrub{height:260vh;position:relative;background:var(--ink);}
+  .scrub__stick{position:sticky;top:0;height:100vh;min-height:600px;display:flex;align-items:center;overflow:hidden;}
+  .scrub__glow{position:absolute;left:50%;top:50%;width:min(900px,120%);aspect-ratio:1;transform:translate(-50%,-50%);
+    background:radial-gradient(circle,rgba(122,59,209,.22) 0%,rgba(79,0,140,.1) 40%,transparent 68%);pointer-events:none;}
+  .scrub__in{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(28px,5vw,72px);align-items:center;width:100%;}
+  .scrub__read{display:flex;align-items:flex-start;gap:.14em;}
+  .scrub__n{font-size:clamp(4.6rem,15vw,12rem);font-weight:600;line-height:.82;letter-spacing:-.06em;
+    font-variant-numeric:tabular-nums;background:linear-gradient(168deg,#fff 12%,var(--violet) 96%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .scrub__u{font-size:clamp(1.1rem,2vw,1.7rem);font-weight:500;color:var(--mist);margin-top:.55em;letter-spacing:-.02em;}
+  .scrub__where{margin-top:6px;color:var(--signal);min-height:2.6em;}
+  .scrub__where b{display:block;font-size:1.05rem;font-weight:600;letter-spacing:-.02em;}
+  .scrub__where span{color:var(--mist-dim);font-size:.9rem;}
+  .track{margin-top:clamp(26px,3vw,40px);}
+  .track__rail{position:relative;height:2px;background:var(--hair);}
+  .track__fill{position:absolute;inset:0 auto 0 0;background:var(--signal);box-shadow:0 0 14px rgba(0,229,199,.6);}
+  .track__stops{display:flex;justify-content:space-between;margin-top:14px;}
+  .track__stop{color:var(--mist-dim);transition:color .25s ease;text-align:left;}
+  .track__stop:nth-child(2){text-align:center;}
+  .track__stop:last-child{text-align:right;}
+  .track__stop[data-on="1"]{color:var(--on-ink);}
+  @media (max-width:900px){
+    .scrub{height:240vh;}
+    .scrub__in{grid-template-columns:1fr;gap:34px;}
+    .scrub__stick{min-height:560px;}
+  }
+
+  /* ── capability tabs ────────────────────────────────────── */
+  .tabs{margin-top:clamp(34px,4vw,54px);}
+  .tabs__bar{display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(244,240,248,.06);
+    box-shadow:inset 0 0 0 1px var(--hair);width:fit-content;max-width:100%;overflow-x:auto;scrollbar-width:none;}
+  .tabs__bar::-webkit-scrollbar{display:none;}
+  .tab{padding:.6em 1.15em;border-radius:999px;font-size:.9rem;font-weight:500;color:var(--mist);white-space:nowrap;
+    transition:color .2s ease,background .2s ease;}
+  .tab:hover{color:var(--on-ink);}
+  .tab[aria-selected="true"]{background:var(--on-ink);color:var(--ink);}
+  .panel{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,4.5vw,64px);
+    align-items:center;margin-top:clamp(30px,3.6vw,46px);}
+  .panel[hidden]{display:none;}
+  .panel__list{margin-top:26px;display:flex;flex-direction:column;}
+  .panel__list li{display:flex;gap:14px;padding:15px 0;border-top:1px solid var(--hair);align-items:baseline;}
+  .panel__list li:last-child{border-bottom:1px solid var(--hair);}
+  .panel__list b{font-weight:500;letter-spacing:-.015em;}
+  .panel__list em{font-style:normal;color:var(--mist-dim);font-size:.9rem;margin-left:auto;text-align:right;white-space:nowrap;}
+  .panel__art{border-radius:14px;background:linear-gradient(150deg,rgba(79,0,140,.3),rgba(18,10,28,.6));
+    box-shadow:inset 0 0 0 1px var(--hair);padding:clamp(14px,2vw,26px);}
+  .panel__art svg{display:block;width:100%;height:auto;}
+  @media (max-width:900px){.panel{grid-template-columns:1fr;}.panel__art{order:-1;}}
+
+  /* ── subsea ─────────────────────────────────────────────── */
+  .subsea{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(30px,5vw,70px);align-items:center;}
+  .subsea__map{position:relative;}
+  .subsea__map svg{display:block;width:100%;height:auto;overflow:visible;}
+  .cable{stroke-dasharray:7 9;animation:flow 2.6s linear infinite;}
+  @keyframes flow{to{stroke-dashoffset:-32;}}
+  .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin-top:clamp(28px,3.4vw,40px);
+    background:var(--hair);border:1px solid var(--hair);}
+  .stats div{background:var(--ink);padding:20px clamp(14px,1.8vw,22px);}
+  .sec--paper .stats{background:var(--hair-paper);border-color:var(--hair-paper);}
+  .sec--paper .stats div{background:var(--paper);}
+  .stats dt{color:var(--mist-dim);margin-bottom:.6em;}
+  .stats dd{margin:0;font-size:clamp(1.5rem,2.6vw,2.15rem);font-weight:600;letter-spacing:-.035em;}
+  .stats dd small{font-size:.48em;font-weight:400;color:var(--mist);letter-spacing:0;margin-left:.3em;}
+  @media (max-width:900px){.subsea{grid-template-columns:1fr;}}
+
+  /* ── ledger ─────────────────────────────────────────────── */
+  .ledger{margin-top:clamp(34px,4vw,52px);}
+  .ledger__row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,2fr) minmax(0,.85fr);
+    gap:clamp(14px,2.6vw,40px);padding:clamp(20px,2.4vw,28px) 0;border-top:1px solid var(--hair);align-items:baseline;}
+  .ledger__row:last-child{border-bottom:1px solid var(--hair);}
+  .ledger__name{font-size:clamp(1.15rem,1.7vw,1.4rem);font-weight:600;letter-spacing:-.028em;}
+  .ledger__name .ar{display:block;font-size:.8rem;font-weight:400;color:var(--mist-dim);letter-spacing:0;margin-top:.3em;}
+  .ledger__what{color:var(--mist);font-size:.98rem;}
+  .ledger__m{text-align:right;color:var(--signal);}
+  @media (max-width:760px){
+    .ledger__row{grid-template-columns:1fr;gap:8px;}
+    .ledger__m{text-align:left;}
+  }
+
+  /* ── steps (a real sequence, so numbered) ───────────────── */
+  .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--hair-paper);
+    border-block:1px solid var(--hair-paper);margin-top:clamp(32px,4vw,48px);}
+  .steps li{background:var(--paper);padding:clamp(24px,3vw,34px) clamp(18px,2vw,28px);}
+  .steps__n{font-family:var(--f-mono);font-size:.72rem;color:var(--purple);letter-spacing:.1em;display:block;margin-bottom:1.4em;}
+  .steps h3{font-size:1.12rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.5em;}
+  .steps p{color:var(--mist-dim);font-size:.95rem;line-height:1.55;}
+  @media (max-width:760px){.steps{grid-template-columns:1fr;}}
+
+  .paper-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,44px);
+    margin-top:clamp(32px,4vw,48px);}
+  .paper-stats dd{margin:0;font-size:clamp(2.2rem,4.4vw,3.4rem);font-weight:600;letter-spacing:-.045em;line-height:1;}
+  .paper-stats dt{color:var(--mist-dim);margin-top:.9em;font-size:.9rem;line-height:1.45;}
+  @media (max-width:640px){.paper-stats{grid-template-columns:1fr;gap:26px;}}
+
+  /* ── close + footer ─────────────────────────────────────── */
+  .close{text-align:center;background:radial-gradient(90% 120% at 50% 100%,rgba(79,0,140,.42) 0%,var(--ink) 62%);}
+  .close .d2{max-width:22em;margin-inline:auto;}
+  .close .lede{margin-inline:auto;text-align:center;}
+  .close__cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:clamp(28px,3.4vw,40px);}
+  .close__cities{margin-top:clamp(34px,4vw,50px);color:var(--mist-dim);display:flex;gap:1.6em;justify-content:center;flex-wrap:wrap;}
+
+  .foot{border-top:1px solid var(--hair);padding-block:40px 52px;background:var(--ink);}
+  .foot__top{display:flex;gap:24px;flex-wrap:wrap;align-items:baseline;justify-content:space-between;}
+  .foot__links{display:flex;gap:1.4em;flex-wrap:wrap;color:var(--mist-dim);}
+  .foot__note{margin-top:28px;padding-top:22px;border-top:1px solid var(--hair);color:var(--mist-dim);
+    font-size:.82rem;line-height:1.6;max-width:64ch;}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  .rise{animation:rise .62s cubic-bezier(.2,.75,.25,1) both;}
+  .rise-1{animation-delay:.06s;}.rise-2{animation-delay:.14s;}.rise-3{animation-delay:.24s;}.rise-4{animation-delay:.34s;}
+  @media (prefers-reduced-motion:reduce){.rise{animation:none;}}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav__in shell">
+    <a class="mark" href="#top" aria-label="stc business, home">
+      <span class="mark__stc">stc</span><span class="mark__biz">business</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#operate">Connectivity</a>
+      <a href="#operate">Cloud</a>
+      <a href="#operate">Security</a>
+      <a href="#corridor">center3</a>
+      <a href="#projects">Industries</a>
+    </nav>
+    <a class="pill" href="#contact">Talk to sales</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ─────────── HERO ─────────── -->
+  <section class="hero">
+    <canvas class="hero__canvas" id="grid" aria-hidden="true"></canvas>
+    <div class="hero__scrim" aria-hidden="true"></div>
+
+    <div class="hero__in shell">
+      <p class="hero__eyebrow tel rise rise-1">
+        <span class="dot" aria-hidden="true"></span>
+        Riyadh &middot; Jeddah &middot; Al&nbsp;Khobar
+        <span class="ar">البنية الرقمية للمملكة</span>
+      </p>
+
+      <h1 class="d1 rise rise-2"><span>The network</span><span>the Kingdom runs on.</span></h1>
+
+      <p class="lede hero__sub rise rise-3">
+        Fibre, 5G, sovereign cloud and a security operations centre that never closes &mdash;
+        built and operated inside Saudi Arabia, for the enterprises and giga-projects
+        delivering Vision 2030.
+      </p>
+
+      <div class="hero__cta rise rise-4">
+        <a class="pill" href="#contact">Talk to sales</a>
+        <a class="pill pill--ghost" href="#operate">See what we operate</a>
+      </div>
+    </div>
+
+    <div class="strip">
+      <div class="shell">
+        <dl class="strip__grid">
+          <div class="strip__cell">
+            <dt class="tel strip__k">5G cities</dt>
+            <dd class="strip__v num">90<small>+</small></dd>
+          </div>
+          <div class="strip__cell">
+            <dt class="tel strip__k">Data centres</dt>
+            <dd class="strip__v num">10</dd>
+          </div>
+          <div class="strip__cell">
+            <dt class="tel strip__k">Subsea routes</dt>
+            <dd class="strip__v num">6</dd>
+          </div>
+          <div class="strip__cell">
+            <dt class="tel strip__k">Backbone, live</dt>
+            <dd class="strip__v num" id="live">18.42<small>Tbps</small></dd>
+          </div>
+          <div class="strip__cell">
+            <dt class="tel strip__k">Core uptime</dt>
+            <dd class="strip__v num">99.99<small>%</small></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── LATENCY SCRUB ─────────── -->
+  <section class="scrub" id="edge" aria-labelledby="edge-h">
+    <div class="scrub__stick">
+      <div class="scrub__glow" aria-hidden="true"></div>
+      <div class="scrub__in shell">
+        <div>
+          <h2 class="d2" id="edge-h">Move the compute, not the deadline.</h2>
+          <p class="lede" style="margin-top:20px">
+            A robotics line in Jubail cannot wait for a round trip to Frankfurt.
+            stc edge nodes sit in the same metro as your plant, your store, your stadium &mdash;
+            so the decision happens where the work does.
+          </p>
+        </div>
+
+        <div>
+          <div class="scrub__read">
+            <span class="scrub__n" id="ms">118</span>
+            <span class="scrub__u">ms</span>
+          </div>
+          <p class="scrub__where">
+            <b id="where">Public cloud, Frankfurt</b>
+            <span id="whereSub">4,300 km &mdash; three transit networks</span>
+          </p>
+
+          <div class="track">
+            <div class="track__rail"><div class="track__fill" id="fill" style="width:0%"></div></div>
+            <div class="track__stops tel">
+              <span class="track__stop" data-on="1">Frankfurt</span>
+              <span class="track__stop">Gulf region</span>
+              <span class="track__stop">Riyadh edge</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── CAPABILITIES ─────────── -->
+  <section class="sec sec--field" id="operate" aria-labelledby="op-h">
+    <div class="shell">
+      <h2 class="d2" id="op-h">Four things we operate so you don't have to.</h2>
+      <p class="lede" style="margin-top:18px">
+        One account team, one SLA, one bill &mdash; across all of it.
+      </p>
+
+      <div class="tabs">
+        <div class="tabs__bar" role="tablist" aria-label="Capabilities">
+          <button class="tab" role="tab" id="t-net"  aria-controls="p-net"  aria-selected="true">Connectivity</button>
+          <button class="tab" role="tab" id="t-cld"  aria-controls="p-cld"  aria-selected="false">Cloud</button>
+          <button class="tab" role="tab" id="t-sec"  aria-controls="p-sec"  aria-selected="false">Cybersecurity</button>
+          <button class="tab" role="tab" id="t-ai"   aria-controls="p-ai"   aria-selected="false">AI &amp; IoT</button>
+        </div>
+
+        <!-- Connectivity -->
+        <div class="panel" role="tabpanel" id="p-net" aria-labelledby="t-net">
+          <div>
+            <h3 class="d3">Your sites, on one private backbone.</h3>
+            <p class="body" style="margin-top:14px">
+              A national fibre core across all 13 regions, extended to your premises as
+              dedicated capacity &mdash; then a private 5G layer where cable cannot go.
+            </p>
+            <ul class="panel__list">
+              <li><b>5G private networks</b><em>3.5&nbsp;GHz &amp; 2.6&nbsp;GHz</em></li>
+              <li><b>SD-WAN &amp; managed MPLS</b><em>1,400+ enterprise sites</em></li>
+              <li><b>Dedicated internet &amp; dark fibre</b><em>up to 100&nbsp;Gbps</em></li>
+            </ul>
+          </div>
+          <div class="panel__art">
+            <svg viewBox="0 0 420 260" role="img" aria-label="Three enterprise sites joined by an SD-WAN core to a private 5G cell">
+              <g fill="none" stroke="rgba(244,240,248,.22)" stroke-width="1">
+                <path d="M70 52 H150 M70 130 H150 M70 208 H150"/>
+                <path d="M270 130 H336"/>
+              </g>
+              <g stroke="var(--signal)" stroke-width="1.4" fill="none" opacity=".9">
+                <path class="cable" d="M150 52 C196 52 196 130 214 130"/>
+                <path class="cable" d="M150 130 H214" style="animation-delay:-.9s"/>
+                <path class="cable" d="M150 208 C196 208 196 130 214 130" style="animation-delay:-1.7s"/>
+              </g>
+              <g fill="rgba(244,240,248,.06)" stroke="rgba(244,240,248,.3)" stroke-width="1">
+                <rect x="20" y="36" width="50" height="32" rx="3"/>
+                <rect x="20" y="114" width="50" height="32" rx="3"/>
+                <rect x="20" y="192" width="50" height="32" rx="3"/>
+              </g>
+              <g fill="var(--mist)" font-family="IBM Plex Mono, monospace" font-size="8" letter-spacing="1">
+                <text x="27" y="56">PLANT</text>
+                <text x="27" y="134">HQ</text>
+                <text x="27" y="212">RETAIL</text>
+                <text x="286" y="126">5G CELL</text>
+                <text x="286" y="140">SLICE 01</text>
+              </g>
+              <circle cx="242" cy="130" r="28" fill="rgba(122,59,209,.18)" stroke="var(--violet)" stroke-width="1.2"/>
+              <text x="242" y="127" fill="#F4F0F8" font-family="Archivo, sans-serif" font-size="9" font-weight="600" text-anchor="middle">stc</text>
+              <text x="242" y="139" fill="var(--mist)" font-family="IBM Plex Mono, monospace" font-size="7" text-anchor="middle">CORE</text>
+              <g fill="none" stroke="var(--signal)" stroke-width="1.1">
+                <path d="M348 130 v-24 M348 130 v24"/>
+                <path d="M340 96 h16 M336 100 q12 -14 24 0" opacity=".55"/>
+                <path d="M330 92 q18 -22 36 0" opacity=".3"/>
+              </g>
+              <circle cx="348" cy="130" r="3" fill="var(--signal)"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Cloud -->
+        <div class="panel" role="tabpanel" id="p-cld" aria-labelledby="t-cld" hidden>
+          <div>
+            <h3 class="d3">Regulated workloads, resident in the Kingdom.</h3>
+            <p class="body" style="margin-top:14px">
+              Three availability zones inside Saudi borders for anything SAMA, NCA or
+              CST classify as sensitive &mdash; with private onramps to the hyperscalers
+              for everything that isn't.
+            </p>
+            <ul class="panel__list">
+              <li><b>Sovereign cloud</b><em>data resident in KSA</em></li>
+              <li><b>Colocation with center3</b><em>Tier III &amp; IV</em></li>
+              <li><b>Private hyperscaler onramps</b><em>AWS, Google, Oracle</em></li>
+            </ul>
+          </div>
+          <div class="panel__art">
+            <svg viewBox="0 0 420 260" role="img" aria-label="Three Saudi availability zones with private onramps to public cloud providers">
+              <rect x="22" y="34" width="228" height="192" rx="8" fill="rgba(79,0,140,.16)" stroke="var(--violet)" stroke-width="1" stroke-dasharray="3 4"/>
+              <text x="36" y="56" fill="var(--violet)" font-family="IBM Plex Mono, monospace" font-size="8" letter-spacing="1.4">KSA REGION</text>
+              <g fill="rgba(244,240,248,.05)" stroke="rgba(244,240,248,.28)" stroke-width="1">
+                <rect x="40" y="76" width="60" height="128" rx="4"/>
+                <rect x="106" y="76" width="60" height="128" rx="4"/>
+                <rect x="172" y="76" width="60" height="128" rx="4"/>
+              </g>
+              <g fill="var(--mist)" font-family="IBM Plex Mono, monospace" font-size="7.5" text-anchor="middle">
+                <text x="70" y="196">AZ-1</text><text x="136" y="196">AZ-2</text><text x="202" y="196">AZ-3</text>
+              </g>
+              <g fill="var(--signal)" opacity=".78">
+                <rect x="50" y="90" width="40" height="4" rx="1"/><rect x="50" y="100" width="40" height="4" rx="1"/><rect x="50" y="110" width="26" height="4" rx="1"/>
+                <rect x="116" y="90" width="40" height="4" rx="1"/><rect x="116" y="100" width="30" height="4" rx="1"/><rect x="116" y="110" width="40" height="4" rx="1"/>
+                <rect x="182" y="90" width="40" height="4" rx="1"/><rect x="182" y="100" width="40" height="4" rx="1"/><rect x="182" y="110" width="18" height="4" rx="1"/>
+              </g>
+              <g stroke="rgba(244,240,248,.2)" stroke-width="1" fill="none">
+                <path d="M70 132 v-4 M136 132 v-4 M202 132 v-4"/>
+                <path d="M70 146 H202" />
+                <path d="M136 146 v18"/>
+              </g>
+              <g stroke="var(--signal)" stroke-width="1.3" fill="none">
+                <path class="cable" d="M250 92 H326"/>
+                <path class="cable" d="M250 130 H326" style="animation-delay:-.8s"/>
+                <path class="cable" d="M250 168 H326" style="animation-delay:-1.6s"/>
+              </g>
+              <g fill="rgba(244,240,248,.05)" stroke="rgba(244,240,248,.24)" stroke-width="1">
+                <rect x="326" y="76" width="72" height="32" rx="16"/>
+                <rect x="326" y="114" width="72" height="32" rx="16"/>
+                <rect x="326" y="152" width="72" height="32" rx="16"/>
+              </g>
+              <g fill="var(--mist)" font-family="IBM Plex Mono, monospace" font-size="7.5" text-anchor="middle">
+                <text x="362" y="96">AWS</text><text x="362" y="134">GOOGLE</text><text x="362" y="172">ORACLE</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Security -->
+        <div class="panel" role="tabpanel" id="p-sec" aria-labelledby="t-sec" hidden>
+          <div>
+            <h3 class="d3">sirar by stc watches it, around the clock.</h3>
+            <p class="body" style="margin-top:14px">
+              Attacks on Saudi infrastructure are filtered at the border before they reach
+              your edge. What gets through is triaged by analysts in Riyadh, in Arabic and
+              English, on a fifteen-minute P1 clock.
+            </p>
+            <ul class="panel__list">
+              <li><b>24/7 security operations centre</b><em>Riyadh &amp; Jeddah</em></li>
+              <li><b>Managed detection &amp; response</b><em>P1 in under 15 min</em></li>
+              <li><b>DDoS scrubbing at the border</b><em>multi-Tbps capacity</em></li>
+            </ul>
+          </div>
+          <div class="panel__art">
+            <svg viewBox="0 0 420 260" role="img" aria-label="Traffic filtered through scrubbing and detection layers into a security operations centre">
+              <g fill="none" stroke="var(--magenta)" stroke-width="1.2" opacity=".8">
+                <path class="cable" d="M14 60 C90 60 90 130 120 130"/>
+                <path class="cable" d="M14 130 H120" style="animation-delay:-.7s"/>
+                <path class="cable" d="M14 200 C90 200 90 130 120 130" style="animation-delay:-1.4s"/>
+              </g>
+              <text x="14" y="46" fill="var(--magenta)" font-family="IBM Plex Mono, monospace" font-size="7.5" letter-spacing="1.2">INBOUND</text>
+              <g fill="none" stroke-width="1">
+                <circle cx="212" cy="130" r="92" stroke="rgba(244,240,248,.1)"/>
+                <circle cx="212" cy="130" r="66" stroke="rgba(244,240,248,.16)"/>
+                <circle cx="212" cy="130" r="40" stroke="var(--violet)"/>
+              </g>
+              <g fill="var(--mist)" font-family="IBM Plex Mono, monospace" font-size="7.5" text-anchor="middle">
+                <text x="212" y="52">SCRUB</text>
+                <text x="212" y="78">DETECT</text>
+              </g>
+              <circle cx="212" cy="130" r="40" fill="rgba(79,0,140,.28)"/>
+              <text x="212" y="127" fill="#F4F0F8" font-family="Archivo, sans-serif" font-size="11" font-weight="600" text-anchor="middle">sirar</text>
+              <text x="212" y="141" fill="var(--signal)" font-family="IBM Plex Mono, monospace" font-size="7" text-anchor="middle">SOC</text>
+              <g stroke="var(--signal)" stroke-width="1.3" fill="none">
+                <path class="cable" d="M304 130 H396"/>
+              </g>
+              <g fill="rgba(0,229,199,.12)" stroke="var(--signal)" stroke-width="1">
+                <rect x="358" y="112" width="40" height="36" rx="4"/>
+              </g>
+              <text x="378" y="134" fill="var(--signal)" font-family="IBM Plex Mono, monospace" font-size="7" text-anchor="middle">YOU</text>
+              <g fill="var(--magenta)">
+                <circle cx="212" cy="38" r="2.5"/><circle cx="286" cy="72" r="2.5"/><circle cx="140" cy="66" r="2.5"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- AI & IoT -->
+        <div class="panel" role="tabpanel" id="p-ai" aria-labelledby="t-ai" hidden>
+          <div>
+            <h3 class="d3">Millions of devices, one Arabic-first model layer.</h3>
+            <p class="body" style="margin-top:14px">
+              National-scale metering and fleet telemetry ride the same SIM estate, land in
+              your tenancy, and feed models that were trained to read Arabic operational
+              data &mdash; hosted on infrastructure inside the Kingdom.
+            </p>
+            <ul class="panel__list">
+              <li><b>Smart metering &amp; utilities IoT</b><em>national scale</em></li>
+              <li><b>Fleet &amp; asset tracking</b><em>NB-IoT and LTE-M</em></li>
+              <li><b>Arabic-first AI services</b><em>hosted in KSA</em></li>
+            </ul>
+          </div>
+          <div class="panel__art">
+            <svg viewBox="0 0 420 260" role="img" aria-label="Field devices aggregating through the network into an in-Kingdom model layer">
+              <g fill="rgba(244,240,248,.06)" stroke="rgba(244,240,248,.26)" stroke-width="1">
+                <rect x="18" y="40" width="34" height="24" rx="3"/><rect x="18" y="80" width="34" height="24" rx="3"/>
+                <rect x="18" y="120" width="34" height="24" rx="3"/><rect x="18" y="160" width="34" height="24" rx="3"/>
+                <rect x="18" y="200" width="34" height="24" rx="3"/>
+              </g>
+              <g stroke="rgba(244,240,248,.2)" stroke-width="1" fill="none">
+                <path d="M52 52 C110 52 110 132 138 132"/><path d="M52 92 C110 92 110 132 138 132"/>
+                <path d="M52 132 H138"/><path d="M52 172 C110 172 110 132 138 132"/>
+                <path d="M52 212 C110 212 110 132 138 132"/>
+              </g>
+              <g stroke="var(--signal)" stroke-width="1.3" fill="none">
+                <path class="cable" d="M52 92 C110 92 110 132 138 132"/>
+                <path class="cable" d="M52 212 C110 212 110 132 138 132" style="animation-delay:-1.2s"/>
+              </g>
+              <text x="18" y="30" fill="var(--mist)" font-family="IBM Plex Mono, monospace" font-size="7.5" letter-spacing="1.2">FIELD SIMs</text>
+              <rect x="138" y="106" width="54" height="52" rx="5" fill="rgba(79,0,140,.24)" stroke="var(--violet)" stroke-width="1.1"/>
+              <text x="165" y="129" fill="var(--mist)" font-family="IBM Plex Mono, monospace" font-size="7" text-anchor="middle">EDGE</text>
+              <text x="165" y="141" fill="var(--mist)" font-family="IBM Plex Mono, monospace" font-size="7" text-anchor="middle">AGG</text>
+              <path class="cable" d="M192 132 H244" stroke="var(--signal)" stroke-width="1.3" fill="none"/>
+              <rect x="244" y="76" width="156" height="112" rx="8" fill="rgba(79,0,140,.14)" stroke="var(--violet)" stroke-width="1" stroke-dasharray="3 4"/>
+              <text x="258" y="96" fill="var(--violet)" font-family="IBM Plex Mono, monospace" font-size="7.5" letter-spacing="1.4">MODEL LAYER &middot; KSA</text>
+              <g stroke="var(--signal)" stroke-width="1" fill="none" opacity=".85">
+                <circle cx="278" cy="128" r="7"/><circle cx="322" cy="112" r="7"/><circle cx="322" cy="146" r="7"/>
+                <circle cx="366" cy="128" r="7"/>
+                <path d="M285 128 L315 114 M285 128 L315 144 M329 112 L359 126 M329 146 L359 130"/>
+              </g>
+              <text x="322" y="176" fill="var(--mist)" font-family="IBM Plex Sans Arabic, sans-serif" font-size="9" text-anchor="middle" direction="rtl">نماذج عربية</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── SUBSEA CORRIDOR ─────────── -->
+  <section class="sec" id="corridor" aria-labelledby="cor-h">
+    <div class="shell subsea">
+      <div>
+        <h2 class="d2" id="cor-h">Saudi Arabia is the shortcut.</h2>
+        <p class="lede" style="margin-top:20px">
+          Traffic between Europe, Africa and Asia has to cross this landmass.
+          center3 owns the landing stations it crosses at &mdash; Jeddah, Yanbu and
+          Al&nbsp;Khobar &mdash; and the terrestrial route between them.
+          Peer here and you skip a continent of transit.
+        </p>
+        <dl class="stats">
+          <div><dt class="tel">Live subsea systems</dt><dd class="num">6</dd></div>
+          <div><dt class="tel">Data centre capacity</dt><dd class="num">300<small>MW planned</small></dd></div>
+          <div><dt class="tel">Continents on-net</dt><dd class="num">3</dd></div>
+          <div><dt class="tel">Intra-metro latency</dt><dd class="num">&lt;1<small>ms</small></dd></div>
+        </dl>
+      </div>
+
+      <div class="subsea__map">
+        <svg viewBox="0 0 480 330" role="img" aria-label="Subsea cable systems landing in Saudi Arabia and routing onward to Europe, Africa and Asia">
+          <g fill="none" stroke="var(--hair)" stroke-width="1">
+            <path d="M0 60 H480 M0 165 H480 M0 270 H480"/>
+          </g>
+          <!-- landing stations -->
+          <g>
+            <circle cx="228" cy="112" r="4.5" fill="var(--signal)"/>
+            <circle cx="228" cy="112" r="11" fill="none" stroke="var(--signal)" stroke-width="1" opacity=".4"/>
+            <circle cx="206" cy="182" r="4.5" fill="var(--signal)"/>
+            <circle cx="206" cy="182" r="11" fill="none" stroke="var(--signal)" stroke-width="1" opacity=".4"/>
+            <circle cx="292" cy="146" r="4.5" fill="var(--signal)"/>
+            <circle cx="292" cy="146" r="11" fill="none" stroke="var(--signal)" stroke-width="1" opacity=".4"/>
+          </g>
+          <g fill="#F4F0F8" font-family="IBM Plex Mono, monospace" font-size="8.5" letter-spacing=".8">
+            <text x="242" y="108">YANBU</text>
+            <text x="220" y="178">JEDDAH</text>
+            <text x="306" y="142">AL KHOBAR</text>
+          </g>
+          <!-- terrestrial spine -->
+          <path d="M228 112 L292 146 M206 182 L292 146" stroke="var(--violet)" stroke-width="1.6" fill="none"/>
+          <text x="238" y="164" fill="var(--violet)" font-family="IBM Plex Mono, monospace" font-size="7.5">TERRESTRIAL</text>
+          <!-- cables out -->
+          <g stroke="var(--magenta)" stroke-width="1.5" fill="none">
+            <path class="cable" d="M228 112 C170 74 106 66 22 44"/>
+            <path class="cable" d="M206 182 C150 220 96 254 20 286" style="animation-delay:-.9s"/>
+            <path class="cable" d="M206 182 C176 150 120 138 24 128" style="animation-delay:-1.5s"/>
+            <path class="cable" d="M292 146 C356 132 402 178 462 214" style="animation-delay:-2.1s"/>
+          </g>
+          <g fill="var(--magenta)" font-family="IBM Plex Mono, monospace" font-size="8" letter-spacing=".8">
+            <text x="22" y="34">SMW5 &rarr; MARSEILLE</text>
+            <text x="20" y="304">2AFRICA &rarr; MOMBASA</text>
+            <text x="24" y="120">AAE-1 &rarr; MARSEILLE</text>
+            <text x="376" y="234">FALCON &rarr; MUMBAI</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── GIGA-PROJECTS ─────────── -->
+  <section class="sec sec--field" id="projects" aria-labelledby="pr-h">
+    <div class="shell">
+      <h2 class="d2" id="pr-h">Where the Kingdom is being built, we're already on site.</h2>
+      <p class="lede" style="margin-top:18px">
+        Connectivity arrives before the concrete. Every one of these started as a
+        greenfield with no fibre in the ground.
+      </p>
+
+      <div class="ledger">
+        <div class="ledger__row">
+          <div class="ledger__name">NEOM<span class="ar">نيوم</span></div>
+          <p class="ledger__what">Private 5G and fibre across the construction corridor, from OXAGON to THE&nbsp;LINE.</p>
+          <p class="ledger__m tel">26,500 km&sup2;</p>
+        </div>
+        <div class="ledger__row">
+          <div class="ledger__name">Red Sea Global<span class="ar">البحر الأحمر</span></div>
+          <p class="ledger__what">Island-to-mainland subsea fibre, plus resort-grade Wi-Fi and IPTV.</p>
+          <p class="ledger__m tel">22 islands on-net</p>
+        </div>
+        <div class="ledger__row">
+          <div class="ledger__name">Qiddiya<span class="ar">القدية</span></div>
+          <p class="ledger__what">Venue-grade 5G for stadium density, with a broadcast contribution backbone.</p>
+          <p class="ledger__m tel">45 km&sup2; covered</p>
+        </div>
+        <div class="ledger__row">
+          <div class="ledger__name">Diriyah<span class="ar">الدرعية</span></div>
+          <p class="ledger__what">Fibre in the underground utility corridor, so the heritage district stays untouched.</p>
+          <p class="ledger__m tel">100% underground</p>
+        </div>
+        <div class="ledger__row">
+          <div class="ledger__name">ROSHN<span class="ar">روشن</span></div>
+          <p class="ledger__what">Fibre-to-the-home built into the master plan, live on day one of handover.</p>
+          <p class="ledger__m tel">400,000 homes</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── PAPER INTERLUDE ─────────── -->
+  <section class="sec sec--paper" id="engage" aria-labelledby="en-h">
+    <div class="shell">
+      <h2 class="d2" id="en-h">Bought by procurement. Kept by engineering.</h2>
+
+      <dl class="paper-stats">
+        <div><dd class="num">99.99%</dd><dt>Core network availability, contractual &mdash; not best-effort.</dt></div>
+        <div><dd class="num">15 min</dd><dt>P1 response from the Riyadh SOC, in Arabic or English.</dt></div>
+        <div><dd class="num">1</dd><dt>Named account team across network, cloud, security and IoT.</dt></div>
+      </dl>
+
+      <ol class="steps">
+        <li>
+          <span class="steps__n">STEP 01</span>
+          <h3>Assess</h3>
+          <p>Two weeks on your sites and in your traffic data. You get the findings whether or not you buy anything.</p>
+        </li>
+        <li>
+          <span class="steps__n">STEP 02</span>
+          <h3>Design &amp; pilot</h3>
+          <p>One site, one slice, one workload &mdash; instrumented, with the numbers agreed before we start.</p>
+        </li>
+        <li>
+          <span class="steps__n">STEP 03</span>
+          <h3>Operate</h3>
+          <p>We run it. You get a portal, a quarterly review, and an engineer who knows your estate by name.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ─────────── CLOSE ─────────── -->
+  <section class="sec close" id="contact" aria-labelledby="cl-h">
+    <div class="shell">
+      <h2 class="d2" id="cl-h">Tell us what breaks, and we'll scope it.</h2>
+      <p class="lede" style="margin-top:20px">
+        A network engineer joins the first call &mdash; not just an account manager.
+      </p>
+      <div class="close__cta">
+        <a class="pill" href="#contact">Talk to sales</a>
+        <a class="pill pill--ghost" href="#contact">Request the enterprise portfolio</a>
+      </div>
+      <p class="close__cities tel">
+        <span>Riyadh</span><span>Jeddah</span><span>Al Khobar</span><span class="ar" style="letter-spacing:0">نخدم المملكة بأكملها</span>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="shell">
+    <div class="foot__top">
+      <a class="mark" href="#top"><span class="mark__stc">stc</span><span class="mark__biz">business</span></a>
+      <nav class="foot__links tel" aria-label="Footer">
+        <a href="#operate">Connectivity</a><a href="#operate">Cloud</a><a href="#operate">Cybersecurity</a>
+        <a href="#corridor">center3</a><a href="#operate">sirar</a><a href="#contact">Contact</a>
+      </nav>
+    </div>
+    <p class="foot__note">
+      Design concept, September 2026. Not affiliated with, commissioned by, or endorsed by
+      stc or any of its subsidiaries. Product names, network figures and project metrics
+      shown here are illustrative and assembled from public information for the purposes of
+      this design study.
+    </p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ── nav lift ─────────────────────────────────────────── */
+  var nav = document.getElementById("nav");
+  function lift() { nav.dataset.lift = window.scrollY > 24 ? "1" : "0"; }
+  lift();
+
+  /* ── hero: the Kingdom grid ───────────────────────────── */
+  // Coarse KSA border, counter-clockwise from the Gulf of Aqaba. [lng, lat]
+  var BORDER = [
+    [34.95,29.35],[37.00,30.50],[39.20,32.15],[42.00,31.10],[44.70,29.20],
+    [46.55,29.10],[47.70,28.55],[48.45,28.55],[49.00,27.70],[49.60,27.00],
+    [50.15,26.40],[50.55,25.90],[50.80,24.80],[51.60,24.20],[52.50,23.00],
+    [55.20,22.70],[55.70,22.00],[55.20,19.90],[52.00,19.00],[47.50,17.40],
+    [45.00,17.40],[43.40,17.40],[43.20,17.00],[42.80,16.40],[42.60,17.40],
+    [41.70,18.60],[41.00,19.50],[40.00,20.30],[39.10,21.40],[38.50,22.50],
+    [37.20,24.50],[36.60,25.70],[35.60,27.40],[34.70,28.10]
+  ];
+  var CITIES = [
+    { n:"RIYADH",  ll:[46.68,24.71], r:3.4 },
+    { n:"JEDDAH",  ll:[39.19,21.49], r:3.0 },
+    { n:"DAMMAM",  ll:[50.10,26.43], r:2.8 },
+    { n:"NEOM",    ll:[35.30,28.00], r:2.6 },
+    { n:"",        ll:[39.86,21.39], r:1.9 }, // Makkah
+    { n:"",        ll:[39.61,24.47], r:1.9 }, // Madinah
+    { n:"",        ll:[36.57,28.38], r:1.6 }, // Tabuk
+    { n:"ABHA",    ll:[42.51,18.22], r:2.0 },
+    { n:"",        ll:[49.66,27.00], r:1.9 }, // Jubail
+    { n:"",        ll:[43.97,26.33], r:1.7 }, // Buraydah
+    { n:"",        ll:[41.69,27.52], r:1.6 }, // Hail
+    { n:"",        ll:[38.06,24.09], r:1.5 }, // Yanbu
+    { n:"",        ll:[50.21,22.35], r:1.5 }  // Empty Quarter node
+  ];
+  // index pairs into CITIES, plus curvature and speed
+  var ROUTES = [
+    [0,1,-0.14,0.16],[0,2,0.10,0.20],[0,3,-0.11,0.11],[1,3,0.13,0.13],
+    [0,7,0.12,0.15],[1,7,-0.10,0.18],[0,9,-0.09,0.22],[2,8,0.08,0.26],
+    [1,4,0.10,0.30],[1,11,-0.09,0.24],[0,5,0.10,0.19],[0,10,-0.10,0.17],
+    [0,12,0.12,0.14],[2,12,-0.10,0.16],[3,6,0.10,0.25]
+  ];
+  // subsea: from a city index toward an off-map bearing
+  var SUBSEA = [
+    { from:1, dx:-0.62, dy:0.34, s:0.07 },
+    { from:1, dx:-0.58, dy:-0.16, s:0.055 },
+    { from:11,dx:-0.55, dy:-0.30, s:0.06 },
+    { from:2, dx: 0.52, dy: 0.26, s:0.065 }
+  ];
+
+  var cv = document.getElementById("grid");
+  var ctx = cv.getContext("2d");
+  var land = document.createElement("canvas");
+  var W = 0, H = 0, dpr = 1, pts = [], proj = null, raf = 0;
+  var mx = 0, my = 0, tmx = 0, tmy = 0;
+
+  var LNG0 = 34.4, LNG1 = 56.2, LAT0 = 16.0, LAT1 = 32.6;
+  var KX = Math.cos(24.5 * Math.PI / 180);
+
+  function makeProj(w, h) {
+    var mw = (LNG1 - LNG0) * KX, mh = (LAT1 - LAT0);
+    var k = Math.min(w / mw, h / mh) * 0.9;
+    var ox = (w - mw * k) / 2, oy = (h - mh * k) / 2;
+    return function (ll) {
+      return [ox + (ll[0] - LNG0) * KX * k, oy + (LAT1 - ll[1]) * k];
+    };
+  }
+
+  function inside(x, y, poly) {
+    var hit = false;
+    for (var i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      var xi = poly[i][0], yi = poly[i][1], xj = poly[j][0], yj = poly[j][1];
+      if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) hit = !hit;
+    }
+    return hit;
+  }
+
+  function bez(p0, p1, c, t) {
+    var u = 1 - t;
+    return [u * u * p0[0] + 2 * u * t * c[0] + t * t * p1[0],
+            u * u * p0[1] + 2 * u * t * c[1] + t * t * p1[1]];
+  }
+
+  function control(a, b, bend) {
+    var mxp = (a[0] + b[0]) / 2, myp = (a[1] + b[1]) / 2;
+    var dx = b[0] - a[0], dy = b[1] - a[1];
+    return [mxp - dy * bend, myp + dx * bend];
+  }
+
+  function build() {
+    var rect = cv.getBoundingClientRect();
+    if (rect.width < 2 || rect.height < 2) return false;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.round(rect.width); H = Math.round(rect.height);
+    cv.width = W * dpr; cv.height = H * dpr;
+    land.width = cv.width; land.height = cv.height;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    proj = makeProj(W, H);
+    var poly = BORDER.map(proj);
+
+    // land point cloud, jittered grid
+    pts = [];
+    var step = W < 520 ? 9 : 7.5;
+    for (var y = 0; y < H; y += step) {
+      for (var x = 0; x < W; x += step) {
+        var jx = x + (Math.random() - 0.5) * step * 0.9;
+        var jy = y + (Math.random() - 0.5) * step * 0.9;
+        if (inside(jx, jy, poly)) pts.push([jx, jy, 0.24 + Math.random() * 0.5]);
+      }
+    }
+
+    // bake land + border to the offscreen buffer
+    var lc = land.getContext("2d");
+    lc.setTransform(dpr, 0, 0, dpr, 0, 0);
+    lc.clearRect(0, 0, W, H);
+
+    lc.beginPath();
+    lc.moveTo(poly[0][0], poly[0][1]);
+    for (var i = 1; i < poly.length; i++) lc.lineTo(poly[i][0], poly[i][1]);
+    lc.closePath();
+    lc.fillStyle = "rgba(79,0,140,0.16)";
+    lc.fill();
+    lc.strokeStyle = "rgba(122,59,209,0.55)";
+    lc.lineWidth = 1;
+    lc.stroke();
+
+    for (var p = 0; p < pts.length; p++) {
+      lc.beginPath();
+      lc.arc(pts[p][0], pts[p][1], 0.85, 0, 6.2832);
+      lc.fillStyle = "rgba(196,168,232," + (pts[p][2] * 0.5) + ")";
+      lc.fill();
+    }
+    return true;
+  }
+
+  function drawFrame(now) {
+    if (!proj) return;
+    var t = now / 1000;
+    var px = mx * 12, py = my * 9;
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(land, px * dpr, py * dpr, land.width, land.height);
+    ctx.save();
+    ctx.translate(px, py);
+
+    var P = CITIES.map(function (c) { return proj(c.ll); });
+
+    // subsea first, so it sits behind the terrestrial mesh
+    for (var s = 0; s < SUBSEA.length; s++) {
+      var sb = SUBSEA[s], a = P[sb.from];
+      var b = [a[0] + sb.dx * W, a[1] + sb.dy * H];
+      var c = control(a, b, 0.08);
+      ctx.beginPath();
+      ctx.moveTo(a[0], a[1]);
+      ctx.quadraticCurveTo(c[0], c[1], b[0], b[1]);
+      ctx.strokeStyle = "rgba(230,0,126,0.32)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      var st = reduce ? 0.5 : (t * sb.s + s * 0.31) % 1;
+      for (var k = 0; k < 7; k++) {
+        var tt = st - k * 0.016;
+        if (tt < 0) continue;
+        var q = bez(a, b, c, tt);
+        ctx.beginPath();
+        ctx.arc(q[0], q[1], 1.7 - k * 0.16, 0, 6.2832);
+        ctx.fillStyle = "rgba(255,64,158," + (0.85 - k * 0.11) + ")";
+        ctx.fill();
+      }
+    }
+
+    // terrestrial fibre mesh
+    for (var r = 0; r < ROUTES.length; r++) {
+      var rt = ROUTES[r], a2 = P[rt[0]], b2 = P[rt[1]];
+      var c2 = control(a2, b2, rt[2]);
+      ctx.beginPath();
+      ctx.moveTo(a2[0], a2[1]);
+      ctx.quadraticCurveTo(c2[0], c2[1], b2[0], b2[1]);
+      ctx.strokeStyle = "rgba(160,120,225,0.24)";
+      ctx.lineWidth = 0.9;
+      ctx.stroke();
+
+      var pt = reduce ? 0.42 : (t * rt[3] + r * 0.19) % 1;
+      for (var m = 0; m < 9; m++) {
+        var mt = pt - m * 0.014;
+        if (mt < 0) continue;
+        var g = bez(a2, b2, c2, mt);
+        var al = (1 - m / 9) * 0.95;
+        ctx.beginPath();
+        ctx.arc(g[0], g[1], 1.9 - m * 0.14, 0, 6.2832);
+        ctx.fillStyle = "rgba(0,229,199," + al + ")";
+        ctx.fill();
+      }
+    }
+
+    // city nodes
+    for (var i2 = 0; i2 < CITIES.length; i2++) {
+      var cp = P[i2], cc = CITIES[i2];
+      var pulse = reduce ? 0.5 : (Math.sin(t * 1.5 + i2) + 1) / 2;
+
+      ctx.beginPath();
+      ctx.arc(cp[0], cp[1], cc.r + 5 + pulse * 4, 0, 6.2832);
+      ctx.fillStyle = "rgba(0,229,199," + (0.05 + pulse * 0.07) + ")";
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(cp[0], cp[1], cc.r, 0, 6.2832);
+      ctx.fillStyle = cc.n ? "#EAFFFB" : "rgba(200,180,240,0.8)";
+      ctx.fill();
+
+      // labels only when the map is the right-hand column; below that they
+      // land on top of the headline and lede
+      if (cc.n && window.innerWidth > 760) {
+        ctx.font = "500 9.5px 'IBM Plex Mono', monospace";
+        if ("letterSpacing" in ctx) ctx.letterSpacing = "1.4px";
+        ctx.fillStyle = "rgba(244,240,248,0.68)";
+        ctx.fillText(cc.n, cp[0] + cc.r + 7, cp[1] + 3.4);
+        if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
+      }
+    }
+    ctx.restore();
+  }
+
+  function loop(now) {
+    mx += (tmx - mx) * 0.05;
+    my += (tmy - my) * 0.05;
+    drawFrame(now);
+    raf = requestAnimationFrame(loop);
+  }
+
+  function start() {
+    if (!build()) return;
+    if (reduce) { drawFrame(0); return; }
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(loop);
+  }
+
+  var rt = 0;
+  window.addEventListener("resize", function () {
+    clearTimeout(rt);
+    rt = setTimeout(start, 180);
+  });
+  if (!reduce) {
+    window.addEventListener("pointermove", function (e) {
+      tmx = (e.clientX / window.innerWidth - 0.5) * 2;
+      tmy = (e.clientY / window.innerHeight - 0.5) * 2;
+    }, { passive: true });
+  }
+  // fonts can shift canvas text metrics; redraw once they land
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(start);
+  start();
+
+  /* ── live backbone counter ────────────────────────────── */
+  var liveEl = document.getElementById("live");
+  if (liveEl && !reduce) {
+    setInterval(function () {
+      var v = 18.42 + (Math.random() - 0.45) * 0.34;
+      liveEl.firstChild.nodeValue = v.toFixed(2);
+    }, 2400);
+  }
+
+  /* ── latency scrub ────────────────────────────────────── */
+  var STOPS = [
+    { ms: 118, name: "Public cloud, Frankfurt", sub: "4,300 km — three transit networks" },
+    { ms: 42,  name: "Regional cloud, the Gulf", sub: "1,100 km — one transit network" },
+    { ms: 4,   name: "stc edge, Riyadh metro",   sub: "In your metro — on our fibre" }
+  ];
+  var scrub = document.querySelector(".scrub");
+  var msEl = document.getElementById("ms");
+  var whEl = document.getElementById("where");
+  var wsEl = document.getElementById("whereSub");
+  var fillEl = document.getElementById("fill");
+  var stopEls = document.querySelectorAll(".track__stop");
+  var lastIdx = -1;
+
+  function scrubUpdate() {
+    if (!scrub) return;
+    var r = scrub.getBoundingClientRect();
+    var span = r.height - window.innerHeight;
+    var p = span > 0 ? Math.min(Math.max(-r.top / span, 0), 1) : 0;
+    var e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2; // easeInOutQuad
+
+    var seg = e * (STOPS.length - 1);
+    var i = Math.min(Math.floor(seg), STOPS.length - 2);
+    var f = seg - i;
+    var val = STOPS[i].ms + (STOPS[i + 1].ms - STOPS[i].ms) * f;
+    msEl.textContent = String(Math.round(val));
+    fillEl.style.width = (e * 100).toFixed(1) + "%";
+
+    var idx = Math.round(seg);
+    if (idx !== lastIdx) {
+      lastIdx = idx;
+      whEl.textContent = STOPS[idx].name;
+      wsEl.textContent = STOPS[idx].sub;
+      for (var k = 0; k < stopEls.length; k++) {
+        stopEls[k].setAttribute("data-on", k === idx ? "1" : "0");
+      }
+    }
+  }
+
+  var ticking = false;
+  window.addEventListener("scroll", function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { lift(); scrubUpdate(); ticking = false; });
+  }, { passive: true });
+  scrubUpdate();
+
+  /* ── capability tabs ──────────────────────────────────── */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab"));
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { select(t); });
+    t.addEventListener("keydown", function (e) {
+      var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      var n = tabs[(i + d + tabs.length) % tabs.length];
+      select(n); n.focus();
+    });
+  });
+})();
+</script>
+</body>
+</html>
