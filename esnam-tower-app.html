@@ -287,8 +287,8 @@ img.logo{display:block;}
 .elev-car-chip{flex:1; padding:8px 6px; border-radius:var(--r-sm); background:rgba(255,255,255,.08); text-align:center; font-size:10px;}
 .elev-car-chip b{display:block; font-family:'Space Grotesk'; font-size:13px; margin-bottom:2px;}
 
-.toast{position:absolute; left:20px; right:20px; bottom:100px; z-index:100; background:var(--ink); color:#fff; padding:12px 15px; border-radius:var(--r-md); font-size:12.5px; font-weight:600; display:flex; align-items:center; gap:10px; transform:translateY(140%); transition:transform .3s ease; box-shadow:0 14px 30px rgba(0,0,0,.3);}
-.toast.show{transform:translateY(0);}
+.toast{position:absolute; left:20px; right:20px; bottom:-120px; z-index:100; background:var(--ink); color:#fff; padding:12px 15px; border-radius:var(--r-md); font-size:12.5px; font-weight:600; display:flex; align-items:center; gap:10px; transition:bottom .3s ease; box-shadow:0 14px 30px rgba(0,0,0,.3);}
+.toast.show{bottom:100px;}
 
 /* ============ OWNER / OPS CONSOLE (desktop) ============ */
 #app-owner{background:#F2F0EC; min-height:100vh;}
