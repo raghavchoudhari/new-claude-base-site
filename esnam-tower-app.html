@@ -138,7 +138,7 @@ img.logo{display:block;}
 
 /* dashboard head */
 .dash-head{padding:50px 20px 4px;}
-.dash-logo{height:30px; display:block; margin-bottom:16px;}
+.dash-logo{height:44px; display:block; margin-bottom:16px;}
 
 .brief-card{margin:14px 20px 16px; padding:16px 16px 14px; border-radius:var(--r-lg); background:linear-gradient(160deg,#fff 40%, var(--accent-tint) 220%); border:1px solid var(--line);}
 .brief-head{display:flex; align-items:center; gap:7px; font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--accent-deep); margin-bottom:9px;}
@@ -337,6 +337,8 @@ img.logo{display:block;}
 #ar-overlay{position:fixed; inset:0; z-index:2000; background:#000; display:none; flex-direction:column; font-family:'Inter',sans-serif;}
 #ar-video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
 #ar-canvas{position:absolute; inset:0; width:100%; height:100%;}
+#ar-fallback-arrow{display:none; position:absolute; top:50%; left:50%; width:90px; height:90px; z-index:4; animation:arFallbackGlow 1.4s ease-in-out infinite;}
+@keyframes arFallbackGlow{0%,100%{filter:drop-shadow(0 0 12px rgba(201,164,100,.55));} 50%{filter:drop-shadow(0 0 26px rgba(201,164,100,.95));}}
 .ar-gate{position:relative; z-index:5; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px; text-align:center; color:#fff; background:#0A0A0B;}
 .ar-gate p{font-size:12.5px; color:#B9B6AE; max-width:280px; line-height:1.6; margin:10px 0 26px;}
 .ar-gate .btn-primary, .ar-gate .btn-ghost{max-width:260px;}
@@ -356,6 +358,12 @@ img.logo{display:block;}
 .ar-arrived{display:none; position:relative; z-index:6; flex:1; flex-direction:column; align-items:center; justify-content:center; background:rgba(10,10,11,.94); color:#fff; text-align:center; padding:32px;}
 .ar-arrived-check{width:64px;height:64px;border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; margin-bottom:18px;}
 .ar-arrived .btn-primary{max-width:220px;}
+.ar-instruction{position:relative; z-index:5; margin:16px 18px 0; display:flex; align-items:center; gap:13px; background:rgba(0,0,0,.55); backdrop-filter:blur(10px); padding:14px 16px; border-radius:18px; border:1px solid rgba(201,164,100,.3);}
+.ar-instruction-ic{width:40px;height:40px;border-radius:12px; background:var(--accent); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform .3s ease;}
+.ar-instruction-ic .ic{width:20px;height:20px; transition:transform .3s ease;}
+.ar-instruction-text{color:#fff; font-size:14px; font-weight:700; line-height:1.35;}
+.ar-instruction.pulse{animation:arInstructionPulse .5s ease;}
+@keyframes arInstructionPulse{0%{transform:scale(1);} 35%{transform:scale(1.04); border-color:rgba(201,164,100,.9);} 100%{transform:scale(1);}}
 .ar-heading-badge{position:relative; z-index:5; margin:14px auto 0; display:flex; align-items:baseline; gap:6px; background:rgba(0,0,0,.45); backdrop-filter:blur(6px); padding:7px 14px; border-radius:100px; width:fit-content; color:#fff;}
 .ar-heading-badge #ar-heading-deg{font-family:'Space Grotesk'; font-size:14px; font-weight:700; color:var(--accent);}
 .ar-heading-badge .ar-heading-card{font-size:11px; font-weight:700; color:#B9B6AE; letter-spacing:.5px;}
@@ -1035,6 +1043,7 @@ img.logo{display:block;}
 <div id="ar-overlay">
   <video id="ar-video" autoplay playsinline muted></video>
   <canvas id="ar-canvas"></canvas>
+  <div id="ar-fallback-arrow"><svg viewBox="0 0 24 24" style="width:100%;height:100%;fill:#C9A464;stroke:none;"><path d="M12 2 4 20l8-5 8 5z"/></svg></div>
 
   <div class="ar-gate" id="ar-gate">
     <svg class="ic" style="width:38px;height:38px;stroke:var(--accent);margin-bottom:16px;"><use href="#ic-route"/></svg>
@@ -1051,6 +1060,11 @@ img.logo{display:block;}
       <div class="ar-close" onclick="closeAR()"><svg class="ic" style="stroke:#fff;width:15px;height:15px;"><use href="#ic-close"/></svg></div>
     </div>
 
+    <div class="ar-instruction" id="ar-instruction">
+      <div class="ar-instruction-ic"><svg class="ic" id="ar-instruction-arrow" style="stroke:#0A0A0B;"><use href="#ic-chevron"/></svg></div>
+      <div class="ar-instruction-text" id="ar-instruction-text">Head straight, past the lobby doors</div>
+    </div>
+
     <div class="ar-heading-badge"><span id="ar-heading-deg">0°</span><span class="ar-heading-card" id="ar-heading-card">N</span></div>
 
     <div class="ar-tape-wrap">
@@ -1058,7 +1072,7 @@ img.logo{display:block;}
       <div class="ar-tape" id="ar-tape"></div>
     </div>
 
-    <div class="ar-hint" id="ar-hint">Turn slowly — the arrow points the way</div>
+    <div class="ar-hint" id="ar-hint">Live compass · turn to see it track</div>
     <div class="ar-panel">
       <div class="ar-panel-row"><div class="ar-panel-label" id="ar-progress-label">Heading out…</div><div class="ar-panel-pct" id="ar-progress-pct">0%</div></div>
       <div class="ar-progress-track"><div class="ar-progress-fill" id="ar-progress-fill"></div></div>
@@ -1613,6 +1627,16 @@ let arTargetBearing = 45, arHeading = 0, arSmoothHeading = 0, arProgress = 0, ar
 let arHasAbsolute = false, arLastHeadingSample = null, arLastHeadingChangeTime = 0;
 let arTiltBeta = 0, arTiltGamma = 0;
 let arAutoTimer = null, arLastStepTime = 0, arLastAccelMag = 0;
+let arActiveStepText = null;
+
+const AR_ROUTE_STEPS = [
+  {at: 0,   turn: 0,   text: 'Head straight, past the lobby doors'},
+  {at: 20,  turn: 78,  text: 'Take a right at the elevator lobby'},
+  {at: 45,  turn: 0,   text: 'Continue straight ahead'},
+  {at: 68,  turn: -60, text: 'Turn left, past the tenant kitchen'},
+  {at: 88,  turn: 18,  text: 'Almost there — boardroom just ahead on your right'},
+  {at: 100, turn: 0,   text: "You've arrived at the door"}
+];
 
 function angDiffDeg(a, b){
   let d = (a - b) % 360;
@@ -1625,12 +1649,47 @@ function headingToCardinal(deg){
   return AR_CARDINALS[i];
 }
 
+function getRouteState(progress){
+  const steps = AR_ROUTE_STEPS;
+  let prev = steps[0], next = steps[steps.length - 1];
+  for(let i = 0; i < steps.length - 1; i++){
+    if(progress >= steps[i].at && progress <= steps[i + 1].at){ prev = steps[i]; next = steps[i + 1]; break; }
+  }
+  if(progress >= steps[steps.length - 1].at){ prev = next = steps[steps.length - 1]; }
+  const span = Math.max(1, next.at - prev.at);
+  const t = Math.min(1, Math.max(0, (progress - prev.at) / span));
+  const turn = prev.turn + (next.turn - prev.turn) * t;
+  return {turn: turn, text: prev.text};
+}
+
+function updateARInstruction(){
+  const state = getRouteState(arProgress);
+  const rot = state.turn - 90;
+  const arrowIc = document.getElementById('ar-instruction-arrow');
+  if(arrowIc) arrowIc.style.transform = 'rotate(' + rot + 'deg)';
+  const fb = document.getElementById('ar-fallback-arrow');
+  if(fb && fb.style.display !== 'none'){
+    const pulse = 1 + Math.sin(Date.now() / 1000 * 2.6) * 0.16;
+    fb.style.transform = 'translate(-50%,-50%) rotate(' + rot + 'deg) scale(' + pulse + ')';
+  }
+  if(state.text !== arActiveStepText){
+    arActiveStepText = state.text;
+    document.getElementById('ar-instruction-text').textContent = state.text;
+    const card = document.getElementById('ar-instruction');
+    card.classList.remove('pulse');
+    void card.offsetWidth;
+    card.classList.add('pulse');
+  }
+  return state.turn;
+}
+
 function startARNavigate(){
   const destChip = document.querySelector('#modal-navigate .urg-tag.sel');
   const dest = destChip ? destChip.textContent.trim() : 'Boardroom 14-B';
   arTargetBearing = (AR_DESTINATIONS[dest] !== undefined) ? AR_DESTINATIONS[dest] : 45;
   arHeading = 0; arSmoothHeading = 0; arProgress = 0; arHasAbsolute = false; arLastHeadingSample = null;
   arLastHeadingChangeTime = Date.now();
+  arActiveStepText = null;
   document.getElementById('ar-gate-dest').textContent = dest;
   document.getElementById('ar-dest-chip').textContent = dest;
   document.getElementById('ar-arrived-dest').textContent = dest;
@@ -1781,10 +1840,12 @@ function closeAR(){
   if(arStream){ arStream.getTracks().forEach(t => t.stop()); arStream = null; }
   document.getElementById('ar-overlay').style.display = 'none';
   document.getElementById('ar-overlay').style.background = '#000';
+  document.getElementById('ar-fallback-arrow').style.display = 'none';
 }
 
 function initARScene(){
-  if(!window.THREE) return;
+  if(!window.THREE){ document.getElementById('ar-fallback-arrow').style.display = 'flex'; return; }
+  try{
   const canvas = document.getElementById('ar-canvas');
   const w = canvas.clientWidth || window.innerWidth, h = canvas.clientHeight || window.innerHeight;
   arRenderer = new THREE.WebGLRenderer({canvas: canvas, alpha: true, antialias: true});
@@ -1837,6 +1898,9 @@ function initARScene(){
 
   window.addEventListener('resize', resizeARCanvas);
   resizeARCanvas();
+  } catch(e){
+    document.getElementById('ar-fallback-arrow').style.display = 'flex';
+  }
 }
 
 function resizeARCanvas(){
@@ -1874,16 +1938,19 @@ function animateAR(){
   const delta = angDiffDeg(arHeading, ((arSmoothHeading % 360) + 360) % 360);
   arSmoothHeading += delta * 0.15;
 
+  const routeTurn = updateARInstruction();
+
   if(arArrowGroup){
-    const relDeg = arTargetBearing - arSmoothHeading;
-    const targetRotY = THREE.MathUtils.degToRad(relDeg);
-    arArrowGroup.rotation.y += (targetRotY - arArrowGroup.rotation.y) * 0.18;
+    const targetRotY = THREE.MathUtils.degToRad(routeTurn);
+    arArrowGroup.rotation.y += (targetRotY - arArrowGroup.rotation.y) * 0.1;
     const t = Date.now() / 1000;
-    arArrowGroup.position.y = -0.2 + Math.sin(t * 1.3) * 0.09;
-    const pulse = 1 + Math.sin(t * 2.2) * 0.05;
+    arArrowGroup.position.y = -0.2 + Math.sin(t * 1.6) * 0.14;
+    const pulse = 1 + Math.sin(t * 2.6) * 0.16;
     arArrowGroup.scale.set(pulse, pulse, pulse);
-    if(arRingMesh) arRingMesh.rotation.z = t * 0.6;
-    if(arGlowMesh) arGlowMesh.material.opacity = 0.18 + Math.sin(t * 2.2) * 0.06;
+    if(arRingMesh) arRingMesh.rotation.z = t * 0.9;
+    if(arGlowMesh) arGlowMesh.material.opacity = 0.2 + Math.sin(t * 2.6) * 0.12;
+    const mesh = arArrowGroup.children[0];
+    if(mesh && mesh.material) mesh.material.emissiveIntensity = 0.55 + Math.sin(t * 2.6) * 0.25;
     arCamera.position.x = THREE.MathUtils.clamp(arTiltGamma / 90, -1, 1) * 0.4;
     arCamera.position.y = THREE.MathUtils.clamp((arTiltBeta - 60) / 90, -1, 1) * -0.3;
     arCamera.lookAt(0, -0.2, 0);
