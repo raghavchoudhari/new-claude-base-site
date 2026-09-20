@@ -1904,7 +1904,6 @@ function initARScene(){
   arArrowGroup.add(arRingMesh);
 
   arArrowGroup.position.set(0, -0.2, 0);
-  arArrowGroup.rotation.x = -0.25;
   arScene.add(arArrowGroup);
 
   window.addEventListener('resize', resizeARCanvas);
@@ -1945,8 +1944,8 @@ function animateAR(){
   arSmoothHeading += delta * 0.12;
 
   if(arArrowGroup){
-    const targetRotY = THREE.MathUtils.degToRad(routeTurn);
-    arArrowGroup.rotation.y += (targetRotY - arArrowGroup.rotation.y) * 0.1;
+    const targetRotZ = THREE.MathUtils.degToRad(-routeTurn);
+    arArrowGroup.rotation.z += (targetRotZ - arArrowGroup.rotation.z) * 0.1;
     const targetX = THREE.MathUtils.clamp(routeTurn / 90, -1, 1) * 0.55;
     arArrowGroup.position.x += (targetX - arArrowGroup.position.x) * 0.08;
     const t = Date.now() / 1000;
