@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ESNAM — Tower One</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A0A0B;
+  --ink-soft:#242427;
+  --paper:#FFFFFF;
+  --stone:#F4F3F0;
+  --stone-dim:#EAE8E3;
+  --line:#E2E0DA;
+  --line-strong:#CFCCC4;
+  --text:#0A0A0B;
+  --text-muted:#68655F;
+  --text-dim:#9C988F;
+  --accent:#C9A464;
+  --accent-deep:#9C7A42;
+  --accent-tint:#F4EBDA;
+  --green:#2E6B44;
+  --green-tint:#E4EFE6;
+  --red:#AE3B2C;
+  --red-tint:#F5E2DE;
+  --blue:#3B5570;
+  --r-lg:20px;
+  --r-md:14px;
+  --r-sm:10px;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:#EDEBE6;
+  font-family:'Inter',system-ui,sans-serif;
+  color:var(--text);
+  min-height:100vh;
+}
+h1,h2,h3,.disp{font-family:'Space Grotesk',sans-serif;}
+.ic{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;display:block;}
+img.logo{display:block;}
+.logo-invert{filter:invert(1) brightness(1.55);}
+
+/* ============ PORTAL (role picker) ============ */
+#portal{
+  min-height:100vh; display:flex; flex-direction:column; align-items:center;
+  padding:64px 20px 40px; position:relative;
+}
+.portal-topline{position:absolute; top:0; left:0; right:0; height:5px; background:repeating-linear-gradient(90deg, var(--ink) 0 40px, transparent 40px 80px);}
+#portal .logo{width:168px; margin-bottom:10px;}
+.portal-tag{font-size:12px; letter-spacing:2.6px; color:var(--text-muted); text-transform:uppercase; font-weight:600; margin-bottom:46px;}
+.portal-h{font-size:15px; color:var(--text-muted); text-align:center; max-width:380px; margin:0 0 34px; line-height:1.6;}
+.role-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; width:100%; max-width:920px;}
+.role-card{
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg);
+  padding:26px 22px; cursor:pointer; transition:border-color .15s, transform .15s;
+  display:flex; flex-direction:column; min-height:230px;
+}
+.role-card:hover{border-color:var(--ink); transform:translateY(-2px);}
+.role-tag{font-size:10.5px; letter-spacing:1.6px; text-transform:uppercase; color:var(--accent-deep); font-weight:700; margin-bottom:16px;}
+.role-ic{width:38px;height:38px; border-radius:10px; background:linear-gradient(135deg,var(--accent),var(--accent-deep)); color:#fff; display:flex; align-items:center; justify-content:center; margin-bottom:18px;}
+.role-title{font-family:'Space Grotesk',sans-serif; font-size:19px; font-weight:600; margin-bottom:8px;}
+.role-desc{font-size:12.5px; color:var(--text-muted); line-height:1.55; flex:1;}
+.role-cta{font-size:12px; font-weight:700; margin-top:16px; display:flex; align-items:center; gap:6px;}
+.role-cta .ic{width:14px;height:14px;}
+@media(max-width:760px){.role-grid{grid-template-columns:1fr;} }
+
+/* mode switcher (fixed) */
+.mode-switch{
+  position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:500;
+  display:flex; background:var(--ink); border-radius:100px; padding:4px; gap:2px;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.mode-switch button{
+  border:none; background:transparent; color:#B9B6AE; font-family:'Inter'; font-size:11.5px; font-weight:700;
+  padding:9px 14px; border-radius:100px; cursor:pointer; letter-spacing:.2px;
+}
+.mode-switch button.on{background:#fff; color:var(--ink);}
+
+.app-shell{display:none;}
+.app-shell.on{display:block;}
+
+/* ============ PHONE FRAME (Employee / Employer) ============ */
+.phone-stage{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:80px 12px 30px;}
+.phone-frame{
+  position:relative; width:393px; height:852px; background:var(--paper);
+  border-radius:40px; overflow:hidden;
+  box-shadow:0 40px 90px -20px rgba(0,0,0,.45), 0 0 0 10px #050506, 0 0 0 11px #2b2b2f;
+}
+.phone-frame::before{content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:120px; height:26px; background:#050506; border-radius:0 0 16px 16px; z-index:50;}
+.phone-frame[data-nochrome]::before{display:none;}
+@media(max-width:440px){.phone-stage{padding:0;} .phone-frame{width:100vw;height:100vh;border-radius:0;box-shadow:none;} .phone-frame::before{display:none;}}
+
+.screen{position:absolute; inset:0; display:none; flex-direction:column; overflow-y:auto; background:var(--paper); scrollbar-width:none;}
+.screen::-webkit-scrollbar{display:none;}
+.screen.active{display:flex;}
+.screen>*{flex-shrink:0;}
+
+.topbar{display:flex; align-items:center; justify-content:space-between; padding:50px 20px 12px;}
+.topbar .back{width:32px;height:32px;border-radius:50%; background:var(--stone); display:flex; align-items:center; justify-content:center; cursor:pointer; border:1px solid var(--line);}
+.topbar .title{font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:600;}
+.topbar .spacer{width:32px;}
+
+/* auth (shared) */
+.auth-wrap{padding:64px 24px 24px;}
+.auth-logo{width:104px; margin-bottom:34px;}
+.auth-title{font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:600; margin:0 0 8px;}
+.auth-sub{font-size:13px; color:var(--text-muted); margin:0 0 28px; line-height:1.55;}
+.field{margin-bottom:15px;}
+.field label{font-size:10.5px; font-weight:700; letter-spacing:.5px; color:var(--text-muted); text-transform:uppercase;}
+.field input{width:100%; margin-top:7px; padding:13px 14px; border-radius:var(--r-sm); border:1px solid var(--line-strong); background:var(--stone); font-size:14px; font-family:inherit; color:var(--text);}
+.field input:focus{outline:2px solid var(--ink); outline-offset:1px;}
+.otp-row{display:flex; gap:9px; margin:18px 0 24px;}
+.otp-box{flex:1; aspect-ratio:1; border-radius:var(--r-sm); border:1px solid var(--line-strong); background:var(--stone); display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:700; font-family:'Space Grotesk';}
+.otp-box.filled{border-color:var(--ink); background:#fff;}
+.otp-resend{text-align:center; font-size:12px; color:var(--text-muted); margin-top:4px;}
+.otp-resend b{color:var(--ink); cursor:pointer;}
+.role-echo{display:inline-flex; align-items:center; gap:6px; padding:5px 10px; border-radius:100px; background:var(--stone); font-size:11px; font-weight:700; margin-bottom:18px;}
+
+.btn-primary{width:100%; padding:15px; border:none; border-radius:var(--r-sm); background:var(--ink); color:#fff; font-weight:700; font-size:13.5px; letter-spacing:.2px; cursor:pointer; font-family:'Inter';}
+.btn-ghost{width:100%; padding:14px; margin-top:9px; border-radius:var(--r-sm); background:transparent; border:1px solid var(--line-strong); color:var(--text); font-weight:600; font-size:13px; cursor:pointer;}
+.foot-note{font-size:10.5px; text-align:center; color:var(--text-dim); margin-top:16px; line-height:1.5;}
+
+/* handover / welcome card */
+.handover-card{margin:14px 20px; padding:22px; border-radius:var(--r-lg); background:var(--ink); color:#fff; position:relative; overflow:hidden;}
+.handover-card::after{content:''; position:absolute; right:0; top:0; bottom:0; width:64px; background:repeating-linear-gradient(180deg, rgba(255,255,255,.06) 0 3px, transparent 3px 22px);}
+.ho-label{font-size:10.5px; letter-spacing:1.6px; color:#B9B6AE; text-transform:uppercase; font-weight:700;}
+.ho-suite{font-family:'Space Grotesk'; font-size:22px; font-weight:600; margin:8px 0 4px;}
+.ho-meta{font-size:12px; color:#CFCCC4;}
+.ho-grid{display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:0 20px;}
+.ho-tile{padding:14px; border-radius:var(--r-md); border:1px solid var(--line); background:var(--stone);}
+.ho-tile-v{font-family:'Space Grotesk'; font-size:16px; font-weight:700;}
+.ho-tile-l{font-size:10.5px; color:var(--text-muted); margin-top:2px;}
+
+/* dashboard head */
+.dash-head{padding:50px 20px 4px;}
+.dash-greet-row{display:flex; align-items:center; justify-content:space-between;}
+.dash-greet-l{font-size:11.5px; color:var(--text-muted); font-weight:600;}
+.dash-greet-main{font-family:'Space Grotesk'; font-size:20px; font-weight:600; margin-top:2px;}
+.dash-avatar{width:38px;height:38px;border-radius:var(--r-sm); background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12.5px; font-family:'Space Grotesk'; cursor:pointer;}
+
+.status-strip{display:flex; gap:8px; margin:15px 20px 2px; overflow-x:auto; scrollbar-width:none;}
+.status-strip::-webkit-scrollbar{display:none;}
+.status-chip{flex-shrink:0; display:flex; align-items:center; gap:7px; padding:8px 12px; border-radius:100px; background:var(--stone); border:1px solid var(--line); font-size:11.5px; font-weight:600; white-space:nowrap;}
+.status-chip .ic{width:13px;height:13px; color:var(--accent-deep);}
+.live-dot{width:6px;height:6px;border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px var(--accent-tint);}
+
+.smart-pillars{display:flex; align-items:flex-start; gap:4px; padding:12px 20px 4px; overflow-x:auto; scrollbar-width:none;}
+.smart-pillars::-webkit-scrollbar{display:none;}
+.pillar-card{flex-shrink:0; width:82px; text-align:center; cursor:pointer;}
+.pillar-ic{width:50px;height:50px;border-radius:15px; background:linear-gradient(150deg,var(--accent-tint),#fff 70%); border:1px solid var(--accent-tint); display:flex; align-items:center; justify-content:center; margin:0 auto 8px; color:var(--accent-deep);}
+.pillar-t{font-size:11px; font-weight:800;}
+.pillar-s{font-size:9px; color:var(--text-muted); margin-top:3px; line-height:1.3;}
+.pillar-arrow{flex-shrink:0; width:14px; color:var(--line-strong); align-self:center; margin-top:-18px;}
+.section-head{display:flex; align-items:baseline; justify-content:space-between; padding:24px 20px 10px;}
+.section-title{font-family:'Space Grotesk'; font-size:16.5px; font-weight:600;}
+.section-sub{font-size:10.5px; color:var(--text-dim); font-weight:600; text-transform:uppercase; letter-spacing:.4px;}
+
+.qa-wrap{padding:0 20px;}
+.qa-list{display:flex; flex-direction:column; gap:8px;}
+.qa-item{display:flex; align-items:center; gap:13px; padding:13px 14px; border-radius:var(--r-md); background:var(--stone); border:1px solid var(--line); cursor:pointer;}
+.qa-ico{width:36px;height:36px;border-radius:var(--r-sm); flex-shrink:0; display:flex; align-items:center; justify-content:center; background:var(--ink); color:#fff;}
+.qa-body{flex:1; min-width:0;}
+.qa-t{font-size:13px; font-weight:700;}
+.qa-s{font-size:11px; color:var(--text-muted); margin-top:2px;}
+.qa-chev{color:var(--text-dim);}
+.qa-chev .ic{width:15px;height:15px;}
+
+.smart-scroll{display:flex; gap:11px; padding:0 20px 4px; overflow-x:auto; scrollbar-width:none;}
+.smart-scroll::-webkit-scrollbar{display:none;}
+.sm-card{flex-shrink:0; width:152px; border-radius:var(--r-md); overflow:hidden; background:var(--stone); border:1px solid var(--line); cursor:pointer;}
+.sm-card-visual{height:80px; position:relative; overflow:hidden; background:radial-gradient(120px 90px at 100% 100%, rgba(201,164,100,.38), transparent 65%), var(--ink);}
+.sm-card-title{padding:10px 11px 0; font-size:12px; font-weight:700;}
+.sm-card-stat{padding:3px 11px 12px; font-size:10.3px; color:var(--text-muted); line-height:1.4;}
+.sm-badge{position:absolute; top:8px; left:8px; display:flex; align-items:center; gap:5px; padding:4px 8px; border-radius:100px; background:rgba(255,255,255,.14); backdrop-filter:blur(4px); font-size:9px; font-weight:700; color:#fff; letter-spacing:.2px;}
+.sm-live-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);}
+.v-shaft{position:absolute; left:20px; top:8px; bottom:8px; width:2px; background:rgba(255,255,255,.18);}
+.v-car{position:absolute; left:14px; width:13px; height:15px; border-radius:2px; background:#fff; animation:carMove 2.8s ease-in-out infinite;}
+@keyframes carMove{0%{top:58%}50%{top:12%}100%{top:58%}}
+.sm-glyph{position:absolute; right:12px; bottom:10px; width:26px; height:26px; stroke:var(--accent); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round;}
+
+.aq-bar{height:5px;border-radius:100px;background:var(--line);overflow:hidden;margin-top:4px;}
+.aq-fill{height:100%;border-radius:100px;background:var(--ink);}
+
+.bill-split{display:flex; gap:8px; padding:0 20px;}
+.split-item{flex:1; padding:12px 10px; border-radius:var(--r-md); background:var(--stone); border:1px solid var(--line); text-align:center;}
+.split-lbl{font-size:9.5px; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:.3px;}
+.split-val{font-family:'Space Grotesk'; font-size:14px; font-weight:700; margin-top:4px;}
+
+.act-item{display:flex; gap:12px; padding:11px 20px; align-items:center;}
+.act-ico{width:32px;height:32px;border-radius:var(--r-sm); background:var(--stone); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--ink);}
+.act-ico .ic{width:15px;height:15px;}
+.act-body{flex:1; min-width:0;}
+.act-t{font-size:12.5px; font-weight:700;}
+.act-s{font-size:11px; color:var(--text-muted); margin-top:1px;}
+.act-time{font-size:10px; color:var(--text-dim); white-space:nowrap;}
+
+.bottom-nav{margin-top:auto; display:flex; padding:9px 6px calc(12px + env(safe-area-inset-bottom)); background:var(--paper); border-top:1px solid var(--line); position:sticky; bottom:0; z-index:20;}
+.nav-item{flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; padding:4px 0; color:var(--text-dim);}
+.nav-item .ic{width:19px;height:19px;}
+.nav-lbl{font-size:9px; font-weight:700; letter-spacing:.2px;}
+.nav-item.active{color:var(--ink);}
+
+.sos-fab{position:absolute; right:14px; bottom:94px; z-index:60; width:50px;height:50px;border-radius:50%; background:var(--red); color:#fff; display:none; align-items:center; justify-content:center; box-shadow:0 8px 20px rgba(174,59,44,.4); border:3px solid rgba(255,255,255,.55); cursor:pointer;}
+.sos-fab.show{display:flex;}
+.sos-fab .ic{width:19px;height:19px;}
+.sos-fab .ring{position:absolute; inset:-3px; border-radius:50%; background:conic-gradient(#fff var(--p,0%), transparent 0%); -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px)); mask:radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px)); opacity:0;}
+.sos-fab.arming .ring{opacity:1;}
+
+.cats-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:9px; padding:0 20px;}
+.cat-tile{padding:13px 6px; border-radius:var(--r-md); background:var(--stone); border:1.5px solid var(--line); text-align:center; cursor:pointer;}
+.cat-tile.sel{border-color:var(--ink); background:#fff;}
+.cat-tile .ic{width:18px;height:18px; margin:0 auto 6px;}
+.cat-name{font-size:10.5px; font-weight:700;}
+
+.zone-tab-row{display:flex; gap:8px; padding:0 20px 4px;}
+.zone-tab{flex:1; padding:9px 6px; border-radius:100px; text-align:center; font-size:11.5px; font-weight:700; background:var(--stone); border:1px solid var(--line); cursor:pointer; color:var(--text-muted);}
+.zone-tab.sel{background:var(--ink); color:#fff; border-color:var(--ink);}
+
+.urg-tag-row{display:flex; gap:8px; padding:0 20px; flex-wrap:wrap;}
+.urg-tag{padding:8px 14px; border-radius:100px; font-size:11.5px; font-weight:700; background:var(--stone); border:1px solid var(--line); cursor:pointer; color:var(--text-muted);}
+.urg-tag.sel{background:var(--ink); color:#fff; border-color:var(--ink);}
+
+.maint-ta{width:calc(100% - 40px); margin:0 20px; padding:12px; border-radius:var(--r-md); border:1px solid var(--line-strong); background:var(--stone); font-family:inherit; font-size:13px; min-height:76px; resize:none;}
+
+.vis-row{display:flex; align-items:center; gap:12px; padding:12px 20px; border-bottom:1px solid var(--line);}
+.vis-info{flex:1; min-width:0;}
+.vis-name{font-size:13px; font-weight:700;}
+.vis-meta{font-size:11px; color:var(--text-muted); margin-top:2px;}
+.vis-pill{padding:4px 9px; border-radius:100px; font-size:9.5px; font-weight:800; text-transform:uppercase; letter-spacing:.3px; flex-shrink:0;}
+.pill-active{background:var(--green-tint); color:var(--green);}
+.pill-done{background:var(--stone-dim); color:var(--text-dim);}
+.pill-warn{background:var(--red-tint); color:var(--red);}
+
+.date-chip-row,.time-chip-row{display:flex; gap:8px; padding:0 20px; overflow-x:auto; scrollbar-width:none;}
+.date-chip-row::-webkit-scrollbar,.time-chip-row::-webkit-scrollbar{display:none;}
+.d-chip{flex-shrink:0; min-width:52px; padding:9px 7px; border-radius:var(--r-sm); text-align:center; background:var(--stone); border:1px solid var(--line); cursor:pointer;}
+.d-chip.sel{background:var(--ink); border-color:var(--ink);}
+.d-chip.sel .d-num,.d-chip.sel .d-sub{color:#fff;}
+.d-num{font-family:'Space Grotesk'; font-size:14px; font-weight:700;}
+.d-sub{font-size:9px; color:var(--text-muted); margin-top:2px;}
+.t-chip{padding:9px 6px; border-radius:var(--r-sm); text-align:center; font-size:12px; font-weight:700; background:var(--stone); border:1px solid var(--line); cursor:pointer; flex-shrink:0; min-width:60px;}
+.t-chip.sel{background:var(--ink); color:#fff; border-color:var(--ink);}
+
+.evt-card{margin:0 20px 12px; border-radius:var(--r-md); overflow:hidden; background:var(--stone); border:1px solid var(--line);}
+.evt-visual{height:72px; background:var(--ink); position:relative;}
+.evt-cat-tag{position:absolute; top:9px; left:9px; padding:4px 9px; border-radius:100px; background:rgba(255,255,255,.16); color:#fff; font-size:9px; font-weight:800; text-transform:uppercase;}
+.evt-body{padding:12px 14px;}
+.evt-title{font-size:13px; font-weight:700;}
+.evt-meta{font-size:11px; color:var(--text-muted); margin:4px 0 9px;}
+.evt-progress{height:4px; border-radius:100px; background:var(--line); overflow:hidden; margin-bottom:9px;}
+.evt-progress-fill{height:100%; background:var(--ink);}
+.evt-foot{display:flex; align-items:center; justify-content:space-between;}
+.evt-spots{font-size:10.5px; color:var(--text-dim);}
+.btn-sm{padding:7px 15px; border-radius:100px; background:var(--ink); color:#fff; font-size:11px; font-weight:800; border:none; cursor:pointer;}
+
+.profile-head{padding:58px 20px 20px; display:flex; align-items:center; gap:14px;}
+.profile-avatar{width:52px;height:52px;border-radius:var(--r-md); background:var(--ink); display:flex;align-items:center;justify-content:center; color:#fff; font-family:'Space Grotesk'; font-size:17px; font-weight:700;}
+.profile-name{font-family:'Space Grotesk'; font-size:17px; font-weight:600;}
+.profile-role{font-size:11.5px; color:var(--text-muted); margin-top:2px;}
+.prof-row{display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid var(--line); cursor:pointer;}
+.prof-row-l{display:flex; align-items:center; gap:11px; font-size:13px; font-weight:600;}
+.prof-row-l .ic{width:16px;height:16px; color:var(--text-muted);}
+.prof-row-r{font-size:11.5px; color:var(--text-dim);}
+
+.smart-modal{position:absolute; inset:0; z-index:80; display:flex; align-items:flex-end; background:rgba(10,10,11,0); pointer-events:none; transition:background .25s ease;}
+.smart-modal.open{background:rgba(10,10,11,.5); pointer-events:auto;}
+.smart-sheet{width:100%; max-height:88%; background:var(--paper); border-radius:22px 22px 0 0; transform:translateY(100%); transition:transform .3s cubic-bezier(.22,.68,0,1); display:flex; flex-direction:column; overflow:hidden;}
+.smart-modal.open .smart-sheet{transform:translateY(0);}
+.sheet-handle{width:34px;height:4px;border-radius:100px; background:var(--line-strong); margin:11px auto 4px;}
+.sheet-head{display:flex; align-items:center; justify-content:space-between; padding:10px 20px 6px;}
+.sheet-title{font-family:'Space Grotesk'; font-size:16.5px; font-weight:600;}
+.sheet-close{width:28px;height:28px;border-radius:50%; background:var(--stone); display:flex;align-items:center;justify-content:center; cursor:pointer; border:none;}
+.sheet-close .ic{width:13px;height:13px;}
+.sheet-body{overflow-y:auto; padding-bottom:24px;}
+
+.stat2x2{display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:12px 20px;}
+.stat-card{padding:13px; border-radius:var(--r-md); background:var(--stone); border:1px solid var(--line);}
+.stat-lbl{font-size:9.5px; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:.3px;}
+.stat-val{font-family:'Space Grotesk'; font-size:15px; font-weight:700; margin-top:4px;}
+
+.elev-shaft{margin:2px 20px 16px; padding:18px; border-radius:var(--r-lg); background:var(--ink); color:#fff; position:relative; overflow:hidden;}
+.elev-eta{font-family:'Space Grotesk'; font-size:32px; font-weight:700;}
+.elev-eta-l{font-size:10.5px; color:#B9B6AE; margin-top:2px;}
+.elev-cars{display:flex; gap:8px; margin-top:15px;}
+.elev-car-chip{flex:1; padding:8px 6px; border-radius:var(--r-sm); background:rgba(255,255,255,.08); text-align:center; font-size:10px;}
+.elev-car-chip b{display:block; font-family:'Space Grotesk'; font-size:13px; margin-bottom:2px;}
+
+.toast{position:absolute; left:20px; right:20px; bottom:100px; z-index:100; background:var(--ink); color:#fff; padding:12px 15px; border-radius:var(--r-md); font-size:12.5px; font-weight:600; display:flex; align-items:center; gap:10px; transform:translateY(140%); transition:transform .3s ease; box-shadow:0 14px 30px rgba(0,0,0,.3);}
+.toast.show{transform:translateY(0);}
+
+/* ============ OWNER / OPS CONSOLE (desktop) ============ */
+#app-owner{background:#F2F0EC; min-height:100vh;}
+.owner-login-stage{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;}
+.owner-login-card{width:380px; background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); padding:38px 30px;}
+.owner-login-card .auth-logo{width:120px; margin-bottom:26px;}
+
+.owner-console{display:none;}
+.owner-console.on{display:flex; min-height:100vh;}
+.owner-sidebar{width:230px; flex-shrink:0; background:var(--ink); color:#fff; padding:26px 16px; display:flex; flex-direction:column;}
+.owner-sidebar .logo{width:100px; margin:6px 0 30px 10px;}
+.owner-nav-item{display:flex; align-items:center; gap:11px; padding:11px 12px; border-radius:var(--r-sm); font-size:13px; font-weight:600; color:#B9B6AE; cursor:pointer; margin-bottom:2px;}
+.owner-nav-item .ic{width:17px;height:17px;}
+.owner-nav-item.active{background:rgba(201,164,100,.16); color:var(--accent);}
+.owner-sidebar-foot{margin-top:auto; padding:14px 12px; border-top:1px solid rgba(255,255,255,.12); font-size:11px; color:#8B8880;}
+.owner-main{flex:1; min-width:0; padding:30px 36px 60px;}
+.owner-topbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:26px;}
+.owner-h1{font-family:'Space Grotesk'; font-size:23px; font-weight:600;}
+.owner-h1-sub{font-size:12.5px; color:var(--text-muted); margin-top:3px;}
+.owner-topbar-r{display:flex; align-items:center; gap:12px;}
+.owner-avatar{width:36px;height:36px;border-radius:var(--r-sm); background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk'; font-weight:700; font-size:12px;}
+.owner-pill-btn{padding:9px 15px; border-radius:100px; background:#fff; border:1px solid var(--line-strong); font-size:12px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:7px;}
+.owner-pill-btn .ic{width:14px;height:14px;}
+
+.owner-page{display:none;}
+.owner-page.on{display:block;}
+
+.kpi-row{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:22px;}
+.kpi-card{background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); padding:20px;}
+.kpi-lbl{font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:.4px; display:flex; align-items:center; gap:7px;}
+.kpi-lbl .ic{width:14px;height:14px; color:var(--accent-deep);}
+.kpi-val{font-family:'Space Grotesk'; font-size:29px; font-weight:700; margin-top:10px;}
+.kpi-delta{font-size:11.5px; margin-top:6px; font-weight:600;}
+.kpi-delta.up{color:var(--green);}
+.kpi-delta.down{color:var(--red);}
+
+.owner-grid-2{display:grid; grid-template-columns:1.3fr 1fr; gap:16px; margin-bottom:16px;}
+.panel{background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); padding:22px;}
+.panel-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;}
+.panel-title{font-family:'Space Grotesk'; font-size:15.5px; font-weight:600;}
+.panel-sub{font-size:11px; color:var(--text-dim);}
+
+.elev-fleet{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:16px;}
+.fleet-car{border-radius:var(--r-sm); border:1px solid var(--line); padding:10px 6px; text-align:center; background:var(--stone);}
+.fleet-car.run{border-color:var(--green); background:var(--green-tint);}
+.fleet-car.svc{border-color:var(--red); background:var(--red-tint);}
+.fleet-car-n{font-family:'Space Grotesk'; font-size:13px; font-weight:700;}
+.fleet-car-s{font-size:9px; color:var(--text-muted); margin-top:3px; text-transform:uppercase; font-weight:700; letter-spacing:.3px;}
+
+.bars{display:flex; align-items:flex-end; gap:5px; height:64px; padding:0 2px;}
+.bar{flex:1; background:var(--ink); border-radius:3px 3px 0 0; opacity:.85;}
+
+.floor-list{display:flex; flex-direction:column-reverse; gap:3px; max-height:420px; overflow-y:auto;}
+.floor-row{display:flex; align-items:center; gap:10px; padding:7px 4px;}
+.floor-n{width:26px; font-size:11px; font-weight:700; color:var(--text-muted); font-family:'Space Grotesk';}
+.floor-bar-track{flex:1; height:20px; border-radius:5px; background:var(--stone); overflow:hidden; position:relative;}
+.floor-bar-fill{height:100%; border-radius:5px;}
+.floor-bar-fill.leased{background:var(--ink);}
+.floor-bar-fill.vacant{background:var(--stone-dim); border:1px dashed var(--line-strong);}
+.floor-tenant{font-size:10.5px; color:var(--text-muted); width:120px; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+
+table.owner-table{width:100%; border-collapse:collapse; font-size:12.5px;}
+table.owner-table th{text-align:left; font-size:10.5px; color:var(--text-dim); font-weight:700; text-transform:uppercase; letter-spacing:.3px; padding:8px 10px; border-bottom:1px solid var(--line);}
+table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
+.tbl-pill{padding:4px 10px; border-radius:100px; font-size:10px; font-weight:800; text-transform:uppercase;}
+.tbl-pill.good{background:var(--green-tint); color:var(--green);}
+.tbl-pill.warn{background:#F7EEDD; color:#8A6420;}
+.tbl-pill.bad{background:var(--red-tint); color:var(--red);}
+.filter-row{display:flex; gap:8px; margin-bottom:14px;}
+.filter-chip{padding:8px 14px; border-radius:100px; background:var(--stone); border:1px solid var(--line); font-size:11.5px; font-weight:700; cursor:pointer; color:var(--text-muted);}
+.filter-chip.sel{background:var(--ink); color:#fff; border-color:var(--ink);}
+</style>
+</head>
+<body>
+
+<!-- hidden icon sprite -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+<symbol id="ic-guest" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3.6 2.5-6 5.5-6s5.5 2.4 5.5 6"/><path d="M17 8h4M19 6v4"/></symbol>
+<symbol id="ic-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></symbol>
+<symbol id="ic-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 4.9L4 16.5V20h3.5l5.3-5.3a4 4 0 0 0 4.9-5.4l-2.7 2.7-2-2z"/></symbol>
+<symbol id="ic-parking" viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2.4"/><path d="M9.5 16V8h3a2.5 2.5 0 0 1 0 5h-3"/></symbol>
+<symbol id="ic-building" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.3"/><path d="M9 7h1.4M13.6 7H15M9 11h1.4M13.6 11h1.5M9 15h1.4M13.6 15H15M10 21v-3.5h4V21"/></symbol>
+<symbol id="ic-badge" viewBox="0 0 24 24"><rect x="5.5" y="3.5" width="13" height="17" rx="2.2"/><circle cx="12" cy="10.2" r="2.4"/><path d="M8.3 17c.8-1.8 2.2-2.6 3.7-2.6s2.9.8 3.7 2.6"/></symbol>
+<symbol id="ic-elevator" viewBox="0 0 24 24"><rect x="5.5" y="3.5" width="13" height="17" rx="1.6"/><path d="M9.5 10.5 12 8l2.5 2.5M9.5 13.5 12 16l2.5-2.5"/></symbol>
+<symbol id="ic-bolt" viewBox="0 0 24 24"><path d="M13 3 5.5 13.5H11L10 21l7.5-10.5H12z"/></symbol>
+<symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 3.5 19 6.5v5c0 5-3 8-7 9-4-1-7-4-7-9v-5z"/><path d="M9.2 12l1.9 1.9 3.7-3.9"/></symbol>
+<symbol id="ic-gift" viewBox="0 0 24 24"><rect x="4" y="9.5" width="16" height="10.5" rx="1.3"/><path d="M4 9.5h16v3.4H4z"/><path d="M12 9.5V20M12 9.5c-1-3-4.4-4-5.6-2s.7 2.7 5.6 2zm0 0c1-3 4.4-4 5.6-2s-.7 2.7-5.6 2z"/></symbol>
+<symbol id="ic-box" viewBox="0 0 24 24"><path d="M4 8 12 4l8 4-8 4-8-4z"/><path d="M4 8v9l8 4 8-4V8"/><path d="M12 12v9"/></symbol>
+<symbol id="ic-wind" viewBox="0 0 24 24"><path d="M4 8h11a2.5 2.5 0 1 0-2.4-3.2M4 12.5h14a2.6 2.6 0 1 1-2.5 3.3M4 17h8a2.2 2.2 0 1 1-2.1 2.8"/></symbol>
+<symbol id="ic-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-2.5-1.6L13 21l-2.5-1.6L8 21l-2-1.6z"/><path d="M9 8h6M9 12h6M9 16h4"/></symbol>
+<symbol id="ic-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 16v-4M12.5 16V8M17 16v-7"/></symbol>
+<symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8.2" r="3"/><path d="M3.5 19.5c0-3.3 2.4-5.6 5.5-5.6s5.5 2.3 5.5 5.6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.8 14.2c2.4.3 4 2.1 4.2 5"/></symbol>
+<symbol id="ic-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 12h5M10 15.5h5M10 8.5h2"/></symbol>
+<symbol id="ic-alert" viewBox="0 0 24 24"><path d="M12 3 2.5 20h19z"/><path d="M12 9.5v4.2M12 16.7v.1"/></symbol>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="ic-chevron" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+<symbol id="ic-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+<symbol id="ic-back" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></symbol>
+<symbol id="ic-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/></symbol>
+<symbol id="ic-bell" viewBox="0 0 24 24"><path d="M6 10a6 6 0 0 1 12 0c0 4 1.4 5.5 1.4 5.5H4.6S6 14 6 10z"/><path d="M10 19.5a2.2 2.2 0 0 0 4 0"/></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24"><path d="m12 3 2.6 5.9 6.4.6-4.9 4.3 1.5 6.3L12 16.9 6.4 20.1l1.5-6.3-4.9-4.3 6.4-.6z"/></symbol>
+<symbol id="ic-leaf" viewBox="0 0 24 24"><path d="M20 4C9 4 4 9 4 17v3h3c8 0 13-5 13-16z"/><path d="M7.5 19.5 18 9"/></symbol>
+<symbol id="ic-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="3.4"/><path d="M10.4 12.6 18 5M15.5 7.5 18 5l2 2M16 11l2 2"/></symbol>
+<symbol id="ic-network" viewBox="0 0 24 24"><path d="M12 4c4.5 2.7 6.5 6.7 6.5 11"/><path d="M12 8c2.6 1.7 3.8 4 3.8 7"/><path d="M12 12c1 .9 1.4 2 1.4 3"/><circle cx="12" cy="19" r="1.4"/></symbol>
+<symbol id="ic-face" viewBox="0 0 24 24"><path d="M8 4.5H6A1.5 1.5 0 0 0 4.5 6v2M16 4.5h2A1.5 1.5 0 0 1 19.5 6v2M8 19.5H6A1.5 1.5 0 0 1 4.5 18v-2M16 19.5h2a1.5 1.5 0 0 0 1.5-1.5v-2"/><circle cx="12" cy="10.6" r="2.9"/><path d="M8.3 16.2c.8-1.7 2.1-2.5 3.7-2.5s2.9.8 3.7 2.5"/></symbol>
+<symbol id="ic-route" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 8v3.5A3.5 3.5 0 0 0 9.5 15H13a3.5 3.5 0 0 1 3.5 3.5V18"/></symbol>
+<symbol id="ic-sparkle" viewBox="0 0 24 24"><path d="M12 3.5 13.4 9l5.1 1.5L13.4 12l-1.4 5.5L10.6 12 5.5 10.5 10.6 9z"/><path d="M18.5 15.5l.6 2 2 .6-2 .6-.6 2-.6-2-2-.6 2-.6z"/></symbol>
+</svg>
+
+<!-- ============ PORTAL ============ -->
+<div id="portal">
+  <div class="portal-topline"></div>
+  <img class="logo" src="esnam-logo.png" alt="Esnam">
+  <div class="portal-tag">Tower One · Business Tower Platform</div>
+  <p class="portal-h">One platform, three vantage points — the person who works in the tower, the company that leases a floor of it, and the owner who runs it.</p>
+  <div class="role-grid">
+    <div class="role-card" onclick="chooseRole('employee')">
+      <div class="role-tag">Mobile · Individual</div>
+      <div class="role-ic"><svg class="ic" style="width:20px;height:20px;stroke:#fff"><use href="#ic-badge"/></svg></div>
+      <div class="role-title">Employee</div>
+      <div class="role-desc">A tenant company's staff member: badge holder moving through the tower day to day — access, meeting rooms, requests, the lounge.</div>
+      <div class="role-cta">Open employee app <svg class="ic"><use href="#ic-chevron"/></svg></div>
+    </div>
+    <div class="role-card" onclick="chooseRole('employer')">
+      <div class="role-tag">Mobile · Company</div>
+      <div class="role-ic"><svg class="ic" style="width:20px;height:20px;stroke:#fff"><use href="#ic-building"/></svg></div>
+      <div class="role-title">Employer</div>
+      <div class="role-desc">The tenant company's admin: runs the lease — billing, badges and headcount, parking allocation, and facilities across the whole suite.</div>
+      <div class="role-cta">Open employer app <svg class="ic"><use href="#ic-chevron"/></svg></div>
+    </div>
+    <div class="role-card" onclick="chooseRole('owner')">
+      <div class="role-tag">Desktop · Asset ops</div>
+      <div class="role-ic"><svg class="ic" style="width:20px;height:20px;stroke:#fff"><use href="#ic-chart"/></svg></div>
+      <div class="role-title">Building Owner</div>
+      <div class="role-desc">Esnam's operations team: occupancy, collections, the elevator fleet, maintenance and tenants across the whole tower — a control room, not a phone screen.</div>
+      <div class="role-cta">Open ops console <svg class="ic"><use href="#ic-chevron"/></svg></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODE SWITCH (hidden until a role is chosen) ============ -->
+<div class="mode-switch" id="mode-switch" style="display:none;">
+  <button data-m="portal" onclick="goMode('portal')">Portal</button>
+  <button data-m="employee" onclick="goMode('employee')">Employee</button>
+  <button data-m="employer" onclick="goMode('employer')">Employer</button>
+  <button data-m="owner" onclick="goMode('owner')">Owner</button>
+</div>
+
+<!-- ============ SHARED MOBILE AUTH (employee/employer) ============ -->
+<div class="app-shell" id="app-auth">
+  <div class="phone-stage">
+    <div class="phone-frame" id="frame-auth">
+      <div class="screen active" id="a-login">
+        <div class="auth-wrap">
+          <img class="auth-logo" src="esnam-logo.png" alt="Esnam">
+          <div class="role-echo" id="role-echo">Signing in as Employee</div>
+          <h2 class="auth-title">Welcome back</h2>
+          <p class="auth-sub">Sign in with your company email registered by your tenant admin.</p>
+          <div class="field"><label>Work email</label><input id="login-input" type="text" placeholder="you@company.com" value="a.alghamdi@innovatecapital.sa"></div>
+          <button class="btn-primary" onclick="navA('a-otp')">Send verification code</button>
+          <div class="foot-note">By continuing you agree to the Tower One building access policy.</div>
+        </div>
+      </div>
+      <div class="screen" id="a-otp">
+        <div class="auth-wrap">
+          <div class="topbar" style="padding:0 0 18px;"><div class="back" onclick="navA('a-login')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div></div>
+          <h2 class="auth-title">Verify it's you</h2>
+          <p class="auth-sub">Enter the 4-digit code sent to <b>+966 5• ••• ••41</b></p>
+          <div class="otp-row">
+            <div class="otp-box filled">4</div><div class="otp-box filled">2</div><div class="otp-box filled">1</div><div class="otp-box filled">7</div>
+          </div>
+          <button class="btn-primary" onclick="enterRoleHome()">Verify &amp; continue</button>
+          <div class="otp-resend">Didn't get it? <b onclick="toastA('Code re-sent')">Resend code</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ EMPLOYEE APP ============ -->
+<div class="app-shell" id="app-employee">
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <!-- Welcome / access card -->
+      <div class="screen" id="e-welcome">
+        <div class="topbar"><div class="spacer"></div><div class="title">Your access</div><div class="spacer"></div></div>
+        <div class="handover-card">
+          <div class="ho-label">Innovate Capital</div>
+          <div class="ho-suite">Layla Al-Harbi</div>
+          <div class="ho-meta">UX Designer · Suite 1402, Floor 14</div>
+        </div>
+        <div class="ho-grid">
+          <div class="ho-tile"><div class="ho-tile-v">14</div><div class="ho-tile-l">Your floor</div></div>
+          <div class="ho-tile"><div class="ho-tile-v">North Core</div><div class="ho-tile-l">Elevator bank</div></div>
+          <div class="ho-tile"><div class="ho-tile-v">B2 · 14</div><div class="ho-tile-l">Assigned bay</div></div>
+          <div class="ho-tile"><div class="ho-tile-v">Active</div><div class="ho-tile-l">Badge status</div></div>
+        </div>
+        <div style="padding:24px 20px 40px; margin-top:auto;"><button class="btn-primary" onclick="navE('e-home')">Enter Tower One</button></div>
+      </div>
+
+      <!-- Home -->
+      <div class="screen" id="e-home">
+        <div class="dash-head">
+          <div class="dash-greet-row">
+            <div><div class="dash-greet-l">Good morning · Floor 14</div><div class="dash-greet-main">Layla Al-Harbi</div></div>
+            <div class="dash-avatar" onclick="goTabE('e-profile')">LA</div>
+          </div>
+        </div>
+        <div class="status-strip">
+          <div class="status-chip"><span class="live-dot"></span> Elevator · 38s</div>
+          <div class="status-chip"><svg class="ic"><use href="#ic-calendar"/></svg> Meeting in 25m</div>
+          <div class="status-chip"><svg class="ic"><use href="#ic-wind"/></svg> AQI 32 · Good</div>
+          <div class="status-chip"><svg class="ic"><use href="#ic-box"/></svg> 1 parcel</div>
+        </div>
+
+        <div class="section-head"><div class="section-title">Your smart tower journey</div><div class="section-sub">Tap to explore</div></div>
+        <div class="smart-pillars">
+          <div class="pillar-card" onclick="openModal('modal-park')"><div class="pillar-ic"><svg class="ic"><use href="#ic-parking"/></svg></div><div class="pillar-t">Arrive</div><div class="pillar-s">AI-guided parking &amp; entry</div></div>
+          <div class="pillar-arrow"><svg class="ic"><use href="#ic-chevron"/></svg></div>
+          <div class="pillar-card" onclick="openModal('modal-access')"><div class="pillar-ic"><svg class="ic"><use href="#ic-face"/></svg></div><div class="pillar-t">Access</div><div class="pillar-s">Seamless identity &amp; verification</div></div>
+          <div class="pillar-arrow"><svg class="ic"><use href="#ic-chevron"/></svg></div>
+          <div class="pillar-card" onclick="openModal('modal-navigate')"><div class="pillar-ic"><svg class="ic"><use href="#ic-route"/></svg></div><div class="pillar-t">Navigate</div><div class="pillar-s">AI-powered wayfinding</div></div>
+          <div class="pillar-arrow"><svg class="ic"><use href="#ic-chevron"/></svg></div>
+          <div class="pillar-card" onclick="fireExperience()"><div class="pillar-ic"><svg class="ic"><use href="#ic-sparkle"/></svg></div><div class="pillar-t">Experience</div><div class="pillar-s">Personalised tenant service</div></div>
+          <div class="pillar-arrow"><svg class="ic"><use href="#ic-chevron"/></svg></div>
+          <div class="pillar-card" onclick="openModal('modal-work')"><div class="pillar-ic"><svg class="ic"><use href="#ic-building"/></svg></div><div class="pillar-t">Work</div><div class="pillar-s">AI-enhanced workplace</div></div>
+        </div>
+
+        <div class="section-head"><div class="section-title">What do you need?</div></div>
+        <div class="qa-wrap">
+          <div class="qa-list">
+            <div class="qa-item" onclick="navE('e-gate')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-guest"/></svg></div><div class="qa-body"><div class="qa-t">Let a guest in</div><div class="qa-s">1 active pass · North Core lobby</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="openModal('modal-book')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a meeting room</div><div class="qa-s">6 rooms · next free 11:00, Floor 14</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="navE('e-maint')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-wrench"/></svg></div><div class="qa-body"><div class="qa-t">Raise a facilities request</div><div class="qa-s">HVAC, IT, cleaning &amp; more</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="openModal('modal-mypark')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-parking"/></svg></div><div class="qa-body"><div class="qa-t">Check my parking bay</div><div class="qa-s">B2-14 · assigned to you</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="navE('e-lounge')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-star"/></svg></div><div class="qa-body"><div class="qa-t">Book the lounge or an event</div><div class="qa-s">2 events open this week</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="goTabE('e-profile')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-badge"/></svg></div><div class="qa-body"><div class="qa-t">My badge &amp; access</div><div class="qa-s">QR pass, notification settings</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+          </div>
+        </div>
+
+        <div class="section-head"><div class="section-title">Only in Tower One</div><div class="section-sub">Live</div></div>
+        <div class="smart-scroll">
+          <div class="sm-card" onclick="openModal('modal-elev')">
+            <div class="sm-card-visual"><div class="sm-badge"><span class="sm-live-dot"></span>Live</div><div class="v-shaft"></div><div class="v-car"></div></div>
+            <div class="sm-card-title">Smart Elevators</div><div class="sm-card-stat">North Core · car in 38s</div>
+          </div>
+          <div class="sm-card" onclick="openModal('modal-myaccess')">
+            <div class="sm-card-visual"><svg class="sm-glyph"><use href="#ic-key"/></svg></div>
+            <div class="sm-card-title">My Access Log</div><div class="sm-card-stat">Last check-in 08:47, North Core</div>
+          </div>
+          <div class="sm-card" onclick="openModal('modal-ev')">
+            <div class="sm-card-visual"><div class="sm-badge"><span class="sm-live-dot"></span>Live</div><svg class="sm-glyph"><use href="#ic-bolt"/></svg></div>
+            <div class="sm-card-title">EV Charging</div><div class="sm-card-stat">Level B1 · 5 of 8 free</div>
+          </div>
+          <div class="sm-card" onclick="openModal('modal-deals')">
+            <div class="sm-card-visual"><svg class="sm-glyph"><use href="#ic-gift"/></svg></div>
+            <div class="sm-card-title">Tenant Lounge</div><div class="sm-card-stat">3 perks available</div>
+          </div>
+          <div class="sm-card" onclick="openModal('modal-parcel')">
+            <div class="sm-card-visual"><svg class="sm-glyph"><use href="#ic-box"/></svg></div>
+            <div class="sm-card-title">Mailroom</div><div class="sm-card-stat">1 parcel · locker B-14</div>
+          </div>
+          <div class="sm-card" onclick="openModal('modal-aq')">
+            <div class="sm-card-visual"><svg class="sm-glyph"><use href="#ic-wind"/></svg></div>
+            <div class="sm-card-title">Air Quality</div><div class="sm-card-stat">Floor 14 · 23°C · AQI 32</div>
+          </div>
+        </div>
+
+        <div class="section-head"><div class="section-title">Recent activity</div></div>
+        <div style="padding-bottom:10px;">
+          <div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-guest"/></svg></div><div class="act-body"><div class="act-t">Visitor pass generated</div><div class="act-s">Fatima Al-Otaibi · Floor 14</div></div><div class="act-time">08:47</div></div>
+          <div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-box"/></svg></div><div class="act-body"><div class="act-t">Parcel arrived</div><div class="act-s">Locker B-14</div></div><div class="act-time">09:12</div></div>
+          <div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-wrench"/></svg></div><div class="act-body"><div class="act-t">IT request resolved</div><div class="act-s">Room 14-B display fixed</div></div><div class="act-time">Yesterday</div></div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item active" data-nav="e-home" onclick="goTabE('e-home')"><svg class="ic"><use href="#ic-home"/></svg><div class="nav-lbl">Home</div></div>
+          <div class="nav-item" data-nav="e-gate" onclick="goTabE('e-gate')"><svg class="ic"><use href="#ic-guest"/></svg><div class="nav-lbl">Access</div></div>
+          <div class="nav-item" data-nav="e-lounge" onclick="goTabE('e-lounge')"><svg class="ic"><use href="#ic-star"/></svg><div class="nav-lbl">Lounge</div></div>
+          <div class="nav-item" data-nav="e-maint" onclick="goTabE('e-maint')"><svg class="ic"><use href="#ic-wrench"/></svg><div class="nav-lbl">Requests</div></div>
+          <div class="nav-item" data-nav="e-profile" onclick="goTabE('e-profile')"><svg class="ic"><use href="#ic-badge"/></svg><div class="nav-lbl">Profile</div></div>
+        </div>
+      </div>
+
+      <!-- Access -->
+      <div class="screen" id="e-gate">
+        <div class="topbar"><div class="back" onclick="goTabE('e-home')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div><div class="title">Visitor access</div><div class="spacer"></div></div>
+        <div style="padding:0 20px;"><p style="font-size:12px;color:var(--text-muted);margin:0 0 14px;">Generate a pass — your guest's elevator car is pre-called on arrival at North Core lobby.</p>
+          <div class="field"><label>Visitor name</label><input id="vis-name" placeholder="e.g. Fatima Al-Otaibi"></div>
+          <div class="field"><label>Purpose</label><input placeholder="e.g. Client meeting" value="Client meeting, Floor 14"></div>
+        </div>
+        <div class="section-head" style="padding-top:0;"><div class="section-title" style="font-size:13px;">Arrival window</div></div>
+        <div class="time-chip-row" style="padding-bottom:14px;">
+          <div class="t-chip sel" onclick="selChip(this,'#e-gate .t-chip')">10:00</div><div class="t-chip" onclick="selChip(this,'#e-gate .t-chip')">10:30</div><div class="t-chip" onclick="selChip(this,'#e-gate .t-chip')">11:00</div><div class="t-chip" onclick="selChip(this,'#e-gate .t-chip')">14:00</div>
+        </div>
+        <div style="padding:0 20px 16px;"><button class="btn-primary" onclick="genPass()">Generate visitor pass</button></div>
+        <div class="section-head"><div class="section-title">Today's passes</div></div>
+        <div class="vis-row"><div class="vis-info"><div class="vis-name">Fatima Al-Otaibi</div><div class="vis-meta">Client meeting · North Core · 10:00–12:00</div></div><span class="vis-pill pill-active">Active</span></div>
+        <div style="height:16px;"></div>
+      </div>
+
+      <!-- Lounge -->
+      <div class="screen" id="e-lounge">
+        <div class="topbar"><div class="back" onclick="goTabE('e-home')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div><div class="title">Tenant lounge</div><div class="spacer"></div></div>
+        <p style="font-size:12px;color:var(--text-muted);margin:4px 20px 14px;">Events, wellness sessions and rooftop perks for Tower One tenants.</p>
+        <div class="evt-card"><div class="evt-visual"><div class="evt-cat-tag">Networking</div></div><div class="evt-body"><div class="evt-title">Founders &amp; Finance Mixer</div><div class="evt-meta">Thu 24 Sep · 18:00–20:00 · Rooftop, F32</div><div class="evt-progress"><div class="evt-progress-fill" style="width:70%;"></div></div><div class="evt-foot"><div class="evt-spots">14 of 20 spots left</div><button class="btn-sm" onclick="bookEvent(this,'Founders &amp; Finance Mixer')">Reserve</button></div></div></div>
+        <div class="evt-card"><div class="evt-visual"><div class="evt-cat-tag">Wellness</div></div><div class="evt-body"><div class="evt-title">Midday Reset — Breathwork</div><div class="evt-meta">Tue 29 Sep · 13:00–13:30 · F32 Studio</div><div class="evt-progress"><div class="evt-progress-fill" style="width:35%;"></div></div><div class="evt-foot"><div class="evt-spots">6 of 15 spots left</div><button class="btn-sm" onclick="bookEvent(this,'Midday Reset')">Reserve</button></div></div></div>
+        <div class="section-head"><div class="section-title">More</div></div>
+        <div class="qa-wrap" style="padding-bottom:20px;">
+          <div class="qa-item" onclick="openModal('modal-book')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a meeting room</div><div class="qa-s">6 rooms across Floors 8–20</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+          <div class="qa-item" onclick="openModal('modal-deals')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-gift"/></svg></div><div class="qa-body"><div class="qa-t">Tenant perks &amp; deals</div><div class="qa-s">F&amp;B, wellness, retail partners</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+        </div>
+      </div>
+
+      <!-- Requests -->
+      <div class="screen" id="e-maint">
+        <div class="topbar"><div class="back" onclick="goTabE('e-home')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div><div class="title">Facilities request</div><div class="spacer"></div></div>
+        <div class="section-head" style="padding-top:6px;"><div class="section-title" style="font-size:13px;">Category</div></div>
+        <div class="cats-grid" style="padding-bottom:14px;">
+          <div class="cat-tile sel" onclick="selChip(this,'#e-maint .cat-tile')"><svg class="ic"><use href="#ic-wind"/></svg><div class="cat-name">HVAC</div></div>
+          <div class="cat-tile" onclick="selChip(this,'#e-maint .cat-tile')"><svg class="ic"><use href="#ic-bolt"/></svg><div class="cat-name">Electrical</div></div>
+          <div class="cat-tile" onclick="selChip(this,'#e-maint .cat-tile')"><svg class="ic"><use href="#ic-network"/></svg><div class="cat-name">IT / Network</div></div>
+        </div>
+        <div class="section-head" style="padding-top:0;"><div class="section-title" style="font-size:13px;">Urgency</div></div>
+        <div class="urg-tag-row" style="padding-bottom:14px;"><div class="urg-tag" onclick="selChip(this,'#e-maint .urg-tag')">Low</div><div class="urg-tag sel" onclick="selChip(this,'#e-maint .urg-tag')">Normal</div><div class="urg-tag" onclick="selChip(this,'#e-maint .urg-tag')">Urgent</div></div>
+        <div class="section-head" style="padding-top:0;"><div class="section-title" style="font-size:13px;">Describe the issue</div></div>
+        <div style="padding-bottom:14px;"><textarea class="maint-ta">Boardroom 14-B is running warm since this morning.</textarea></div>
+        <div style="padding:0 20px 14px;"><button class="btn-primary" onclick="toastE('Request submitted — reference FR-2481')">Submit request</button></div>
+        <div class="section-head"><div class="section-title">Open requests</div></div>
+        <div style="padding-bottom:14px;"><div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-network"/></svg></div><div class="act-body"><div class="act-t">Conference display flicker</div><div class="act-s">Room 14-B · In progress</div></div><div class="act-time">Today</div></div></div>
+      </div>
+
+      <!-- Profile -->
+      <div class="screen" id="e-profile">
+        <div class="profile-head"><div class="profile-avatar">LA</div><div><div class="profile-name">Layla Al-Harbi</div><div class="profile-role">UX Designer · Innovate Capital · Floor 14</div></div></div>
+        <div class="prof-row" onclick="openModal('modal-qr')"><div class="prof-row-l"><svg class="ic"><use href="#ic-badge"/></svg>My badge / QR pass</div><div class="prof-row-r"><svg class="ic" style="width:13px;height:13px"><use href="#ic-chevron"/></svg></div></div>
+        <div class="prof-row" onclick="openModal('modal-mypark')"><div class="prof-row-l"><svg class="ic"><use href="#ic-parking"/></svg>My parking bay</div><div class="prof-row-r">B2-14 ›</div></div>
+        <div class="prof-row" onclick="toastE('Notification preferences updated')"><div class="prof-row-l"><svg class="ic"><use href="#ic-bell"/></svg>Notifications</div><div class="prof-row-r">On ›</div></div>
+        <div class="prof-row"><div class="prof-row-l"><svg class="ic"><use href="#ic-doc"/></svg>Building handbook</div><div class="prof-row-r">›</div></div>
+        <div style="padding:22px 20px; margin-top:auto;"><button class="btn-ghost" onclick="signOut()">Sign out</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ EMPLOYER APP ============ -->
+<div class="app-shell" id="app-employer">
+  <div class="phone-stage">
+    <div class="phone-frame">
+      <div class="screen" id="m-welcome">
+        <div class="topbar"><div class="spacer"></div><div class="title">Your tenancy</div><div class="spacer"></div></div>
+        <div class="handover-card">
+          <div class="ho-label">Innovate Capital</div>
+          <div class="ho-suite">Suite 1402 · Floor 14</div>
+          <div class="ho-meta">Tower One · North Core · 18 employees</div>
+        </div>
+        <div class="ho-grid">
+          <div class="ho-tile"><div class="ho-tile-v">18</div><div class="ho-tile-l">Active badges</div></div>
+          <div class="ho-tile"><div class="ho-tile-v">B2 · 4 bays</div><div class="ho-tile-l">Reserved parking</div></div>
+          <div class="ho-tile"><div class="ho-tile-v">SAR 4,120</div><div class="ho-tile-l">Due 5 Oct</div></div>
+          <div class="ho-tile"><div class="ho-tile-v">14 mo.</div><div class="ho-tile-l">Until lease renewal</div></div>
+        </div>
+        <div style="padding:24px 20px 40px; margin-top:auto;"><button class="btn-primary" onclick="navM('m-home')">Enter admin console</button></div>
+      </div>
+
+      <div class="screen" id="m-home">
+        <div class="dash-head">
+          <div class="dash-greet-row"><div><div class="dash-greet-l">Suite 1402 · Floor 14</div><div class="dash-greet-main">Innovate Capital</div></div><div class="dash-avatar" onclick="goTabM('m-profile')">IC</div></div>
+        </div>
+        <div class="status-strip">
+          <div class="status-chip"><svg class="ic"><use href="#ic-receipt"/></svg> SAR 4,120 due</div>
+          <div class="status-chip"><svg class="ic"><use href="#ic-wrench"/></svg> 2 open tickets</div>
+          <div class="status-chip"><svg class="ic"><use href="#ic-users"/></svg> 18 badges</div>
+          <div class="status-chip"><svg class="ic"><use href="#ic-doc"/></svg> Renews in 14 mo.</div>
+        </div>
+
+        <div class="section-head"><div class="section-title">Your smart tower journey</div><div class="section-sub">Tap to explore</div></div>
+        <div class="smart-pillars">
+          <div class="pillar-card" onclick="openModal('modal-park')"><div class="pillar-ic"><svg class="ic"><use href="#ic-parking"/></svg></div><div class="pillar-t">Arrive</div><div class="pillar-s">AI-guided parking &amp; entry</div></div>
+          <div class="pillar-arrow"><svg class="ic"><use href="#ic-chevron"/></svg></div>
+          <div class="pillar-card" onclick="openModal('modal-access')"><div class="pillar-ic"><svg class="ic"><use href="#ic-face"/></svg></div><div class="pillar-t">Access</div><div class="pillar-s">Seamless identity &amp; verification</div></div>
+          <div class="pillar-arrow"><svg class="ic"><use href="#ic-chevron"/></svg></div>
+          <div class="pillar-card" onclick="openModal('modal-navigate')"><div class="pillar-ic"><svg class="ic"><use href="#ic-route"/></svg></div><div class="pillar-t">Navigate</div><div class="pillar-s">AI-powered wayfinding</div></div>
+          <div class="pillar-arrow"><svg class="ic"><use href="#ic-chevron"/></svg></div>
+          <div class="pillar-card" onclick="fireExperience()"><div class="pillar-ic"><svg class="ic"><use href="#ic-sparkle"/></svg></div><div class="pillar-t">Experience</div><div class="pillar-s">Personalised tenant service</div></div>
+          <div class="pillar-arrow"><svg class="ic"><use href="#ic-chevron"/></svg></div>
+          <div class="pillar-card" onclick="openModal('modal-work')"><div class="pillar-ic"><svg class="ic"><use href="#ic-building"/></svg></div><div class="pillar-t">Work</div><div class="pillar-s">AI-enhanced workplace</div></div>
+        </div>
+
+        <div class="section-head"><div class="section-title">What do you need?</div></div>
+        <div class="qa-wrap">
+          <div class="qa-list">
+            <div class="qa-item" onclick="navM('m-bill')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-receipt"/></svg></div><div class="qa-body"><div class="qa-t">Pay service charge</div><div class="qa-s">SAR 4,120 due · 5 Oct 2026</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="navM('m-people')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-users"/></svg></div><div class="qa-body"><div class="qa-t">Manage employee badges</div><div class="qa-s">18 active · 1 pending revoke</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="navM('m-maint')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-wrench"/></svg></div><div class="qa-body"><div class="qa-t">Facilities requests</div><div class="qa-s">2 open across the suite</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="openModal('modal-book')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a room for a client</div><div class="qa-s">Recurring bookings available</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="navM('m-parking')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-parking"/></svg></div><div class="qa-body"><div class="qa-t">Manage reserved parking</div><div class="qa-s">4 bays · assign to staff</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="navM('m-lease')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-doc"/></svg></div><div class="qa-body"><div class="qa-t">Lease &amp; documents</div><div class="qa-s">Renews in 14 months</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+          </div>
+        </div>
+
+        <div class="section-head"><div class="section-title">Company insights</div><div class="section-sub">30 days</div></div>
+        <div class="smart-scroll">
+          <div class="sm-card"><div class="sm-card-visual"><svg class="sm-glyph"><use href="#ic-chart"/></svg></div><div class="sm-card-title">Desk utilisation</div><div class="sm-card-stat">68% avg · up 6pts</div></div>
+          <div class="sm-card"><div class="sm-card-visual"><svg class="sm-glyph"><use href="#ic-guest"/></svg></div><div class="sm-card-title">Visitor traffic</div><div class="sm-card-stat">41 guests this month</div></div>
+          <div class="sm-card" onclick="openModal('modal-elev')"><div class="sm-card-visual"><div class="sm-badge"><span class="sm-live-dot"></span>Live</div><div class="v-shaft"></div><div class="v-car"></div></div><div class="sm-card-title">Smart Elevators</div><div class="sm-card-stat">North Core · 38s</div></div>
+          <div class="sm-card"><div class="sm-card-visual"><svg class="sm-glyph"><use href="#ic-gift"/></svg></div><div class="sm-card-title">Perks claimed</div><div class="sm-card-stat">9 by your team</div></div>
+        </div>
+
+        <div class="section-head"><div class="section-title">Recent activity</div></div>
+        <div style="padding-bottom:10px;">
+          <div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-users"/></svg></div><div class="act-body"><div class="act-t">Badge issued</div><div class="act-s">Omar Al-Dossary, new hire</div></div><div class="act-time">Yesterday</div></div>
+          <div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-receipt"/></svg></div><div class="act-body"><div class="act-t">August service charge paid</div><div class="act-s">SAR 3,960</div></div><div class="act-time">1 Sep</div></div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item active" data-nav="m-home" onclick="goTabM('m-home')"><svg class="ic"><use href="#ic-home"/></svg><div class="nav-lbl">Home</div></div>
+          <div class="nav-item" data-nav="m-people" onclick="goTabM('m-people')"><svg class="ic"><use href="#ic-users"/></svg><div class="nav-lbl">People</div></div>
+          <div class="nav-item" data-nav="m-bill" onclick="goTabM('m-bill')"><svg class="ic"><use href="#ic-receipt"/></svg><div class="nav-lbl">Billing</div></div>
+          <div class="nav-item" data-nav="m-maint" onclick="goTabM('m-maint')"><svg class="ic"><use href="#ic-wrench"/></svg><div class="nav-lbl">Requests</div></div>
+          <div class="nav-item" data-nav="m-lease" onclick="goTabM('m-lease')"><svg class="ic"><use href="#ic-doc"/></svg><div class="nav-lbl">Lease</div></div>
+        </div>
+      </div>
+
+      <div class="screen" id="m-bill">
+        <div class="topbar"><div class="back" onclick="goTabM('m-home')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div><div class="title">Service charge</div><div class="spacer"></div></div>
+        <div style="padding:6px 20px 16px;"><div style="font-size:11.5px;color:var(--text-muted);font-weight:600;">Suite 1402 · September 2026</div><div style="font-family:'Space Grotesk';font-size:29px;font-weight:700;margin-top:6px;">SAR 4,120 <span style="font-size:13px;color:var(--text-dim);font-weight:600;">due 5 Oct</span></div></div>
+        <div class="bill-split"><div class="split-item"><div class="split-lbl">CAM</div><div class="split-val">2,340</div></div><div class="split-item"><div class="split-lbl">Cooling</div><div class="split-val">1,280</div></div><div class="split-item"><div class="split-lbl">Electricity</div><div class="split-val">500</div></div></div>
+        <div style="padding:16px 20px;"><button class="btn-primary" onclick="toastM('Redirecting to STC Pay…')">Pay with STC Pay</button><button class="btn-ghost" onclick="toastM('Invoice emailed to finance@innovatecapital.sa')">Email invoice to finance</button></div>
+        <div class="section-head"><div class="section-title">History</div></div>
+        <div style="padding-bottom:20px;"><div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-receipt"/></svg></div><div class="act-body"><div class="act-t">August service charge</div><div class="act-s">SAR 3,960 · paid</div></div><div class="act-time">1 Sep</div></div><div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-receipt"/></svg></div><div class="act-body"><div class="act-t">July service charge</div><div class="act-s">SAR 4,010 · paid</div></div><div class="act-time">1 Aug</div></div></div>
+      </div>
+
+      <div class="screen" id="m-people">
+        <div class="topbar"><div class="back" onclick="goTabM('m-home')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div><div class="title">Employee badges</div><div class="spacer"></div></div>
+        <div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Active</div><div class="stat-val">18</div></div><div class="stat-card"><div class="stat-lbl">Pending</div><div class="stat-val">1</div></div></div>
+        <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="toastM('Invite sent')">Invite a new employee</button></div>
+        <div class="vis-row"><div class="vis-info"><div class="vis-name">Layla Al-Harbi</div><div class="vis-meta">UX Designer · badge active</div></div><span class="vis-pill pill-active">Active</span></div>
+        <div class="vis-row"><div class="vis-info"><div class="vis-name">Omar Al-Dossary</div><div class="vis-meta">Account Manager · badge active</div></div><span class="vis-pill pill-active">Active</span></div>
+        <div class="vis-row"><div class="vis-info"><div class="vis-name">Hana Al-Zahrani</div><div class="vis-meta">Left company 12 Sep</div></div><span class="vis-pill pill-warn">Revoke</span></div>
+        <div style="height:16px;"></div>
+      </div>
+
+      <div class="screen" id="m-maint">
+        <div class="topbar"><div class="back" onclick="goTabM('m-home')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div><div class="title">Facilities — Suite 1402</div><div class="spacer"></div></div>
+        <div class="filter-row" style="padding:0 20px 4px;"><div class="filter-chip sel">All</div><div class="filter-chip">Open</div><div class="filter-chip">Urgent</div></div>
+        <div style="padding-bottom:14px;">
+          <div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-network"/></svg></div><div class="act-body"><div class="act-t">Conference display flicker</div><div class="act-s">Room 14-B · raised by Layla</div></div><div class="act-time">In progress</div></div>
+          <div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-wind"/></svg></div><div class="act-body"><div class="act-t">Boardroom running warm</div><div class="act-s">Room 14-B · raised by Layla</div></div><div class="act-time">New</div></div>
+        </div>
+        <div style="padding:0 20px 16px;"><button class="btn-ghost" onclick="toastM('Request submitted — reference FR-2482')">+ New request for the suite</button></div>
+      </div>
+
+      <div class="screen" id="m-parking">
+        <div class="topbar"><div class="back" onclick="goTabM('m-home')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div><div class="title">Reserved parking</div><div class="spacer"></div></div>
+        <p style="font-size:12px;color:var(--text-muted);margin:6px 20px 14px;">4 bays reserved for Innovate Capital, Level B2.</p>
+        <div class="vis-row"><div class="vis-info"><div class="vis-name">B2-14</div><div class="vis-meta">Assigned to Layla Al-Harbi</div></div><span class="vis-pill pill-active">Assigned</span></div>
+        <div class="vis-row"><div class="vis-info"><div class="vis-name">B2-15</div><div class="vis-meta">Assigned to Omar Al-Dossary</div></div><span class="vis-pill pill-active">Assigned</span></div>
+        <div class="vis-row"><div class="vis-info"><div class="vis-name">B2-16</div><div class="vis-meta">Unassigned</div></div><span class="vis-pill pill-done">Open</span></div>
+        <div class="vis-row"><div class="vis-info"><div class="vis-name">B2-17</div><div class="vis-meta">Unassigned</div></div><span class="vis-pill pill-done">Open</span></div>
+        <div style="height:16px;"></div>
+      </div>
+
+      <div class="screen" id="m-lease">
+        <div class="topbar"><div class="back" onclick="goTabM('m-home')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div><div class="title">Lease &amp; documents</div><div class="spacer"></div></div>
+        <div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Suite</div><div class="stat-val">1402</div></div><div class="stat-card"><div class="stat-lbl">Renews</div><div class="stat-val">Nov 2027</div></div></div>
+        <div class="prof-row"><div class="prof-row-l"><svg class="ic"><use href="#ic-doc"/></svg>Lease agreement</div><div class="prof-row-r">PDF ›</div></div>
+        <div class="prof-row"><div class="prof-row-l"><svg class="ic"><use href="#ic-doc"/></svg>Fit-out approval</div><div class="prof-row-r">PDF ›</div></div>
+        <div class="prof-row" onclick="toastM('Request sent to leasing team')"><div class="prof-row-l"><svg class="ic"><use href="#ic-users"/></svg>Request renewal discussion</div><div class="prof-row-r">›</div></div>
+      </div>
+
+      <div class="screen" id="m-profile">
+        <div class="profile-head"><div class="profile-avatar">IC</div><div><div class="profile-name">Innovate Capital</div><div class="profile-role">Suite 1402 · Floor 14 · Tower One</div></div></div>
+        <div class="prof-row" onclick="goTabM('m-people')"><div class="prof-row-l"><svg class="ic"><use href="#ic-users"/></svg>Employees</div><div class="prof-row-r">18 ›</div></div>
+        <div class="prof-row" onclick="goTabM('m-bill')"><div class="prof-row-l"><svg class="ic"><use href="#ic-receipt"/></svg>Billing</div><div class="prof-row-r">›</div></div>
+        <div class="prof-row" onclick="goTabM('m-parking')"><div class="prof-row-l"><svg class="ic"><use href="#ic-parking"/></svg>Parking</div><div class="prof-row-r">4 bays ›</div></div>
+        <div class="prof-row" onclick="goTabM('m-lease')"><div class="prof-row-l"><svg class="ic"><use href="#ic-doc"/></svg>Lease</div><div class="prof-row-r">›</div></div>
+        <div style="padding:22px 20px;"><button class="btn-ghost" onclick="signOut()">Sign out</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ OWNER OPS CONSOLE ============ -->
+<div class="app-shell" id="app-owner">
+  <div class="owner-login-stage" id="owner-login-stage">
+    <div class="owner-login-card">
+      <img class="auth-logo" src="esnam-logo.png" alt="Esnam">
+      <div class="role-echo">Signing in as Building Owner</div>
+      <h2 class="auth-title">Tower One Ops Console</h2>
+      <p class="auth-sub">Asset &amp; operations sign-in for Esnam building management.</p>
+      <div class="field"><label>Work email</label><input type="text" value="ops.lead@esnam.com.sa"></div>
+      <div class="field"><label>Password</label><input type="password" value="••••••••••"></div>
+      <button class="btn-primary" onclick="ownerSignIn()">Sign in</button>
+    </div>
+  </div>
+
+  <div class="owner-console" id="owner-console">
+    <div class="owner-sidebar">
+      <img class="logo logo-invert" src="esnam-logo.png" alt="Esnam" style="width:90px;">
+      <div class="owner-nav-item active" data-op="o-overview" onclick="navO('o-overview')"><svg class="ic"><use href="#ic-chart"/></svg>Overview</div>
+      <div class="owner-nav-item" data-op="o-tenants" onclick="navO('o-tenants')"><svg class="ic"><use href="#ic-building"/></svg>Tenants &amp; Leasing</div>
+      <div class="owner-nav-item" data-op="o-maint" onclick="navO('o-maint')"><svg class="ic"><use href="#ic-wrench"/></svg>Maintenance</div>
+      <div class="owner-nav-item" data-op="o-fin" onclick="navO('o-fin')"><svg class="ic"><use href="#ic-receipt"/></svg>Financials</div>
+      <div class="owner-nav-item" data-op="o-sec" onclick="navO('o-sec')"><svg class="ic"><use href="#ic-shield"/></svg>Security &amp; Access</div>
+      <div class="owner-sidebar-foot">Esnam Business Tower<br>Tower One · Asset Operations</div>
+    </div>
+
+    <div class="owner-main">
+      <!-- OVERVIEW -->
+      <div class="owner-page on" id="o-overview">
+        <div class="owner-topbar">
+          <div><div class="owner-h1">Tower Overview</div><div class="owner-h1-sub">Live status across Tower One · Saturday, 20 September 2026</div></div>
+          <div class="owner-topbar-r"><button class="owner-pill-btn"><svg class="ic"><use href="#ic-search"/></svg>Search tenants</button><div class="owner-avatar">OL</div></div>
+        </div>
+
+        <div class="kpi-row">
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-building"/></svg>Leased occupancy</div><div class="kpi-val">86%</div><div class="kpi-delta up">▲ 3pts vs last quarter</div></div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-receipt"/></svg>Collections rate</div><div class="kpi-val">94%</div><div class="kpi-delta down">▼ 2pts vs last month</div></div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-wrench"/></svg>Open tickets</div><div class="kpi-val">27</div><div class="kpi-delta up">▲ 4 vs last week</div></div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-elevator"/></svg>Avg. elevator wait</div><div class="kpi-val">34s</div><div class="kpi-delta up">▲ within 40s target</div></div>
+        </div>
+
+        <div class="owner-grid-2">
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">Elevator fleet — North &amp; South Core</div><div class="panel-sub">7 high-speed cars · live</div></div>
+            <div class="elev-fleet">
+              <div class="fleet-car run"><div class="fleet-car-n">C1</div><div class="fleet-car-s">Running</div></div>
+              <div class="fleet-car run"><div class="fleet-car-n">C2</div><div class="fleet-car-s">Running</div></div>
+              <div class="fleet-car run"><div class="fleet-car-n">C3</div><div class="fleet-car-s">Running</div></div>
+              <div class="fleet-car svc"><div class="fleet-car-n">C4</div><div class="fleet-car-s">Service</div></div>
+              <div class="fleet-car run"><div class="fleet-car-n">C5</div><div class="fleet-car-s">Running</div></div>
+              <div class="fleet-car run"><div class="fleet-car-n">C6</div><div class="fleet-car-s">Running</div></div>
+              <div class="fleet-car run"><div class="fleet-car-n">C7</div><div class="fleet-car-s">Running</div></div>
+            </div>
+            <div class="panel-sub" style="margin-bottom:8px;">Average wait time, last 12 hours</div>
+            <div class="bars">
+              <div class="bar" style="height:30%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:70%"></div><div class="bar" style="height:90%"></div><div class="bar" style="height:60%"></div><div class="bar" style="height:40%"></div><div class="bar" style="height:35%"></div><div class="bar" style="height:65%"></div><div class="bar" style="height:80%"></div><div class="bar" style="height:50%"></div><div class="bar" style="height:38%"></div><div class="bar" style="height:30%"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">Occupancy by floor</div><div class="panel-sub">34 floors</div></div>
+            <div class="floor-list">
+              <div class="floor-row"><div class="floor-n">34</div><div class="floor-bar-track"><div class="floor-bar-fill vacant" style="width:100%"></div></div><div class="floor-tenant">Available for lease</div></div>
+              <div class="floor-row"><div class="floor-n">32</div><div class="floor-bar-track"><div class="floor-bar-fill leased" style="width:100%"></div></div><div class="floor-tenant">Tenant Lounge / Amenity</div></div>
+              <div class="floor-row"><div class="floor-n">28</div><div class="floor-bar-track"><div class="floor-bar-fill leased" style="width:100%"></div></div><div class="floor-tenant">Al-Rasheed Advisory</div></div>
+              <div class="floor-row"><div class="floor-n">22</div><div class="floor-bar-track"><div class="floor-bar-fill leased" style="width:100%"></div></div><div class="floor-tenant">Sanad Logistics</div></div>
+              <div class="floor-row"><div class="floor-n">18</div><div class="floor-bar-track"><div class="floor-bar-fill vacant" style="width:100%"></div></div><div class="floor-tenant">Available for lease</div></div>
+              <div class="floor-row"><div class="floor-n">14</div><div class="floor-bar-track"><div class="floor-bar-fill leased" style="width:100%"></div></div><div class="floor-tenant">Innovate Capital</div></div>
+              <div class="floor-row"><div class="floor-n">8</div><div class="floor-bar-track"><div class="floor-bar-fill leased" style="width:100%"></div></div><div class="floor-tenant">Nabd Health Group</div></div>
+              <div class="floor-row"><div class="floor-n">3</div><div class="floor-bar-track"><div class="floor-bar-fill leased" style="width:100%"></div></div><div class="floor-tenant">Retail &amp; Café</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">Priority maintenance</div><div class="panel-sub">Across all tenants</div></div>
+          <table class="owner-table">
+            <tr><th>Ticket</th><th>Tenant / Floor</th><th>Category</th><th>Age</th><th>Status</th></tr>
+            <tr><td>Chiller efficiency drop, Zone B</td><td>Building systems · Fl. 1</td><td>HVAC</td><td>2 days</td><td><span class="tbl-pill bad">Overdue</span></td></tr>
+            <tr><td>Conference display flicker</td><td>Innovate Capital · Fl. 14</td><td>IT / Network</td><td>4 hrs</td><td><span class="tbl-pill warn">In progress</span></td></tr>
+            <tr><td>Garage lighting, Level B2</td><td>Building systems · B2</td><td>Electrical</td><td>1 day</td><td><span class="tbl-pill warn">In progress</span></td></tr>
+            <tr><td>Boardroom running warm</td><td>Innovate Capital · Fl. 14</td><td>HVAC</td><td>1 hr</td><td><span class="tbl-pill good">New</span></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- TENANTS -->
+      <div class="owner-page" id="o-tenants">
+        <div class="owner-topbar"><div><div class="owner-h1">Tenants &amp; Leasing</div><div class="owner-h1-sub">28 active tenancies · 86% leased</div></div><div class="owner-topbar-r"><button class="owner-pill-btn"><svg class="ic"><use href="#ic-guest"/></svg>Add tenant</button></div></div>
+        <div class="panel">
+          <table class="owner-table">
+            <tr><th>Company</th><th>Suite / Floor</th><th>Headcount</th><th>Lease expiry</th><th>Standing</th></tr>
+            <tr><td>Innovate Capital</td><td>1402 · Fl. 14</td><td>18</td><td>Nov 2027</td><td><span class="tbl-pill good">Good standing</span></td></tr>
+            <tr><td>Al-Rasheed Advisory</td><td>2801 · Fl. 28</td><td>34</td><td>Mar 2028</td><td><span class="tbl-pill good">Good standing</span></td></tr>
+            <tr><td>Sanad Logistics</td><td>2201–2202 · Fl. 22</td><td>52</td><td>Jan 2027</td><td><span class="tbl-pill warn">Renewal due</span></td></tr>
+            <tr><td>Nabd Health Group</td><td>801 · Fl. 8</td><td>21</td><td>Aug 2026</td><td><span class="tbl-pill bad">Payment overdue</span></td></tr>
+            <tr><td>Floor 18 Suites</td><td>1801–1804 · Fl. 18</td><td>—</td><td>—</td><td><span class="tbl-pill warn">Available for lease</span></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- MAINTENANCE -->
+      <div class="owner-page" id="o-maint">
+        <div class="owner-topbar"><div><div class="owner-h1">Maintenance queue</div><div class="owner-h1-sub">27 open tickets tower-wide</div></div></div>
+        <div class="filter-row"><div class="filter-chip sel">All (27)</div><div class="filter-chip">Overdue (3)</div><div class="filter-chip">HVAC (9)</div><div class="filter-chip">Electrical (6)</div><div class="filter-chip">IT/Network (5)</div></div>
+        <div class="panel">
+          <table class="owner-table">
+            <tr><th>Ticket</th><th>Tenant / Floor</th><th>Category</th><th>Urgency</th><th>Age</th><th>Status</th></tr>
+            <tr><td>Chiller efficiency drop, Zone B</td><td>Building systems · Fl. 1</td><td>HVAC</td><td>Urgent</td><td>2 days</td><td><span class="tbl-pill bad">Overdue</span></td></tr>
+            <tr><td>Conference display flicker</td><td>Innovate Capital · Fl. 14</td><td>IT/Network</td><td>Normal</td><td>4 hrs</td><td><span class="tbl-pill warn">In progress</span></td></tr>
+            <tr><td>Garage lighting, Level B2</td><td>Building systems · B2</td><td>Electrical</td><td>Normal</td><td>1 day</td><td><span class="tbl-pill warn">In progress</span></td></tr>
+            <tr><td>Boardroom running warm</td><td>Innovate Capital · Fl. 14</td><td>HVAC</td><td>Normal</td><td>1 hr</td><td><span class="tbl-pill good">New</span></td></tr>
+            <tr><td>Lobby door sensor fault</td><td>Building systems · Fl. 1</td><td>Electrical</td><td>Low</td><td>3 days</td><td><span class="tbl-pill bad">Overdue</span></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- FINANCIALS -->
+      <div class="owner-page" id="o-fin">
+        <div class="owner-topbar"><div><div class="owner-h1">Financials</div><div class="owner-h1-sub">Service charge collections, Tower One</div></div></div>
+        <div class="kpi-row">
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-receipt"/></svg>Billed this month</div><div class="kpi-val">SAR 612K</div></div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-receipt"/></svg>Collected</div><div class="kpi-val">SAR 575K</div></div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-alert"/></svg>Outstanding</div><div class="kpi-val">SAR 37K</div></div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-chart"/></svg>Collections rate</div><div class="kpi-val">94%</div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">Aging — outstanding balances</div></div>
+          <table class="owner-table">
+            <tr><th>Tenant</th><th>Current</th><th>30 days</th><th>60 days</th><th>90+ days</th><th>Status</th></tr>
+            <tr><td>Nabd Health Group</td><td>—</td><td>SAR 12,400</td><td>SAR 9,800</td><td>—</td><td><span class="tbl-pill bad">Overdue</span></td></tr>
+            <tr><td>Sanad Logistics</td><td>SAR 8,200</td><td>—</td><td>—</td><td>—</td><td><span class="tbl-pill warn">Due soon</span></td></tr>
+            <tr><td>Innovate Capital</td><td>SAR 4,120</td><td>—</td><td>—</td><td>—</td><td><span class="tbl-pill good">Current</span></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECURITY -->
+      <div class="owner-page" id="o-sec">
+        <div class="owner-topbar"><div><div class="owner-h1">Security &amp; Access</div><div class="owner-h1-sub">Tower-wide log · 0 open incidents</div></div></div>
+        <div class="kpi-row">
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-shield"/></svg>Incidents, 30 days</div><div class="kpi-val">2</div><div class="kpi-delta up">Both resolved</div></div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-guest"/></svg>Visitor passes today</div><div class="kpi-val">57</div></div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-badge"/></svg>Active badges</div><div class="kpi-val">1,240</div></div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-alert"/></svg>SOS alerts, 30 days</div><div class="kpi-val">0</div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">Recent access log</div></div>
+          <table class="owner-table">
+            <tr><th>Event</th><th>Location</th><th>Time</th></tr>
+            <tr><td>Visitor pass — Fatima Al-Otaibi</td><td>North Core lobby</td><td>Today, 10:02</td></tr>
+            <tr><td>Delivery courier checked in</td><td>Service entrance, B1</td><td>Today, 08:47</td></tr>
+            <tr><td>After-hours access, Floor 22</td><td>South Core</td><td>Yesterday, 21:14</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SHARED MODALS (mobile apps) ============ -->
+<div class="phone-stage" style="position:fixed; inset:0; pointer-events:none; padding:0;">
+  <div class="phone-frame" style="position:relative; box-shadow:none; background:transparent; pointer-events:none;" id="modal-frame" data-nochrome="1">
+
+  <div class="smart-modal" id="modal-elev"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Smart Elevators</div><div class="sheet-close" onclick="closeModal('modal-elev')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body">
+      <div class="elev-shaft"><div class="elev-eta" id="elev-eta-num">38<span style="font-size:15px;">s</span></div><div class="elev-eta-l">Nearest car to North Core lobby, Floor 14</div>
+        <div class="elev-cars"><div class="elev-car-chip"><b>Car 3</b>Arriving</div><div class="elev-car-chip"><b>Car 6</b>Fl. 22 ↓</div><div class="elev-car-chip"><b>Car 1</b>Fl. 3 ↑</div></div>
+      </div>
+      <p style="font-size:11.5px;color:var(--text-muted);margin:0 20px 14px;">Seven high-speed cars serve Tower One. Call one ahead so it's waiting when you reach the lobby.</p>
+      <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="toastAny('Car 3 called to North Core lobby, Floor 14')">Call a car to my floor</button></div>
+    </div></div></div>
+
+  <div class="smart-modal" id="modal-ev"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">EV Charging · Level B1</div><div class="sheet-close" onclick="closeModal('modal-ev')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body"><div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Available</div><div class="stat-val">5 bays</div></div><div class="stat-card"><div class="stat-lbl">In use</div><div class="stat-val">3 bays</div></div></div>
+      <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="toastAny('Bay B1-A03 held for 15 minutes'); closeModal('modal-ev')">Hold a bay for 15 minutes</button></div>
+    </div></div></div>
+
+  <div class="smart-modal" id="modal-mypark"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">My parking bay</div><div class="sheet-close" onclick="closeModal('modal-mypark')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body"><div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Bay</div><div class="stat-val">B2-14</div></div><div class="stat-card"><div class="stat-lbl">Level</div><div class="stat-val">B2</div></div></div>
+      <p style="font-size:11.5px;color:var(--text-muted);margin:0 20px 14px;">Assigned to you by Innovate Capital. Nearest to the North Core elevator bank.</p>
+    </div></div></div>
+
+  <div class="smart-modal" id="modal-myaccess"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">My access log</div><div class="sheet-close" onclick="closeModal('modal-myaccess')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body">
+      <div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-key"/></svg></div><div class="act-body"><div class="act-t">Badge scan — North Core lobby</div><div class="act-s">Ground floor</div></div><div class="act-time">08:47</div></div>
+      <div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-elevator"/></svg></div><div class="act-body"><div class="act-t">Elevator Car 3 — Floor 14</div><div class="act-s">Pre-called from app</div></div><div class="act-time">08:48</div></div>
+    </div></div></div>
+
+  <div class="smart-modal" id="modal-deals"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Tenant perks</div><div class="sheet-close" onclick="closeModal('modal-deals')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body">
+      <div class="vis-row"><div class="vis-info"><div class="vis-name">15% off — Ground Floor Café</div><div class="vis-meta">Valid for Tower One badge holders</div></div><button class="btn-sm" onclick="claimDeal(this)">Claim</button></div>
+      <div class="vis-row"><div class="vis-info"><div class="vis-name">Free trial class — F32 Wellness</div><div class="vis-meta">One per employee, this month</div></div><button class="btn-sm" onclick="claimDeal(this)">Claim</button></div>
+      <div class="vis-row"><div class="vis-info"><div class="vis-name">Priority valet — Garage B1</div><div class="vis-meta">For same-day client visits</div></div><button class="btn-sm" onclick="claimDeal(this)">Claim</button></div>
+    </div></div></div>
+
+  <div class="smart-modal" id="modal-parcel"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Mailroom &amp; parcels</div><div class="sheet-close" onclick="closeModal('modal-parcel')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body"><div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Locker</div><div class="stat-val">B-14</div></div><div class="stat-card"><div class="stat-lbl">Waiting</div><div class="stat-val">1 parcel</div></div></div>
+      <div style="padding:0 20px 10px;"><button class="btn-primary" onclick="toastAny('Access code sent to your phone'); closeModal('modal-parcel')">Unlock &amp; collect</button></div>
+    </div></div></div>
+
+  <div class="smart-modal" id="modal-aq"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Air quality &amp; climate</div><div class="sheet-close" onclick="closeModal('modal-aq')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body"><div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Temperature</div><div class="stat-val">23°C</div></div><div class="stat-card"><div class="stat-lbl">AQI</div><div class="stat-val">32 · Good</div></div></div>
+      <div style="padding:0 20px 16px;"><div class="aq-bar"><div class="aq-fill" style="width:82%;"></div></div><div style="font-size:10.5px;color:var(--text-muted);margin-top:6px;">CO₂ within target range · fresh-air exchange nominal</div></div>
+    </div></div></div>
+
+  <div class="smart-modal" id="modal-book"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Book a meeting room</div><div class="sheet-close" onclick="closeModal('modal-book')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body">
+      <div class="date-chip-row" style="padding-bottom:12px;"><div class="d-chip sel" onclick="selChip(this,'#modal-book .d-chip')"><div class="d-num">20</div><div class="d-sub">Today</div></div><div class="d-chip" onclick="selChip(this,'#modal-book .d-chip')"><div class="d-num">21</div><div class="d-sub">Mon</div></div><div class="d-chip" onclick="selChip(this,'#modal-book .d-chip')"><div class="d-num">22</div><div class="d-sub">Tue</div></div></div>
+      <div class="time-chip-row" style="padding-bottom:14px;"><div class="t-chip" onclick="selChip(this,'#modal-book .t-chip')">10:00</div><div class="t-chip sel" onclick="selChip(this,'#modal-book .t-chip')">11:00</div><div class="t-chip" onclick="selChip(this,'#modal-book .t-chip')">14:00</div><div class="t-chip" onclick="selChip(this,'#modal-book .t-chip')">16:00</div></div>
+      <div class="section-head" style="padding-top:0;"><div class="section-title" style="font-size:12.5px;">Room · Floor 14</div></div>
+      <div class="cats-grid" style="padding-bottom:14px;"><div class="cat-tile sel" onclick="selChip(this,'#modal-book .cat-tile')"><svg class="ic"><use href="#ic-building"/></svg><div class="cat-name">14-B · 8p</div></div><div class="cat-tile" onclick="selChip(this,'#modal-book .cat-tile')"><svg class="ic"><use href="#ic-building"/></svg><div class="cat-name">14-C · 4p</div></div><div class="cat-tile" onclick="selChip(this,'#modal-book .cat-tile')"><svg class="ic"><use href="#ic-star"/></svg><div class="cat-name">F32 · 12p</div></div></div>
+      <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="toastAny('Boardroom 14-B booked for 11:00'); closeModal('modal-book')">Confirm booking</button></div>
+    </div></div></div>
+
+  <div class="smart-modal" id="modal-park"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Reserve a parking bay</div><div class="sheet-close" onclick="closeModal('modal-park')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body"><div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Nearest bay</div><div class="stat-val">B2-14</div></div><div class="stat-card"><div class="stat-lbl">Shaded until</div><div class="stat-val">16:00</div></div></div>
+      <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="toastAny('Bay B2-14 held for 15 minutes'); closeModal('modal-park')">Hold bay B2-14</button></div>
+    </div></div></div>
+
+  <div class="smart-modal" id="modal-access"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Access — seamless identity</div><div class="sheet-close" onclick="closeModal('modal-access')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body">
+      <div style="margin:2px 20px 16px; padding:22px; border-radius:18px; background:var(--ink); color:#fff; text-align:center;">
+        <div style="width:74px;height:74px;margin:0 auto 12px; border-radius:50%; border:2px solid var(--accent); display:flex; align-items:center; justify-content:center;"><svg class="ic" style="width:34px;height:34px; stroke:var(--accent);"><use href="#ic-face"/></svg></div>
+        <div style="font-family:'Space Grotesk'; font-weight:700; font-size:14px;">Verified in under a second</div>
+        <div style="font-size:11px; color:#B9B6AE; margin-top:4px;">North Core lobby · Face ID</div>
+      </div>
+      <p style="font-size:11.5px;color:var(--text-muted);margin:0 20px 14px;line-height:1.6;">Tower One recognises badge holders on arrival — no tap needed. A QR pass is always available as a fallback, and every visitor pass carries a one-time code for guests who aren't yet enrolled.</p>
+      <div class="urg-tag-row" style="padding-bottom:6px;"><div class="urg-tag sel" onclick="selChip(this,'#modal-access .urg-tag')">Face ID</div><div class="urg-tag" onclick="selChip(this,'#modal-access .urg-tag')">QR badge</div></div>
+    </div></div></div>
+
+  <div class="smart-modal" id="modal-navigate"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Navigate — AI wayfinding</div><div class="sheet-close" onclick="closeModal('modal-navigate')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body">
+      <div class="urg-tag-row" style="padding-bottom:14px;"><div class="urg-tag sel" onclick="selChip(this,'#modal-navigate .urg-tag')">Boardroom 14-B</div><div class="urg-tag" onclick="selChip(this,'#modal-navigate .urg-tag')">Tenant Lounge, F32</div><div class="urg-tag" onclick="selChip(this,'#modal-navigate .urg-tag')">North Core Lobby</div></div>
+      <div style="margin:0 20px 14px; padding:18px; border-radius:16px; background:var(--ink); color:#fff;">
+        <div style="display:flex; align-items:center; gap:10px; font-size:11px; color:#B9B6AE; margin-bottom:10px;"><svg class="ic" style="width:13px;height:13px; stroke:var(--accent);"><use href="#ic-route"/></svg>Live route</div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:9px;height:9px;border-radius:50%;background:var(--accent);"></div>
+          <div style="flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--accent) 0 6px, transparent 6px 11px);"></div>
+          <div style="width:9px;height:9px;border-radius:2px;background:#fff;"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:10px; color:#B9B6AE; margin-top:6px;"><span>You · Floor 14 lift lobby</span><span>Boardroom 14-B</span></div>
+        <div style="font-family:'Space Grotesk'; font-size:20px; font-weight:700; margin-top:14px;">2 min walk</div>
+        <div style="font-size:10.5px; color:#B9B6AE;">Via North Core, past the tenant kitchen</div>
+      </div>
+      <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="toastAny('Directions started — follow the arrow overlay'); closeModal('modal-navigate')">Start walking directions</button></div>
+    </div></div></div>
+
+  <div class="smart-modal" id="modal-work"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Work — AI-enhanced workplace</div><div class="sheet-close" onclick="closeModal('modal-work')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body">
+      <div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Temperature</div><div class="stat-val">23°C</div></div><div class="stat-card"><div class="stat-lbl">Lighting</div><div class="stat-val">70%</div></div></div>
+      <div class="qa-wrap" style="padding-bottom:6px;">
+        <div class="qa-list">
+          <div class="qa-item" onclick="closeModal('modal-work'); openModal('modal-book')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a space</div><div class="qa-s">Rooms suggested by your calendar</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+          <div class="qa-item" onclick="toastAny('Boardroom 14-B set to 22°C, blinds half-closed')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-wind"/></svg></div><div class="qa-body"><div class="qa-t">Adjust environment</div><div class="qa-s">Climate, lighting &amp; blinds</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+          <div class="qa-item" onclick="toastAny('Tenant concierge notified — reply in your messages')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-sparkle"/></svg></div><div class="qa-body"><div class="qa-t">Get assistance</div><div class="qa-s">Message the tenant concierge</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+        </div>
+      </div>
+    </div></div></div>
+
+  <div class="smart-modal" id="modal-qr"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Your access badge</div><div class="sheet-close" onclick="closeModal('modal-qr')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body"><div style="margin:8px 20px 18px; padding:20px; border-radius:14px; background:var(--stone); text-align:center;">
+      <div style="width:130px;height:130px;margin:0 auto 12px;border-radius:8px;background:repeating-linear-gradient(0deg,#0A0A0B 0 6px, transparent 6px 12px),repeating-linear-gradient(90deg,#0A0A0B 0 6px, transparent 6px 12px);background-color:#fff;background-blend-mode:multiply;opacity:.9;"></div>
+      <div style="font-family:'Space Grotesk';font-weight:700;">Layla Al-Harbi</div><div style="font-size:11.5px;color:var(--text-muted);">Innovate Capital · Floor 14 · Active</div>
+    </div></div></div></div>
+
+  <div class="smart-modal" id="modal-panic"><div class="smart-sheet"><div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Security alert sent</div><div class="sheet-close" onclick="closeModal('modal-panic')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body"><p style="font-size:12.5px;color:var(--text-muted);margin:6px 20px 14px;line-height:1.6;">Tower One <b>Security Control Room</b> has been notified of your location and is responding.</p>
+      <p style="font-size:10.5px;color:var(--text-dim);margin:0 20px 16px;">Prototype only — this demo does not place a real call or dispatch security.</p>
+    </div></div></div>
+
+  <div class="sos-fab" id="sos-fab" onmousedown="sosStart()" onmouseup="sosEnd()" onmouseleave="sosEnd()" ontouchstart="sosStart()" ontouchend="sosEnd()">
+    <div class="ring" id="sos-ring"></div><svg class="ic" style="stroke:#fff"><use href="#ic-alert"/></svg>
+  </div>
+  <div class="toast" id="toast-e"></div>
+  <div class="toast" id="toast-m"></div>
+  </div>
+</div>
+
+<script>
+/* ---------- portal / mode routing ---------- */
+let currentMode='portal', pendingRole='employee';
+function chooseRole(role){ pendingRole=role;
+  document.getElementById('role-echo').textContent = 'Signing in as ' + (role==='employee'?'Employee':role==='employer'?'Employer':'Building Owner');
+  if(role==='owner'){ goMode('owner'); return; }
+  goMode('auth');
+}
+function goMode(mode){
+  document.querySelectorAll('.app-shell').forEach(s=>s.classList.remove('on'));
+  document.getElementById('portal').style.display = (mode==='portal') ? 'flex' : 'none';
+  document.getElementById('mode-switch').style.display = (mode==='portal') ? 'none' : 'flex';
+  if(mode==='auth'){ document.getElementById('app-auth').classList.add('on'); }
+  else if(mode==='employee'){ document.getElementById('app-employee').classList.add('on'); document.getElementById('sos-fab').classList.add('show'); }
+  else if(mode==='employer'){ document.getElementById('app-employer').classList.add('on'); document.getElementById('sos-fab').classList.add('show'); }
+  else if(mode==='owner'){ document.getElementById('app-owner').classList.add('on'); document.getElementById('sos-fab').classList.remove('show'); }
+  currentMode = mode;
+  document.querySelectorAll('.mode-switch button').forEach(b=>b.classList.toggle('on', b.dataset.m===mode || (mode==='auth'&&b.dataset.m===pendingRole)));
+}
+function enterRoleHome(){
+  if(pendingRole==='employee'){ goMode('employee'); navE('e-welcome'); }
+  else { goMode('employer'); navM('m-welcome'); }
+}
+function signOut(){ goMode('portal'); }
+
+/* ---------- shared auth screen nav ---------- */
+let curA='a-login';
+function navA(id){ document.getElementById(curA).classList.remove('active'); document.getElementById(id).classList.add('active'); curA=id; }
+function toastA(msg){ /* no-op placeholder, small screen has no toast node */ }
+
+/* ---------- employee nav ---------- */
+let curE='e-welcome';
+function navE(id){ document.getElementById(curE).classList.remove('active'); document.getElementById(id).classList.add('active'); curE=id; document.getElementById(id).scrollTop=0;
+  if(['e-home','e-gate','e-lounge','e-maint','e-profile'].includes(id)) setActiveNav(id); }
+function goTabE(id){ navE(id); }
+function setActiveNav(id){ document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active', el.dataset.nav===id)); }
+function toastE(msg){ showToast('toast-e', msg); }
+
+/* ---------- employer nav ---------- */
+let curM='m-welcome';
+function navM(id){ document.getElementById(curM).classList.remove('active'); document.getElementById(id).classList.add('active'); curM=id; document.getElementById(id).scrollTop=0;
+  if(['m-home','m-people','m-bill','m-maint','m-lease'].includes(id)) setActiveNav(id); }
+function goTabM(id){ navM(id); }
+function toastM(msg){ showToast('toast-m', msg); }
+function toastAny(msg){ if(currentMode==='employee') toastE(msg); else if(currentMode==='employer') toastM(msg); }
+function fireExperience(){ toastAny('Experience: your boardroom is pre-cooled and ready — 3 minutes early'); }
+
+function showToast(elId, msg){
+  const t=document.getElementById(elId); t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._timer); t._timer=setTimeout(()=>t.classList.remove('show'), 3200);
+}
+
+/* ---------- owner console ---------- */
+function ownerSignIn(){
+  document.getElementById('owner-login-stage').style.display='none';
+  document.getElementById('owner-console').classList.add('on');
+}
+function navO(id){
+  document.querySelectorAll('.owner-page').forEach(p=>p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.owner-nav-item').forEach(el=>el.classList.toggle('active', el.dataset.op===id));
+}
+
+/* ---------- shared widgets ---------- */
+function openModal(id){ document.getElementById(id).classList.add('open'); document.getElementById('modal-frame').style.pointerEvents='auto'; }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); document.getElementById('modal-frame').style.pointerEvents='none'; }
+function selChip(el, scopeSelector){ document.querySelectorAll(scopeSelector).forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); }
+function genPass(){ const n=document.getElementById('vis-name').value||'Your guest'; toastE(n+"'s pass is ready — their elevator car will be pre-called"); }
+function claimDeal(btn){ btn.textContent='Claimed'; btn.style.opacity=.55; btn.onclick=null; toastAny('Perk claimed — check your email'); }
+function bookEvent(btn,name){ btn.textContent='Reserved'; btn.style.opacity=.55; btn.onclick=null; toastAny('Reserved: '+name); }
+
+setInterval(()=>{ const el=document.getElementById('elev-eta-num'); if(!el) return; const n=Math.max(8,Math.floor(Math.random()*50)+8); el.innerHTML=n+'<span style="font-size:15px;">s</span>'; },4000);
+
+/* SOS hold-to-arm */
+let sosTimer=null, sosHeld=false;
+function sosStart(){ sosHeld=false; const fab=document.getElementById('sos-fab'), ring=document.getElementById('sos-ring'); fab.classList.add('arming'); let p=0;
+  sosTimer=setInterval(()=>{ p+=100/12; ring.style.setProperty('--p', Math.min(p,100)+'%'); if(p>=100){ clearInterval(sosTimer); sosHeld=true; fab.classList.remove('arming'); openModal('modal-panic'); document.getElementById('modal-frame').style.pointerEvents='auto'; } },100); }
+function sosEnd(){ clearInterval(sosTimer); document.getElementById('sos-fab').classList.remove('arming'); if(!sosHeld) toastAny('Hold to alert Security Control Room'); }
+</script>
+</body>
+</html>
