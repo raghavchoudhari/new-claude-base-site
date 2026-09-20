@@ -309,14 +309,14 @@ img.logo{display:block;}
 
 .smart-modal{position:absolute; inset:0; z-index:80; display:flex; align-items:flex-end; background:rgba(10,10,11,0); pointer-events:none; transition:background .25s ease;}
 .smart-modal.open{background:rgba(10,10,11,.5); pointer-events:auto;}
-.smart-sheet{width:100%; max-height:82%; background:var(--paper); border-radius:22px 22px 0 0; transform:translateY(100%); transition:transform .3s cubic-bezier(.22,.68,0,1); display:flex; flex-direction:column; overflow:hidden;}
+.smart-sheet{width:100%; max-height:68%; margin-bottom:40px; background:var(--paper); border-radius:22px; transform:translateY(100%); transition:transform .3s cubic-bezier(.22,.68,0,1); display:flex; flex-direction:column; overflow:hidden;}
 .smart-modal.open .smart-sheet{transform:translateY(0);}
 .sheet-handle{width:34px;height:4px;border-radius:100px; background:var(--line-strong); margin:11px auto 4px;}
 .sheet-head{display:flex; align-items:center; justify-content:space-between; padding:10px 20px 6px;}
 .sheet-title{font-family:'Space Grotesk'; font-size:16.5px; font-weight:600;}
 .sheet-close{width:28px;height:28px;border-radius:50%; background:var(--stone); display:flex;align-items:center;justify-content:center; cursor:pointer; border:none;}
 .sheet-close .ic{width:13px;height:13px;}
-.sheet-body{overflow-y:auto; padding-bottom:calc(28px + env(safe-area-inset-bottom));}
+.sheet-body{overflow-y:auto; padding-bottom:calc(70px + env(safe-area-inset-bottom));}
 
 .stat2x2{display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:12px 20px;}
 .stat-card{padding:13px; border-radius:var(--r-md); background:var(--stone); border:1px solid var(--line);}
@@ -928,19 +928,19 @@ img.logo{display:block;}
   <div class="smart-modal" id="modal-navigate"><div class="smart-sheet"><div class="sheet-handle"></div>
     <div class="sheet-head"><div class="sheet-title">Navigate — AI wayfinding</div><div class="sheet-close" onclick="closeModal('modal-navigate')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
     <div class="sheet-body">
-      <div class="urg-tag-row" style="padding-bottom:14px;"><div class="urg-tag sel" onclick="selChip(this,'#modal-navigate .urg-tag')">Boardroom 14-B</div><div class="urg-tag" onclick="selChip(this,'#modal-navigate .urg-tag')">Tenant Lounge, F32</div><div class="urg-tag" onclick="selChip(this,'#modal-navigate .urg-tag')">North Core Lobby</div></div>
-      <div style="margin:0 20px 14px; padding:18px; border-radius:16px; background:var(--ink); color:#fff;">
-        <div style="display:flex; align-items:center; gap:10px; font-size:11px; color:#B9B6AE; margin-bottom:10px;"><svg class="ic" style="width:13px;height:13px; stroke:var(--accent);"><use href="#ic-route"/></svg>Live route</div>
+      <div class="urg-tag-row" style="padding-bottom:10px;"><div class="urg-tag sel" onclick="selChip(this,'#modal-navigate .urg-tag')">Boardroom 14-B</div><div class="urg-tag" onclick="selChip(this,'#modal-navigate .urg-tag')">Tenant Lounge, F32</div><div class="urg-tag" onclick="selChip(this,'#modal-navigate .urg-tag')">North Core Lobby</div></div>
+      <div style="margin:0 20px 10px; padding:13px 16px; border-radius:16px; background:var(--ink); color:#fff;">
+        <div style="display:flex; align-items:center; gap:10px; font-size:11px; color:#B9B6AE; margin-bottom:7px;"><svg class="ic" style="width:13px;height:13px; stroke:var(--accent);"><use href="#ic-route"/></svg>Live route</div>
         <div style="display:flex; align-items:center; gap:8px;">
           <div style="width:9px;height:9px;border-radius:50%;background:var(--accent);"></div>
           <div style="flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--accent) 0 6px, transparent 6px 11px);"></div>
           <div style="width:9px;height:9px;border-radius:2px;background:#fff;"></div>
         </div>
-        <div style="display:flex; justify-content:space-between; font-size:10px; color:#B9B6AE; margin-top:6px;"><span>You · Floor 14 lift lobby</span><span>Boardroom 14-B</span></div>
-        <div style="font-family:'Space Grotesk'; font-size:20px; font-weight:700; margin-top:14px;">2 min walk</div>
+        <div style="display:flex; justify-content:space-between; font-size:10px; color:#B9B6AE; margin-top:5px;"><span>You · Floor 14 lift lobby</span><span>Boardroom 14-B</span></div>
+        <div style="font-family:'Space Grotesk'; font-size:17px; font-weight:700; margin-top:8px;">2 min walk</div>
         <div style="font-size:10.5px; color:#B9B6AE;">Via North Core, past the tenant kitchen</div>
       </div>
-      <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="startARNavigate()">Start AR walking directions</button></div>
+      <div style="padding:0 20px 60px;"><button class="btn-primary" onclick="startARNavigate()">Start AR walking directions</button></div>
     </div></div></div>
 
   <div class="smart-modal" id="modal-work"><div class="smart-sheet"><div class="sheet-handle"></div>
