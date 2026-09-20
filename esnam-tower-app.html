@@ -309,14 +309,14 @@ img.logo{display:block;}
 
 .smart-modal{position:absolute; inset:0; z-index:80; display:flex; align-items:flex-end; background:rgba(10,10,11,0); pointer-events:none; transition:background .25s ease;}
 .smart-modal.open{background:rgba(10,10,11,.5); pointer-events:auto;}
-.smart-sheet{width:100%; max-height:88%; background:var(--paper); border-radius:22px 22px 0 0; transform:translateY(100%); transition:transform .3s cubic-bezier(.22,.68,0,1); display:flex; flex-direction:column; overflow:hidden;}
+.smart-sheet{width:100%; max-height:82%; background:var(--paper); border-radius:22px 22px 0 0; transform:translateY(100%); transition:transform .3s cubic-bezier(.22,.68,0,1); display:flex; flex-direction:column; overflow:hidden;}
 .smart-modal.open .smart-sheet{transform:translateY(0);}
 .sheet-handle{width:34px;height:4px;border-radius:100px; background:var(--line-strong); margin:11px auto 4px;}
 .sheet-head{display:flex; align-items:center; justify-content:space-between; padding:10px 20px 6px;}
 .sheet-title{font-family:'Space Grotesk'; font-size:16.5px; font-weight:600;}
 .sheet-close{width:28px;height:28px;border-radius:50%; background:var(--stone); display:flex;align-items:center;justify-content:center; cursor:pointer; border:none;}
 .sheet-close .ic{width:13px;height:13px;}
-.sheet-body{overflow-y:auto; padding-bottom:24px;}
+.sheet-body{overflow-y:auto; padding-bottom:calc(28px + env(safe-area-inset-bottom));}
 
 .stat2x2{display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:12px 20px;}
 .stat-card{padding:13px; border-radius:var(--r-md); background:var(--stone); border:1px solid var(--line);}
@@ -1655,8 +1655,6 @@ const AR_ROUTE_STEPS = [
   {at: 100, turn: 0,   text: "You've arrived at the door"}
 ];
 
-function clampNum(v, min, max){ return Math.min(max, Math.max(min, v)); }
-
 function angDiffDeg(a, b){
   let d = (a - b) % 360;
   if(d < -180) d += 360;
@@ -1688,9 +1686,12 @@ function updateARInstruction(){
   if(arrowIc) arrowIc.style.transform = 'rotate(' + rot + 'deg)';
   const fb = document.getElementById('ar-fallback-arrow');
   if(fb && fb.style.display !== 'none'){
-    const pulse = 1 + Math.sin(Date.now() / 1000 * 2.6) * 0.16;
-    const xDrift = clampNum(state.turn / 90, -1, 1) * 26;
-    fb.style.transform = 'translate(calc(-50% + ' + xDrift + 'px), -50%) rotate(' + rot + 'deg) scale(' + pulse + ')';
+    const t = Date.now() / 1000;
+    const turnSign = state.turn > 3 ? 1 : (state.turn < -3 ? -1 : 0);
+    const fbLean = turnSign * 9 + Math.sin(t * 1.4) * 6;
+    const pulse = 1 + Math.sin(t * 2.6) * 0.16;
+    const xDrift = turnSign * 12;
+    fb.style.transform = 'translate(calc(-50% + ' + xDrift + 'px), -50%) rotate(' + fbLean + 'deg) scale(' + pulse + ')';
   }
   if(state.text !== arActiveStepText){
     arActiveStepText = state.text;
@@ -1944,11 +1945,13 @@ function animateAR(){
   arSmoothHeading += delta * 0.12;
 
   if(arArrowGroup){
-    const targetRotZ = THREE.MathUtils.degToRad(-routeTurn);
-    arArrowGroup.rotation.z += (targetRotZ - arArrowGroup.rotation.z) * 0.1;
-    const targetX = THREE.MathUtils.clamp(routeTurn / 90, -1, 1) * 0.55;
-    arArrowGroup.position.x += (targetX - arArrowGroup.position.x) * 0.08;
     const t = Date.now() / 1000;
+    const turnSign = routeTurn > 3 ? 1 : (routeTurn < -3 ? -1 : 0);
+    const lean = turnSign * 9 + Math.sin(t * 1.4) * 6;
+    const targetRotZ = THREE.MathUtils.degToRad(-lean);
+    arArrowGroup.rotation.z += (targetRotZ - arArrowGroup.rotation.z) * 0.08;
+    const targetX = turnSign * 0.18;
+    arArrowGroup.position.x += (targetX - arArrowGroup.position.x) * 0.06;
     arArrowGroup.position.y = -0.2 + Math.sin(t * 1.6) * 0.14;
     const pulse = 1 + Math.sin(t * 2.6) * 0.16;
     arArrowGroup.scale.set(pulse, pulse, pulse);
