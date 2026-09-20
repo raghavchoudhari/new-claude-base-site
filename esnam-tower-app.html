@@ -369,6 +369,23 @@ img.logo{display:block;}
 .ar-heading-badge .ar-heading-card{font-size:11px; font-weight:700; color:#B9B6AE; letter-spacing:.5px;}
 .ar-tape-wrap{position:relative; z-index:5; height:46px; margin-top:10px; overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent); mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);}
 .ar-tape-center{position:absolute; left:50%; top:0; bottom:0; width:2px; background:var(--accent); transform:translateX(-50%); z-index:2; box-shadow:0 0 8px rgba(201,164,100,.8);}
+.ar-tape-arrow{position:absolute; left:50%; top:-8px; width:14px; height:10px; color:var(--accent); transform-origin:50% 0%; z-index:3; filter:drop-shadow(0 0 5px rgba(201,164,100,.7)); animation:arNeedleIdle 2.4s ease-in-out infinite;}
+@keyframes arNeedleIdle{
+  0%{transform:translateX(-50%) rotate(0deg);}
+  20%{transform:translateX(-53%) rotate(-5deg);}
+  45%{transform:translateX(-47%) rotate(4deg);}
+  65%{transform:translateX(-51%) rotate(-2deg);}
+  85%{transform:translateX(-49%) rotate(1deg);}
+  100%{transform:translateX(-50%) rotate(0deg);}
+}
+.ar-tape-arrow.settle{animation:arNeedleSettle .9s cubic-bezier(.34,1.56,.64,1);}
+@keyframes arNeedleSettle{
+  0%{transform:translateX(-50%) rotate(0deg);}
+  25%{transform:translateX(-70%) rotate(-22deg);}
+  50%{transform:translateX(-38%) rotate(16deg);}
+  70%{transform:translateX(-56%) rotate(-8deg);}
+  100%{transform:translateX(-50%) rotate(0deg);}
+}
 .ar-tape{position:absolute; top:0; left:50%; height:100%; display:flex; align-items:flex-end; will-change:transform;}
 .ar-tape-tick{position:absolute; top:0; bottom:8px; width:1px; background:rgba(255,255,255,.3);}
 .ar-tape-tick.major{background:rgba(255,255,255,.6); bottom:0;}
@@ -1068,6 +1085,7 @@ img.logo{display:block;}
     <div class="ar-heading-badge"><span id="ar-heading-deg">0°</span><span class="ar-heading-card" id="ar-heading-card">N</span></div>
 
     <div class="ar-tape-wrap">
+      <div class="ar-tape-arrow" id="ar-tape-arrow"><svg viewBox="0 0 24 24" style="width:100%;height:100%;"><path d="M12 3 4 15h16z" fill="currentColor"/></svg></div>
       <div class="ar-tape-center"></div>
       <div class="ar-tape" id="ar-tape"></div>
     </div>
@@ -1678,6 +1696,12 @@ function updateARInstruction(){
     card.classList.remove('pulse');
     void card.offsetWidth;
     card.classList.add('pulse');
+    const needle = document.getElementById('ar-tape-arrow');
+    if(needle){
+      needle.classList.remove('settle');
+      void needle.offsetWidth;
+      needle.classList.add('settle');
+    }
   }
   return state.turn;
 }
