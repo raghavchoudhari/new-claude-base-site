@@ -136,6 +136,27 @@ img.logo{display:block;}
 /* dashboard head */
 .dash-head{padding:50px 20px 4px;}
 .dash-logo{height:18px; display:block; margin-bottom:16px;}
+
+.brief-card{margin:14px 20px 16px; padding:16px 16px 14px; border-radius:var(--r-lg); background:linear-gradient(160deg,#fff 40%, var(--accent-tint) 220%); border:1px solid var(--line);}
+.brief-head{display:flex; align-items:center; gap:7px; font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--accent-deep); margin-bottom:9px;}
+.brief-head .ic{width:13px;height:13px;}
+.brief-text{font-size:12.5px; line-height:1.6; color:var(--text);}
+.brief-ask{display:flex; align-items:center; gap:9px; margin-top:13px; padding:11px 14px; border-radius:100px; background:#fff; border:1px solid var(--line-strong); font-size:12px; font-weight:600; color:var(--text-muted); cursor:pointer;}
+.brief-ask .ic{width:15px;height:15px; color:var(--accent-deep); flex-shrink:0;}
+
+.concierge-log{padding:14px 20px 4px; display:flex; flex-direction:column; gap:10px; max-height:280px; overflow-y:auto;}
+.cmsg{max-width:82%; padding:10px 13px; border-radius:15px; font-size:12.5px; line-height:1.55;}
+.cmsg.assistant{background:var(--stone); align-self:flex-start; border-bottom-left-radius:4px;}
+.cmsg.user{background:var(--ink); color:#fff; align-self:flex-end; border-bottom-right-radius:4px;}
+.cmsg-title{font-weight:800; margin-bottom:6px;}
+.cmsg-step{font-size:12px; margin-top:5px;}
+.concierge-suggestions{display:flex; flex-wrap:wrap; gap:8px; padding:10px 20px 6px;}
+.concierge-chip{padding:8px 12px; border-radius:100px; background:var(--stone); border:1px solid var(--line); font-size:11.5px; font-weight:600; cursor:pointer; color:var(--text-muted);}
+.concierge-input-row{display:flex; gap:8px; padding:12px 20px 22px; border-top:1px solid var(--line); margin-top:8px;}
+.concierge-input-row input{flex:1; padding:12px 15px; border-radius:100px; border:1px solid var(--line-strong); background:var(--stone); font-size:13px; font-family:inherit; color:var(--text); min-width:0;}
+.concierge-input-row input:focus{outline:2px solid var(--ink); outline-offset:1px;}
+.concierge-send{width:42px;height:42px;border-radius:50%; background:var(--ink); color:#fff; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;}
+.concierge-send .ic{width:17px;height:17px; stroke:#fff;}
 .dash-greet-row{display:flex; align-items:center; justify-content:space-between;}
 .dash-greet-l{font-size:11.5px; color:var(--text-muted); font-weight:600;}
 .dash-greet-main{font-family:'Space Grotesk'; font-size:20px; font-weight:600; margin-top:2px;}
@@ -421,6 +442,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
 <symbol id="ic-star" viewBox="0 0 24 24"><path d="m12 3 2.6 5.9 6.4.6-4.9 4.3 1.5 6.3L12 16.9 6.4 20.1l1.5-6.3-4.9-4.3 6.4-.6z"/></symbol>
 <symbol id="ic-leaf" viewBox="0 0 24 24"><path d="M20 4C9 4 4 9 4 17v3h3c8 0 13-5 13-16z"/><path d="M7.5 19.5 18 9"/></symbol>
 <symbol id="ic-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="3.4"/><path d="M10.4 12.6 18 5M15.5 7.5 18 5l2 2M16 11l2 2"/></symbol>
+<symbol id="ic-send" viewBox="0 0 24 24"><path d="M6 18 18 6"/><path d="M9 6h9v9"/></symbol>
 <symbol id="ic-network" viewBox="0 0 24 24"><path d="M12 4c4.5 2.7 6.5 6.7 6.5 11"/><path d="M12 8c2.6 1.7 3.8 4 3.8 7"/><path d="M12 12c1 .9 1.4 2 1.4 3"/><circle cx="12" cy="19" r="1.4"/></symbol>
 <symbol id="ic-face" viewBox="0 0 24 24"><path d="M8 4.5H6A1.5 1.5 0 0 0 4.5 6v2M16 4.5h2A1.5 1.5 0 0 1 19.5 6v2M8 19.5H6A1.5 1.5 0 0 1 4.5 18v-2M16 19.5h2a1.5 1.5 0 0 0 1.5-1.5v-2"/><circle cx="12" cy="10.6" r="2.9"/><path d="M8.3 16.2c.8-1.7 2.1-2.5 3.7-2.5s2.9.8 3.7 2.5"/></symbol>
 <symbol id="ic-route" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 8v3.5A3.5 3.5 0 0 0 9.5 15H13a3.5 3.5 0 0 1 3.5 3.5V18"/></symbol>
@@ -527,6 +549,11 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
             <div><div class="dash-greet-l">Good morning · Floor 14</div><div class="dash-greet-main">Layla Al-Harbi</div></div>
             <div class="dash-avatar" onclick="goTabE('e-profile')">LA</div>
           </div>
+        </div>
+        <div class="brief-card">
+          <div class="brief-head"><svg class="ic"><use href="#ic-sparkle"/></svg>Tower Assistant</div>
+          <div class="brief-text">Good morning, Layla — your first meeting is at 10:25 in Boardroom 14-B (pre-cooling now). Parking bay B2-14 is yours, and rain's expected after 3pm, so it's worth leaving a few minutes early.</div>
+          <div class="brief-ask" onclick="openConcierge()"><svg class="ic"><use href="#ic-search"/></svg>Ask the tower anything…</div>
         </div>
         <div class="status-strip">
           <div class="status-chip"><span class="live-dot"></span> Elevator · 38s</div>
@@ -689,6 +716,11 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
         <div class="dash-head">
           <img class="dash-logo" src="esnam-logo.png" alt="Esnam">
           <div class="dash-greet-row"><div><div class="dash-greet-l">Suite 1402 · Floor 14</div><div class="dash-greet-main">Innovate Capital</div></div><div class="dash-avatar" onclick="goTabM('m-profile')">IC</div></div>
+        </div>
+        <div class="brief-card">
+          <div class="brief-head"><svg class="ic"><use href="#ic-sparkle"/></svg>Tower Assistant</div>
+          <div class="brief-text">Suite 1402 is on track this month — 68% desk utilisation, 2 open facility tickets, and your SAR 4,120 service charge is due in 15 days. Nothing needs your attention today.</div>
+          <div class="brief-ask" onclick="openConcierge()"><svg class="ic"><use href="#ic-search"/></svg>Ask the tower anything…</div>
         </div>
         <div class="status-strip">
           <div class="status-chip"><svg class="ic"><use href="#ic-receipt"/></svg> SAR 4,120 due</div>
@@ -1121,6 +1153,19 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
       </div>
     </div></div></div>
 
+  <div class="smart-modal" id="modal-concierge"><div class="smart-sheet" style="max-height:86%;">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Tower Assistant</div><div class="sheet-close" onclick="closeModal('modal-concierge')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body">
+      <div class="concierge-log" id="concierge-log"></div>
+      <div class="concierge-suggestions" id="concierge-suggestions"></div>
+      <div class="concierge-input-row">
+        <input id="concierge-input" type="text" placeholder="Ask the tower anything…" onkeydown="if(event.key==='Enter'){sendConciergeFromInput();}">
+        <button class="concierge-send" onclick="sendConciergeFromInput()"><svg class="ic"><use href="#ic-send"/></svg></button>
+      </div>
+    </div>
+  </div></div>
+
   <div class="smart-modal" id="modal-qr"><div class="smart-sheet"><div class="sheet-handle"></div>
     <div class="sheet-head"><div class="sheet-title">Your access badge</div><div class="sheet-close" onclick="closeModal('modal-qr')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
     <div class="sheet-body"><div style="margin:8px 20px 18px; padding:20px; border-radius:14px; background:var(--stone); text-align:center;">
@@ -1191,6 +1236,129 @@ function goTabM(id){ navM(id); }
 function toastM(msg){ showToast('toast-m', msg); }
 function toastAny(msg){ if(currentMode==='employee') toastE(msg); else if(currentMode==='employer') toastM(msg); }
 function fireExperience(){ toastAny('Experience: your boardroom is pre-cooled and ready — 3 minutes early'); }
+
+/* ---------- Tower Assistant concierge ---------- */
+const CONCIERGE_GREETING = {
+  employee: "Hi Layla — ask me to book a room, let a guest in, check your parcel, or anything else around the tower.",
+  employer: "Hi — ask me about billing, employee badges, parking allocation, facilities requests, or your lease."
+};
+const CONCIERGE_SUGGESTIONS = {
+  employee: ["Book a room for 4 at 2pm", "I have a client visiting tomorrow at 10", "Where's my parcel?", "Raise a facilities ticket"],
+  employer: ["Pay this month's service charge", "Add a new employee badge", "Show open facilities tickets", "When does our lease renew?"]
+};
+
+function conciergeRole(){ return currentMode==='employer' ? 'employer' : 'employee'; }
+
+function openConcierge(){
+  const role = conciergeRole();
+  const log = document.getElementById('concierge-log');
+  log.innerHTML = '';
+  appendAssistantMsg(escapeHtml(CONCIERGE_GREETING[role]));
+  const chipsWrap = document.getElementById('concierge-suggestions');
+  chipsWrap.innerHTML = '';
+  CONCIERGE_SUGGESTIONS[role].forEach(s=>{
+    const c = document.createElement('div');
+    c.className = 'concierge-chip';
+    c.textContent = s;
+    c.onclick = ()=>sendConcierge(s);
+    chipsWrap.appendChild(c);
+  });
+  document.getElementById('concierge-input').value = '';
+  openModal('modal-concierge');
+  document.getElementById('modal-frame').style.pointerEvents = 'auto';
+  setTimeout(()=>document.getElementById('concierge-input').focus(), 350);
+}
+
+function escapeHtml(s){
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function appendUserMsg(text){
+  const log = document.getElementById('concierge-log');
+  const row = document.createElement('div');
+  row.className = 'cmsg user';
+  row.textContent = text;
+  log.appendChild(row);
+  log.scrollTop = log.scrollHeight;
+}
+function appendAssistantMsg(html){
+  const log = document.getElementById('concierge-log');
+  const row = document.createElement('div');
+  row.className = 'cmsg assistant';
+  row.innerHTML = html;
+  log.appendChild(row);
+  log.scrollTop = log.scrollHeight;
+}
+
+function sendConciergeFromInput(){
+  const inp = document.getElementById('concierge-input');
+  const text = inp.value.trim();
+  if(!text) return;
+  inp.value = '';
+  sendConcierge(text);
+}
+
+function sendConcierge(text){
+  appendUserMsg(text);
+  const chipsWrap = document.getElementById('concierge-suggestions');
+  if(chipsWrap) chipsWrap.innerHTML = '';
+  const log = document.getElementById('concierge-log');
+  const thinking = document.createElement('div');
+  thinking.className = 'cmsg assistant';
+  thinking.textContent = '…';
+  log.appendChild(thinking);
+  log.scrollTop = log.scrollHeight;
+  setTimeout(()=>{
+    thinking.remove();
+    appendAssistantMsg(resolveConcierge(text));
+  }, 550);
+}
+
+function extractTime(t){
+  const m = t.match(/\b\d{1,2}:\d{2}\b|\b\d{1,2}\s?(am|pm)\b/i);
+  return m ? ' for ' + m[0] : '';
+}
+
+function resolveConcierge(rawText){
+  const t = rawText.toLowerCase();
+  if(t.includes('client') && (t.includes('visit') || t.includes('tomorrow') || t.includes('guest'))){
+    return '<div class="cmsg-title">All set for your client visit</div>'
+      + '<div class="cmsg-step">✓ Visitor pass generated</div>'
+      + '<div class="cmsg-step">✓ Parking bay B2-14 held for the visit window</div>'
+      + '<div class="cmsg-step">✓ Boardroom 14-B booked, pre-cooling 10 minutes before arrival</div>'
+      + '<div class="cmsg-step">✓ Wayfinding link ready to share with your guest</div>';
+  }
+  if(t.includes('room') || t.includes('boardroom') || t.includes('book')){
+    return 'Done — <b>Boardroom 14-B</b> is booked' + extractTime(t) + '. It\'ll be pre-cooled before you arrive.';
+  }
+  if(t.includes('parcel') || t.includes('mail') || t.includes('delivery')){
+    return 'You have <b>1 parcel</b> waiting at locker B-14.<div class="cmsg-step" style="cursor:pointer;text-decoration:underline;" onclick="toastAny(\'Access code sent to your phone\')">Send unlock code</div>';
+  }
+  if(t.includes('badge') || t.includes('employee') || t.includes('access card')){
+    return 'You have 18 active badges, 1 pending revoke.<div class="cmsg-step" style="cursor:pointer;text-decoration:underline;" onclick="toastAny(\'Invite sent\')">Invite a new employee</div>';
+  }
+  if(t.includes('bill') || t.includes('invoice') || t.includes('service charge') || t.includes('pay')){
+    return 'Your service charge is <b>SAR 4,120</b>, due 5 Oct.<div class="cmsg-step" style="cursor:pointer;text-decoration:underline;" onclick="toastAny(\'Redirecting to STC Pay…\')">Pay now</div>';
+  }
+  if(t.includes('lease') || t.includes('renew')){
+    return 'Your lease on Suite 1402 renews in <b>14 months</b> (Nov 2027).<div class="cmsg-step" style="cursor:pointer;text-decoration:underline;" onclick="toastAny(\'Request sent to leasing team\')">Request renewal discussion</div>';
+  }
+  if(t.includes('park')){
+    return 'Bay <b>B2-14</b> is yours and free right now.<div class="cmsg-step" style="cursor:pointer;text-decoration:underline;" onclick="toastAny(\'Visitor bay held for 15 minutes\')">Hold a visitor bay instead</div>';
+  }
+  if(t.includes('guest') || t.includes('visitor')){
+    return 'I can generate a visitor pass now.<div class="cmsg-step" style="cursor:pointer;text-decoration:underline;" onclick="toastAny(\'Visitor pass generated — elevator will be pre-called on arrival\')">Generate visitor pass</div>';
+  }
+  if(t.includes('elevator') || t.includes('lift')){
+    return 'Car 3 is about 34 seconds from North Core lobby.<div class="cmsg-step" style="cursor:pointer;text-decoration:underline;" onclick="toastAny(\'Car 3 called to your floor\')">Call it to my floor</div>';
+  }
+  if(t.includes('maint') || t.includes('facilit') || t.includes('broken') || t.includes('fix') || t.includes('hvac') || t.includes('warm') || t.includes('cold') || t.includes('leak') || t.includes('ticket')){
+    return 'I\'ve logged a facilities request — reference <b>FR-2483</b>. Someone will follow up shortly.';
+  }
+  return 'I can help with meeting rooms, visitor passes, parking, parcels, facilities requests, billing and more — try something like "book a room for 3pm" or "I have a client visiting tomorrow at 10".';
+}
 
 function showToast(elId, msg){
   const t=document.getElementById(elId); t.textContent=msg; t.classList.add('show');
