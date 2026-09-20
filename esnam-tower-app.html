@@ -1313,7 +1313,7 @@ const AR_DICT = {
   "Manage reserved parking": "إدارة المواقف المحجوزة",
   "4 bays · assign to staff": "4 مواقف · تخصيص للموظفين",
   "Lease & documents": "العقد والمستندات",
-  "Renews in 14 months": "يُجدَّد خلال 14 شهرًا",
+  "Renews in 14 months": "سيتجدد خلال 14 شهرًا",
   "Desk utilisation": "استخدام المكاتب",
   "68% avg · up 6pts": "متوسط 68% · ارتفاع 6 نقاط",
   "Visitor traffic": "حركة الزوار",
@@ -1326,7 +1326,7 @@ const AR_DICT = {
   "August service charge paid": "تم دفع رسوم خدمات أغسطس",
   "SAR 3,960": "3,960 ريال",
   "1 Sep": "1 سبتمبر",
-  "People": "الموظفون",
+  "People": "الفريق",
   "Billing": "الفواتير",
   "Lease": "العقد",
   "Service charge": "رسوم الخدمات",
@@ -1334,7 +1334,7 @@ const AR_DICT = {
   "due 5 Oct": "مستحقة 5 أكتوبر",
   "CAM": "رسوم المرافق المشتركة",
   "Cooling": "التبريد",
-  "Electricity": "الكهرباء",
+  "Electricity": "استهلاك الكهرباء",
   "Pay with STC Pay": "الدفع عبر STC Pay",
   "Email invoice to finance": "إرسال الفاتورة إلى قسم المالية",
   "History": "السجل",
@@ -1377,7 +1377,7 @@ const AR_DICT = {
   "Bay": "الموقف",
   "Level": "المستوى",
   "Assigned to you by Innovate Capital. Nearest to the North Core elevator bank.": "مخصص لك من قِبل إنوفيت كابيتال. الأقرب إلى مجموعة مصاعد الجناح الشمالي.",
-  "My access log": "سجل دخولي",
+  "My access log": "سجل الدخول",
   "Badge scan — North Core lobby": "مسح البطاقة — بهو الجناح الشمالي",
   "Ground floor": "الطابق الأرضي",
   "Elevator Car 3 — Floor 14": "المصعد رقم 3 — الطابق 14",
@@ -1398,7 +1398,7 @@ const AR_DICT = {
   "Access code sent to your phone": "تم إرسال رمز الدخول إلى هاتفك",
   "Air quality & climate": "جودة الهواء والمناخ",
   "Temperature": "درجة الحرارة",
-  "AQI": "جودة الهواء",
+  "AQI": "مؤشر جودة الهواء",
   "32 · Good": "32 · جيدة",
   "CO₂ within target range · fresh-air exchange nominal": "ثاني أكسيد الكربون ضمن المعدل المستهدف · تجديد الهواء النقي طبيعي",
   "Mon": "الإثنين",
@@ -1488,7 +1488,7 @@ const AR_DICT = {
   "Assign an open bay": "تخصيص موقف متاح",
   "No open bays right now.": "لا توجد مواقف متاحة حاليًا.",
   "Parking is only assigned to active badges.": "تُخصَّص المواقف للبطاقات النشطة فقط.",
-  "Reserved bay": "الموقف المخصص",
+  "Reserved bay": "الموقف المحجوز",
   "Invitation sent": "تم إرسال الدعوة",
   "Hi Layla — ask me to book a room, let a guest in, check your parcel, or anything else around the tower.": "مرحبًا ليلى — اطلبي مني حجز قاعة، السماح بدخول ضيف، تفقّد طردك، أو أي شيء آخر يخص البرج.",
   "Hi — ask me about billing, employee badges, parking allocation, facilities requests, or your lease.": "مرحبًا — اسألني عن الفواتير، بطاقات الموظفين، توزيع المواقف، طلبات الصيانة، أو عقد الإيجار.",
@@ -1511,8 +1511,20 @@ const AR_DICT = {
   "Enter a name first": "أدخل الاسم أولاً"
 };
 
-function collectI18nNodes(){
-  window._i18nNodes = [];
+/* No persistent "original text" cache — that was the bug. Re-scanning the
+   whole document on every dynamic render and re-capturing "current text" as
+   the original meant that if the app was already showing Arabic when a
+   render happened, the Arabic text got cached as if it were the source,
+   permanently breaking the trip back to English for everything else on the
+   page too, not just the new content. Instead: build both directions of the
+   dictionary once, and translate whichever direction actually matches the
+   text a node currently holds — this makes every call self-correcting and
+   order-independent, with no cache to go stale. */
+const EN_DICT = {};
+for(const enKey in AR_DICT){ EN_DICT[AR_DICT[enKey]] = enKey; }
+
+function applyLanguage(lang){
+  currentLang = lang;
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode(node){
       if(!node.textContent.trim()) return NodeFilter.FILTER_REJECT;
@@ -1522,31 +1534,24 @@ function collectI18nNodes(){
     }
   });
   let n;
-  while(n = walker.nextNode()){ window._i18nNodes.push({node: n, original: n.textContent}); }
-}
-
-function applyLanguage(lang){
-  currentLang = lang;
-  window._i18nNodes.forEach(item => {
-    const trimmed = item.original.trim();
+  while(n = walker.nextNode()){
+    const trimmed = n.textContent.trim();
     if(lang === 'ar' && AR_DICT[trimmed]){
-      item.node.textContent = item.original.replace(trimmed, AR_DICT[trimmed]);
-    } else {
-      item.node.textContent = item.original;
+      n.textContent = n.textContent.replace(trimmed, AR_DICT[trimmed]);
+    } else if(lang === 'en' && EN_DICT[trimmed]){
+      n.textContent = n.textContent.replace(trimmed, EN_DICT[trimmed]);
     }
-  });
+  }
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   document.documentElement.lang = lang;
   document.querySelectorAll('.lang-switch button').forEach(b => b.classList.toggle('on', b.dataset.lang === lang));
 }
 
 function refreshI18n(){
-  collectI18nNodes();
   applyLanguage(currentLang);
 }
 
 function setLanguage(lang){
-  refreshI18n();
   applyLanguage(lang);
 }
 
@@ -2426,7 +2431,7 @@ function animateAR(){
 renderTickets();
 renderEmployeeList();
 initEnvSliders();
-collectI18nNodes();
+applyLanguage('en');
 </script>
 </body>
 </html>
