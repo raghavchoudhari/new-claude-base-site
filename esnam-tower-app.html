@@ -326,6 +326,45 @@ img.logo{display:block;}
 .kpi-delta{font-size:11.5px; margin-top:6px; font-weight:600;}
 .kpi-delta.up{color:var(--green);}
 .kpi-delta.down{color:var(--red);}
+.kpi-spark{width:100%; height:28px; margin-top:12px; display:block; overflow:visible;}
+.kpi-spark polyline{fill:none; stroke:var(--accent-deep); stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.kpi-spark.down polyline{stroke:var(--red);}
+
+.insight-row{display:flex; gap:12px; padding:12px 4px; border-bottom:1px solid var(--line); align-items:flex-start;}
+.insight-row:last-child{border-bottom:none;}
+.insight-ic{width:30px;height:30px;border-radius:9px; flex-shrink:0; display:flex; align-items:center; justify-content:center;}
+.insight-ic .ic{width:15px;height:15px;}
+.insight-row.bad .insight-ic{background:var(--red-tint); color:var(--red);}
+.insight-row.warn .insight-ic{background:#F7EEDD; color:#8A6420;}
+.insight-row.good .insight-ic{background:var(--green-tint); color:var(--green);}
+.insight-t{font-size:13px; font-weight:700;}
+.insight-s{font-size:11.5px; color:var(--text-muted); margin-top:3px; line-height:1.5;}
+
+.area-chart{width:100%; height:90px; display:block; margin-top:4px;}
+.chart-axis{display:flex; justify-content:space-between; font-size:9.5px; color:var(--text-dim); font-weight:600; padding:4px 2px 0;}
+
+.donut-wrap{position:relative; width:150px; height:150px; margin:4px auto 16px;}
+.donut{width:100%; height:100%;}
+.donut-center{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+.donut-val{font-family:'Space Grotesk'; font-size:24px; font-weight:700;}
+.donut-lbl{font-size:10.5px; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:.3px;}
+
+.floor-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:6px; margin-bottom:14px;}
+.fcell{aspect-ratio:1; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff;}
+.fcell.leased{background:var(--ink);}
+.fcell.vacant{background:var(--stone-dim); border:1px dashed var(--line-strong); color:var(--text-dim);}
+.fcell.amenity{background:linear-gradient(135deg,var(--accent),var(--accent-deep));}
+.fcell.retail{background:var(--blue);}
+.grouped-bars{display:flex; align-items:flex-end; gap:14px; height:120px; padding:0 4px;}
+.gb-group{flex:1; display:flex; flex-direction:column; align-items:center; height:100%;}
+.gb-pair{flex:1; display:flex; align-items:flex-end; gap:4px; width:100%; justify-content:center;}
+.gb-bar{width:14px; border-radius:4px 4px 0 0;}
+.gb-bar.billed{background:var(--stone-dim); border:1px solid var(--line-strong); border-bottom:none;}
+.gb-bar.collected{background:var(--accent-deep);}
+.gb-lbl{font-size:10px; color:var(--text-dim); font-weight:700; margin-top:8px;}
+.chart-legend{display:flex; flex-wrap:wrap; gap:12px;}
+.legend-item{display:flex; align-items:center; gap:6px; font-size:10.5px; color:var(--text-muted); font-weight:600;}
+.legend-dot{width:9px;height:9px;border-radius:2.5px; display:inline-block;}
 
 .owner-grid-2{display:grid; grid-template-columns:1.3fr 1fr; gap:16px; margin-bottom:16px;}
 .panel{background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); padding:22px;}
@@ -340,17 +379,6 @@ img.logo{display:block;}
 .fleet-car-n{font-family:'Space Grotesk'; font-size:13px; font-weight:700;}
 .fleet-car-s{font-size:9px; color:var(--text-muted); margin-top:3px; text-transform:uppercase; font-weight:700; letter-spacing:.3px;}
 
-.bars{display:flex; align-items:flex-end; gap:5px; height:64px; padding:0 2px;}
-.bar{flex:1; background:var(--ink); border-radius:3px 3px 0 0; opacity:.85;}
-
-.floor-list{display:flex; flex-direction:column-reverse; gap:3px; max-height:420px; overflow-y:auto;}
-.floor-row{display:flex; align-items:center; gap:10px; padding:7px 4px;}
-.floor-n{width:26px; font-size:11px; font-weight:700; color:var(--text-muted); font-family:'Space Grotesk';}
-.floor-bar-track{flex:1; height:20px; border-radius:5px; background:var(--stone); overflow:hidden; position:relative;}
-.floor-bar-fill{height:100%; border-radius:5px;}
-.floor-bar-fill.leased{background:var(--ink);}
-.floor-bar-fill.vacant{background:var(--stone-dim); border:1px dashed var(--line-strong);}
-.floor-tenant{font-size:10.5px; color:var(--text-muted); width:120px; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 
 table.owner-table{width:100%; border-collapse:collapse; font-size:12.5px;}
 table.owner-table th{text-align:left; font-size:10.5px; color:var(--text-dim); font-weight:700; text-transform:uppercase; letter-spacing:.3px; padding:8px 10px; border-bottom:1px solid var(--line);}
@@ -397,6 +425,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
 <symbol id="ic-network" viewBox="0 0 24 24"><path d="M12 4c4.5 2.7 6.5 6.7 6.5 11"/><path d="M12 8c2.6 1.7 3.8 4 3.8 7"/><path d="M12 12c1 .9 1.4 2 1.4 3"/><circle cx="12" cy="19" r="1.4"/></symbol>
 <symbol id="ic-face" viewBox="0 0 24 24"><path d="M8 4.5H6A1.5 1.5 0 0 0 4.5 6v2M16 4.5h2A1.5 1.5 0 0 1 19.5 6v2M8 19.5H6A1.5 1.5 0 0 1 4.5 18v-2M16 19.5h2a1.5 1.5 0 0 0 1.5-1.5v-2"/><circle cx="12" cy="10.6" r="2.9"/><path d="M8.3 16.2c.8-1.7 2.1-2.5 3.7-2.5s2.9.8 3.7 2.5"/></symbol>
 <symbol id="ic-route" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 8v3.5A3.5 3.5 0 0 0 9.5 15H13a3.5 3.5 0 0 1 3.5 3.5V18"/></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24"><path d="M5 12.5 9.5 17 19 6.5"/></symbol>
 <symbol id="ic-sparkle" viewBox="0 0 24 24"><path d="M12 3.5 13.4 9l5.1 1.5L13.4 12l-1.4 5.5L10.6 12 5.5 10.5 10.6 9z"/><path d="M18.5 15.5l.6 2 2 .6-2 .6-.6 2-.6-2-2-.6 2-.6z"/></symbol>
 </svg>
 
@@ -808,10 +837,27 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
         </div>
 
         <div class="kpi-row">
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-building"/></svg>Leased occupancy</div><div class="kpi-val">86%</div><div class="kpi-delta up">▲ 3pts vs last quarter</div></div>
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-receipt"/></svg>Collections rate</div><div class="kpi-val">94%</div><div class="kpi-delta down">▼ 2pts vs last month</div></div>
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-wrench"/></svg>Open tickets</div><div class="kpi-val">27</div><div class="kpi-delta up">▲ 4 vs last week</div></div>
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-elevator"/></svg>Avg. elevator wait</div><div class="kpi-val">34s</div><div class="kpi-delta up">▲ within 40s target</div></div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-building"/></svg>Leased occupancy</div><div class="kpi-val">85%</div><div class="kpi-delta up">▲ 3pts vs last quarter</div>
+            <svg class="kpi-spark" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,22 17,20 34,17 50,15 67,12 84,9 100,7"/></svg>
+          </div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-receipt"/></svg>Collections rate</div><div class="kpi-val">94%</div><div class="kpi-delta down">▼ 2pts vs last month</div>
+            <svg class="kpi-spark down" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,6 17,8 34,7 50,10 67,14 84,17 100,19"/></svg>
+          </div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-wrench"/></svg>Open tickets</div><div class="kpi-val">27</div><div class="kpi-delta down">▲ 4 vs last week</div>
+            <svg class="kpi-spark down" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,18 17,19 34,15 50,17 67,10 84,13 100,6"/></svg>
+          </div>
+          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-elevator"/></svg>Avg. elevator wait</div><div class="kpi-val">34s</div><div class="kpi-delta up">▲ within 40s target</div>
+            <svg class="kpi-spark" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,14 17,10 34,16 50,12 67,15 84,11 100,13"/></svg>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:16px;">
+          <div class="panel-head"><div class="panel-title"><svg class="ic" style="width:16px;height:16px;color:var(--accent-deep);vertical-align:-3px;margin-right:6px;"><use href="#ic-sparkle"/></svg>AI-generated insights</div><div class="panel-sub">Updated 5 minutes ago</div></div>
+          <div class="insight-row bad"><div class="insight-ic"><svg class="ic"><use href="#ic-alert"/></svg></div><div class="insight-body"><div class="insight-t">Nabd Health Group is 60+ days overdue on SAR 9,800</div><div class="insight-s">Largest aging balance this quarter — flagged for the collections team.</div></div></div>
+          <div class="insight-row warn"><div class="insight-ic"><svg class="ic"><use href="#ic-alert"/></svg></div><div class="insight-body"><div class="insight-t">Chiller efficiency drop, Zone B has been open 2 days</div><div class="insight-s">The HVAC contractor's 24-hour SLA has been breached on this ticket.</div></div></div>
+          <div class="insight-row good"><div class="insight-ic"><svg class="ic"><use href="#ic-check"/></svg></div><div class="insight-body"><div class="insight-t">Elevator wait holding at 34s despite Car 4 in service</div><div class="insight-s">Load balancing across the remaining six cars is absorbing the loss.</div></div></div>
+          <div class="insight-row warn"><div class="insight-ic"><svg class="ic"><use href="#ic-alert"/></svg></div><div class="insight-body"><div class="insight-t">Floor 18 has sat vacant for 90+ days</div><div class="insight-s">Leasing recommends a fit-out incentive to move this unit.</div></div></div>
+          <div class="insight-row good"><div class="insight-ic"><svg class="ic"><use href="#ic-check"/></svg></div><div class="insight-body"><div class="insight-t">Visitor traffic up 18% month-over-month</div><div class="insight-s">Tenant lounge utilisation is tracking the same curve.</div></div></div>
         </div>
 
         <div class="owner-grid-2">
@@ -827,21 +873,36 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
               <div class="fleet-car run"><div class="fleet-car-n">C7</div><div class="fleet-car-s">Running</div></div>
             </div>
             <div class="panel-sub" style="margin-bottom:8px;">Average wait time, last 12 hours</div>
-            <div class="bars">
-              <div class="bar" style="height:30%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:70%"></div><div class="bar" style="height:90%"></div><div class="bar" style="height:60%"></div><div class="bar" style="height:40%"></div><div class="bar" style="height:35%"></div><div class="bar" style="height:65%"></div><div class="bar" style="height:80%"></div><div class="bar" style="height:50%"></div><div class="bar" style="height:38%"></div><div class="bar" style="height:30%"></div>
-            </div>
+            <svg class="area-chart" viewBox="0 0 300 90" preserveAspectRatio="none">
+              <defs><linearGradient id="elevGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C9A464" stop-opacity="0.45"/><stop offset="100%" stop-color="#C9A464" stop-opacity="0"/></linearGradient></defs>
+              <path d="M0,60 L27,45 L54,35 L82,15 L109,40 L136,55 L163,60 L191,38 L218,25 L245,48 L272,58 L300,52 L300,90 L0,90 Z" fill="url(#elevGrad)"/>
+              <path d="M0,60 L27,45 L54,35 L82,15 L109,40 L136,55 L163,60 L191,38 L218,25 L245,48 L272,58 L300,52" fill="none" stroke="#9C7A42" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="chart-axis"><span>08:00</span><span>11:00</span><span>14:00</span><span>17:00</span><span>20:00</span></div>
           </div>
           <div class="panel">
-            <div class="panel-head"><div class="panel-title">Occupancy by floor</div><div class="panel-sub">34 floors</div></div>
-            <div class="floor-list">
-              <div class="floor-row"><div class="floor-n">34</div><div class="floor-bar-track"><div class="floor-bar-fill vacant" style="width:100%"></div></div><div class="floor-tenant">Available for lease</div></div>
-              <div class="floor-row"><div class="floor-n">32</div><div class="floor-bar-track"><div class="floor-bar-fill leased" style="width:100%"></div></div><div class="floor-tenant">Tenant Lounge / Amenity</div></div>
-              <div class="floor-row"><div class="floor-n">28</div><div class="floor-bar-track"><div class="floor-bar-fill leased" style="width:100%"></div></div><div class="floor-tenant">Al-Rasheed Advisory</div></div>
-              <div class="floor-row"><div class="floor-n">22</div><div class="floor-bar-track"><div class="floor-bar-fill leased" style="width:100%"></div></div><div class="floor-tenant">Sanad Logistics</div></div>
-              <div class="floor-row"><div class="floor-n">18</div><div class="floor-bar-track"><div class="floor-bar-fill vacant" style="width:100%"></div></div><div class="floor-tenant">Available for lease</div></div>
-              <div class="floor-row"><div class="floor-n">14</div><div class="floor-bar-track"><div class="floor-bar-fill leased" style="width:100%"></div></div><div class="floor-tenant">Innovate Capital</div></div>
-              <div class="floor-row"><div class="floor-n">8</div><div class="floor-bar-track"><div class="floor-bar-fill leased" style="width:100%"></div></div><div class="floor-tenant">Nabd Health Group</div></div>
-              <div class="floor-row"><div class="floor-n">3</div><div class="floor-bar-track"><div class="floor-bar-fill leased" style="width:100%"></div></div><div class="floor-tenant">Retail &amp; Café</div></div>
+            <div class="panel-head"><div class="panel-title">Occupancy</div><div class="panel-sub">34 floors</div></div>
+            <div class="donut-wrap">
+              <svg class="donut" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="42" fill="none" stroke="var(--stone-dim)" stroke-width="11"/>
+                <circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="11" stroke-linecap="round" stroke-dasharray="224 264" transform="rotate(-90 50 50)"/>
+              </svg>
+              <div class="donut-center"><div class="donut-val">85%</div><div class="donut-lbl">Leased</div></div>
+            </div>
+            <div class="floor-grid">
+              <div class="fcell retail" title="Floor 1 — Retail &amp; Café">1</div>
+              <div class="fcell leased" title="Floor 2 — Leased">2</div><div class="fcell leased" title="Floor 3 — Leased">3</div><div class="fcell leased" title="Floor 4 — Leased">4</div><div class="fcell leased" title="Floor 5 — Leased">5</div><div class="fcell leased" title="Floor 6 — Leased">6</div>
+              <div class="fcell leased" title="Floor 7 — Leased">7</div><div class="fcell leased" title="Floor 8 — Nabd Health Group">8</div><div class="fcell leased" title="Floor 9 — Leased">9</div><div class="fcell leased" title="Floor 10 — Leased">10</div><div class="fcell vacant" title="Floor 11 — Available for lease">11</div><div class="fcell leased" title="Floor 12 — Leased">12</div>
+              <div class="fcell leased" title="Floor 13 — Leased">13</div><div class="fcell leased" title="Floor 14 — Innovate Capital">14</div><div class="fcell leased" title="Floor 15 — Leased">15</div><div class="fcell leased" title="Floor 16 — Leased">16</div><div class="fcell leased" title="Floor 17 — Leased">17</div><div class="fcell vacant" title="Floor 18 — Available for lease, 90+ days">18</div>
+              <div class="fcell leased" title="Floor 19 — Leased">19</div><div class="fcell leased" title="Floor 20 — Leased">20</div><div class="fcell leased" title="Floor 21 — Leased">21</div><div class="fcell leased" title="Floor 22 — Sanad Logistics">22</div><div class="fcell leased" title="Floor 23 — Leased">23</div><div class="fcell leased" title="Floor 24 — Leased">24</div>
+              <div class="fcell vacant" title="Floor 25 — Available for lease">25</div><div class="fcell leased" title="Floor 26 — Leased">26</div><div class="fcell leased" title="Floor 27 — Leased">27</div><div class="fcell leased" title="Floor 28 — Al-Rasheed Advisory">28</div><div class="fcell leased" title="Floor 29 — Leased">29</div><div class="fcell leased" title="Floor 30 — Leased">30</div>
+              <div class="fcell vacant" title="Floor 31 — Available for lease">31</div><div class="fcell amenity" title="Floor 32 — Tenant Lounge / Amenity">32</div><div class="fcell leased" title="Floor 33 — Leased">33</div><div class="fcell vacant" title="Floor 34 — Available for lease">34</div>
+            </div>
+            <div class="chart-legend">
+              <div class="legend-item"><span class="legend-dot" style="background:var(--ink);"></span>Leased</div>
+              <div class="legend-item"><span class="legend-dot" style="background:var(--stone-dim); border:1px dashed var(--line-strong);"></span>Vacant</div>
+              <div class="legend-item"><span class="legend-dot" style="background:linear-gradient(135deg,var(--accent),var(--accent-deep));"></span>Amenity</div>
+              <div class="legend-item"><span class="legend-dot" style="background:var(--blue);"></span>Retail</div>
             </div>
           </div>
         </div>
@@ -860,7 +921,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
 
       <!-- TENANTS -->
       <div class="owner-page" id="o-tenants">
-        <div class="owner-topbar"><div><div class="owner-h1">Tenants &amp; Leasing</div><div class="owner-h1-sub">28 active tenancies · 86% leased</div></div><div class="owner-topbar-r"><button class="owner-pill-btn"><svg class="ic"><use href="#ic-guest"/></svg>Add tenant</button></div></div>
+        <div class="owner-topbar"><div><div class="owner-h1">Tenants &amp; Leasing</div><div class="owner-h1-sub">28 active tenancies · 85% leased</div></div><div class="owner-topbar-r"><button class="owner-pill-btn"><svg class="ic"><use href="#ic-guest"/></svg>Add tenant</button></div></div>
         <div class="panel">
           <table class="owner-table">
             <tr><th>Company</th><th>Suite / Floor</th><th>Headcount</th><th>Lease expiry</th><th>Standing</th></tr>
@@ -897,6 +958,21 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
           <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-receipt"/></svg>Collected</div><div class="kpi-val">SAR 575K</div></div>
           <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-alert"/></svg>Outstanding</div><div class="kpi-val">SAR 37K</div></div>
           <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-chart"/></svg>Collections rate</div><div class="kpi-val">94%</div></div>
+        </div>
+        <div class="panel" style="margin-bottom:16px;">
+          <div class="panel-head"><div class="panel-title">Billed vs. collected</div><div class="panel-sub">Last 6 months, SAR 000s</div></div>
+          <div class="grouped-bars">
+            <div class="gb-group"><div class="gb-pair"><div class="gb-bar billed" style="height:78%"></div><div class="gb-bar collected" style="height:70%"></div></div><div class="gb-lbl">Apr</div></div>
+            <div class="gb-group"><div class="gb-pair"><div class="gb-bar billed" style="height:82%"></div><div class="gb-bar collected" style="height:76%"></div></div><div class="gb-lbl">May</div></div>
+            <div class="gb-group"><div class="gb-pair"><div class="gb-bar billed" style="height:80%"></div><div class="gb-bar collected" style="height:78%"></div></div><div class="gb-lbl">Jun</div></div>
+            <div class="gb-group"><div class="gb-pair"><div class="gb-bar billed" style="height:88%"></div><div class="gb-bar collected" style="height:81%"></div></div><div class="gb-lbl">Jul</div></div>
+            <div class="gb-group"><div class="gb-pair"><div class="gb-bar billed" style="height:92%"></div><div class="gb-bar collected" style="height:84%"></div></div><div class="gb-lbl">Aug</div></div>
+            <div class="gb-group"><div class="gb-pair"><div class="gb-bar billed" style="height:100%"></div><div class="gb-bar collected" style="height:94%"></div></div><div class="gb-lbl">Sep</div></div>
+          </div>
+          <div class="chart-legend" style="margin-top:10px;">
+            <div class="legend-item"><span class="legend-dot" style="background:var(--stone-dim); border:1px solid var(--line-strong);"></span>Billed</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--accent-deep);"></span>Collected</div>
+          </div>
         </div>
         <div class="panel">
           <div class="panel-head"><div class="panel-title">Aging — outstanding balances</div></div>
