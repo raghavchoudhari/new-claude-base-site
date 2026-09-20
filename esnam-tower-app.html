@@ -309,8 +309,8 @@ img.logo{display:block;}
 
 .smart-modal{position:absolute; inset:0; z-index:80; display:flex; align-items:flex-end; background:rgba(10,10,11,0); pointer-events:none; transition:background .25s ease;}
 .smart-modal.open{background:rgba(10,10,11,.5); pointer-events:auto;}
-.smart-sheet{width:100%; max-height:68%; margin-bottom:40px; background:var(--paper); border-radius:22px; transform:translateY(100%); transition:transform .3s cubic-bezier(.22,.68,0,1); display:flex; flex-direction:column; overflow:hidden;}
-.smart-modal.open .smart-sheet{transform:translateY(0);}
+.smart-sheet{width:100%; max-height:68%; margin-bottom:40px; background:var(--paper); border-radius:22px; transform:translateY(100%); visibility:hidden; transition:transform .3s cubic-bezier(.22,.68,0,1), visibility 0s linear .3s; display:flex; flex-direction:column; overflow:hidden;}
+.smart-modal.open .smart-sheet{transform:translateY(0); visibility:visible; transition:transform .3s cubic-bezier(.22,.68,0,1), visibility 0s linear 0s;}
 .sheet-handle{width:34px;height:4px;border-radius:100px; background:var(--line-strong); margin:11px auto 4px;}
 .sheet-head{display:flex; align-items:center; justify-content:space-between; padding:10px 20px 6px;}
 .sheet-title{font-family:'Space Grotesk'; font-size:16.5px; font-weight:600;}
@@ -330,8 +330,8 @@ img.logo{display:block;}
 .elev-car-chip{flex:1; padding:8px 6px; border-radius:var(--r-sm); background:rgba(255,255,255,.08); text-align:center; font-size:10px;}
 .elev-car-chip b{display:block; font-family:'Space Grotesk'; font-size:13px; margin-bottom:2px;}
 
-.toast{position:absolute; left:20px; right:20px; bottom:-120px; z-index:100; background:var(--ink); color:#fff; padding:12px 15px; border-radius:var(--r-md); font-size:12.5px; font-weight:600; display:flex; align-items:center; gap:10px; transition:bottom .3s ease; box-shadow:0 14px 30px rgba(0,0,0,.3);}
-.toast.show{bottom:100px;}
+.toast{position:absolute; left:20px; right:20px; bottom:-120px; z-index:100; background:var(--ink); color:#fff; padding:12px 15px; border-radius:var(--r-md); font-size:12.5px; font-weight:600; display:flex; align-items:center; gap:10px; visibility:hidden; transition:bottom .3s ease, visibility 0s linear .3s; box-shadow:0 14px 30px rgba(0,0,0,.3);}
+.toast.show{bottom:100px; visibility:visible; transition:bottom .3s ease, visibility 0s linear 0s;}
 
 /* ============ AR WAYFINDING ============ */
 #ar-overlay{position:fixed; inset:0; z-index:2000; background:#000; display:none; flex-direction:column; font-family:'Inter',sans-serif;}
