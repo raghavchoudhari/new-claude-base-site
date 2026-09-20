@@ -6,7 +6,7 @@
 <title>ESNAM — Tower One</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <style>
 :root{
@@ -81,6 +81,25 @@ img.logo{display:block;}
   padding:9px 14px; border-radius:100px; cursor:pointer; letter-spacing:.2px;
 }
 .mode-switch button.on{background:#fff; color:var(--ink);}
+
+.lang-switch{
+  position:fixed; top:16px; right:16px; z-index:501;
+  display:flex; background:var(--ink); border-radius:100px; padding:4px; gap:2px;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.lang-switch button{
+  border:none; background:transparent; color:#B9B6AE; font-family:'Inter'; font-size:11.5px; font-weight:700;
+  padding:9px 13px; border-radius:100px; cursor:pointer; letter-spacing:.2px; min-width:34px;
+}
+.lang-switch button.on{background:var(--accent); color:#fff;}
+
+/* ---------- RTL ---------- */
+html[dir="rtl"] body, html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3, html[dir="rtl"] .disp,
+html[dir="rtl"] [style*="Space Grotesk"], html[dir="rtl"] .brand-word{font-family:'Tajawal','Inter',system-ui,sans-serif !important;}
+html[dir="rtl"] .lang-switch{right:auto; left:16px;}
+html[dir="rtl"] .back .ic, html[dir="rtl"] .qa-chev .ic, html[dir="rtl"] .prof-row-r .ic, html[dir="rtl"] .role-cta .ic{transform:scaleX(-1);}
+html[dir="rtl"] .sheet-close .ic, html[dir="rtl"] .ar-close .ic{transform:none;}
+html[dir="rtl"] .otp-resend b, html[dir="rtl"] .env-row-val, html[dir="rtl"] .split-val, html[dir="rtl"] .stat-val{unicode-bidi:plaintext;}
 
 .app-shell{display:none;}
 .app-shell.on{display:block;}
@@ -467,6 +486,12 @@ img.logo{display:block;}
       <div class="role-cta">Open employer app <svg class="ic"><use href="#ic-chevron"/></svg></div>
     </div>
   </div>
+</div>
+
+<!-- ============ LANGUAGE SWITCH (always visible) ============ -->
+<div class="lang-switch" id="lang-switch">
+  <button data-lang="en" class="on" onclick="setLanguage('en')">EN</button>
+  <button data-lang="ar" onclick="setLanguage('ar')">AR</button>
 </div>
 
 <!-- ============ MODE SWITCH (hidden until a role is chosen) ============ -->
@@ -928,7 +953,7 @@ img.logo{display:block;}
   <div class="smart-modal" id="modal-navigate"><div class="smart-sheet"><div class="sheet-handle"></div>
     <div class="sheet-head"><div class="sheet-title">Navigate — AI wayfinding</div><div class="sheet-close" onclick="closeModal('modal-navigate')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
     <div class="sheet-body">
-      <div class="urg-tag-row" style="padding-bottom:10px;"><div class="urg-tag sel" onclick="selChip(this,'#modal-navigate .urg-tag')">Boardroom 14-B</div><div class="urg-tag" onclick="selChip(this,'#modal-navigate .urg-tag')">Tenant Lounge, F32</div><div class="urg-tag" onclick="selChip(this,'#modal-navigate .urg-tag')">North Core Lobby</div></div>
+      <div class="urg-tag-row" style="padding-bottom:10px;"><div class="urg-tag sel" data-key="Boardroom 14-B" onclick="selChip(this,'#modal-navigate .urg-tag')">Boardroom 14-B</div><div class="urg-tag" data-key="Tenant Lounge, F32" onclick="selChip(this,'#modal-navigate .urg-tag')">Tenant Lounge, F32</div><div class="urg-tag" data-key="North Core Lobby" onclick="selChip(this,'#modal-navigate .urg-tag')">North Core Lobby</div></div>
       <div style="margin:0 20px 10px; padding:13px 16px; border-radius:16px; background:var(--ink); color:#fff;">
         <div style="display:flex; align-items:center; gap:10px; font-size:11px; color:#B9B6AE; margin-bottom:7px;"><svg class="ic" style="width:13px;height:13px; stroke:var(--accent);"><use href="#ic-route"/></svg>Live route</div>
         <div style="display:flex; align-items:center; gap:8px;">
@@ -1023,12 +1048,12 @@ img.logo{display:block;}
     <div class="sheet-body">
       <div class="section-head" style="padding-top:2px;"><div class="section-title" style="font-size:13px;">Category</div></div>
       <div class="cats-grid" style="padding-bottom:14px;">
-        <div class="cat-tile sel" onclick="selChip(this,'#modal-newticket .cat-tile')"><svg class="ic"><use href="#ic-wind"/></svg><div class="cat-name">HVAC</div></div>
-        <div class="cat-tile" onclick="selChip(this,'#modal-newticket .cat-tile')"><svg class="ic"><use href="#ic-bolt"/></svg><div class="cat-name">Electrical</div></div>
-        <div class="cat-tile" onclick="selChip(this,'#modal-newticket .cat-tile')"><svg class="ic"><use href="#ic-network"/></svg><div class="cat-name">IT / Network</div></div>
+        <div class="cat-tile sel" data-key="HVAC" onclick="selChip(this,'#modal-newticket .cat-tile')"><svg class="ic"><use href="#ic-wind"/></svg><div class="cat-name">HVAC</div></div>
+        <div class="cat-tile" data-key="Electrical" onclick="selChip(this,'#modal-newticket .cat-tile')"><svg class="ic"><use href="#ic-bolt"/></svg><div class="cat-name">Electrical</div></div>
+        <div class="cat-tile" data-key="IT / Network" onclick="selChip(this,'#modal-newticket .cat-tile')"><svg class="ic"><use href="#ic-network"/></svg><div class="cat-name">IT / Network</div></div>
       </div>
       <div class="section-head" style="padding-top:0;"><div class="section-title" style="font-size:13px;">Urgency</div></div>
-      <div class="urg-tag-row" style="padding-bottom:14px;"><div class="urg-tag" onclick="selChip(this,'#modal-newticket .urg-tag')">Low</div><div class="urg-tag sel" onclick="selChip(this,'#modal-newticket .urg-tag')">Normal</div><div class="urg-tag" onclick="selChip(this,'#modal-newticket .urg-tag')">Urgent</div></div>
+      <div class="urg-tag-row" style="padding-bottom:14px;"><div class="urg-tag" data-key="Low" onclick="selChip(this,'#modal-newticket .urg-tag')">Low</div><div class="urg-tag sel" data-key="Normal" onclick="selChip(this,'#modal-newticket .urg-tag')">Normal</div><div class="urg-tag" data-key="Urgent" onclick="selChip(this,'#modal-newticket .urg-tag')">Urgent</div></div>
       <div class="section-head" style="padding-top:0;"><div class="section-title" style="font-size:13px;">Describe the issue</div></div>
       <div style="padding-bottom:14px;"><textarea class="maint-ta" id="nt-desc" placeholder="What's wrong, and where?"></textarea></div>
       <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="submitNewTicket()">Submit request</button></div>
@@ -1119,6 +1144,412 @@ window.addEventListener('resize', setRealVH);
 window.addEventListener('orientationchange', setRealVH);
 if(window.visualViewport){ window.visualViewport.addEventListener('resize', setRealVH); }
 
+/* ---------- language / translation ---------- */
+let currentLang = 'en';
+
+const AR_DICT = {
+  "Tower One · Business Tower Platform": "برج ون · منصة برج الأعمال",
+  "One platform, two vantage points — the person who works in the tower, and the company that leases a floor of it.": "منصة واحدة، وجهتا نظر — الشخص الذي يعمل في البرج، والشركة التي تستأجر أحد طوابقه.",
+  "Mobile · Individual": "جوال · فردي",
+  "Employee": "موظف",
+  "A tenant company's staff member: badge holder moving through the tower day to day — access, meeting rooms, requests, the lounge.": "أحد موظفي الشركة المستأجرة: حامل بطاقة يتنقل داخل البرج يوميًا — الدخول، قاعات الاجتماعات، الطلبات، والصالة.",
+  "Open employee app": "فتح تطبيق الموظف",
+  "Mobile · Company": "جوال · شركة",
+  "Employer": "صاحب العمل",
+  "The tenant company's admin: runs the lease — billing, badges and headcount, parking allocation, and facilities across the whole suite.": "مسؤول الشركة المستأجرة: يدير الإيجار — الفواتير، البطاقات وعدد الموظفين، توزيع مواقف السيارات، والمرافق في المكتب.",
+  "Open employer app": "فتح تطبيق صاحب العمل",
+  "Portal": "البوابة",
+  "Signing in as Employee": "تسجيل الدخول كموظف",
+  "Signing in as Employer": "تسجيل الدخول كصاحب عمل",
+  "Welcome back": "مرحبًا بعودتك",
+  "Sign in with your company email registered by your tenant admin.": "سجّل الدخول باستخدام بريدك الإلكتروني المسجل لدى مسؤول شركتك.",
+  "Work email": "البريد الإلكتروني للعمل",
+  "Send verification code": "إرسال رمز التحقق",
+  "By continuing you agree to the Tower One building access policy.": "بالمتابعة، فإنك توافق على سياسة الدخول لمبنى برج ون.",
+  "Verify it's you": "تحقق من هويتك",
+  "Enter the 4-digit code sent to": "أدخل الرمز المكوّن من 4 أرقام المُرسل إلى",
+  "Verify & continue": "تحقق ومتابعة",
+  "Didn't get it?": "لم يصلك الرمز؟",
+  "Resend code": "إعادة إرسال الرمز",
+  "Code re-sent": "تم إعادة إرسال الرمز",
+  "Your access": "صلاحية دخولك",
+  "Your tenancy": "عقد إيجارك",
+  "Your floor": "طابقك",
+  "Elevator bank": "مجموعة المصاعد",
+  "Assigned bay": "الموقف المخصص",
+  "Badge status": "حالة البطاقة",
+  "Enter Tower One": "الدخول إلى برج ون",
+  "Good morning · Floor 14": "صباح الخير · الطابق 14",
+  "Tower Assistant": "مساعد البرج",
+  "Good morning, Layla — your first meeting is at 10:25 in Boardroom 14-B (pre-cooling now). Parking bay P2-14 is yours, and a sandstorm's expected after 3pm, so it's worth leaving a few minutes early and keeping the garage exit in mind.": "صباح الخير يا ليلى — اجتماعك الأول الساعة 10:25 في قاعة الاجتماعات 14-B (يجري تبريدها الآن). موقف السيارات P2-14 مخصص لك، ومن المتوقع حدوث عاصفة رملية بعد الساعة 3 عصرًا، لذا يُفضّل المغادرة قبل بضع دقائق ومراعاة مخرج المرآب.",
+  "Ask the tower anything…": "اسأل البرج عن أي شيء…",
+  "Elevator · 38s": "المصعد · 38 ثانية",
+  "Meeting in 25m": "اجتماع خلال 25 دقيقة",
+  "AQI 32 · Good": "جودة الهواء 32 · جيدة",
+  "1 parcel": "طرد واحد",
+  "Your smart tower journey": "رحلتك في البرج الذكي",
+  "Tap to explore": "اضغط للاستكشاف",
+  "Arrive": "الوصول",
+  "AI-guided parking & entry": "دخول وموقف سيارات بتوجيه الذكاء الاصطناعي",
+  "Access": "الدخول",
+  "Seamless identity & verification": "تحقق سلس من الهوية",
+  "Navigate": "التنقّل",
+  "AI-powered wayfinding": "إرشاد بالذكاء الاصطناعي",
+  "Experience": "التجربة",
+  "Personalised tenant service": "خدمة مخصصة للمستأجرين",
+  "Work": "العمل",
+  "AI-enhanced workplace": "مكان عمل مدعوم بالذكاء الاصطناعي",
+  "What do you need?": "ما الذي تحتاجه؟",
+  "Let a guest in": "السماح بدخول ضيف",
+  "1 active pass · North Core lobby": "تصريح واحد نشط · بهو الجناح الشمالي",
+  "Book a meeting room": "حجز قاعة اجتماعات",
+  "6 rooms · next free 11:00, Floor 14": "6 قاعات · أقرب موعد متاح 11:00، الطابق 14",
+  "Raise a facilities request": "تقديم طلب صيانة",
+  "HVAC, IT, cleaning & more": "التكييف، تقنية المعلومات، التنظيف، والمزيد",
+  "Check my parking bay": "التحقق من موقف سيارتي",
+  "P2-14 · assigned to you": "P2-14 · مخصص لك",
+  "Book the lounge or an event": "حجز الصالة أو فعالية",
+  "2 events open this week": "فعاليتان متاحتان هذا الأسبوع",
+  "My badge & access": "بطاقتي والدخول",
+  "QR pass, notification settings": "تصريح رمز الاستجابة السريعة، إعدادات الإشعارات",
+  "Only in Tower One": "حصريًا في برج ون",
+  "Live": "مباشر",
+  "Smart Elevators": "مصاعد ذكية",
+  "North Core · car in 38s": "الجناح الشمالي · وصول المصعد خلال 38 ثانية",
+  "My Access Log": "سجل دخولي",
+  "Last check-in 08:47, North Core": "آخر تسجيل دخول 08:47، الجناح الشمالي",
+  "EV Charging": "شحن السيارات الكهربائية",
+  "Level P1 · 5 of 8 free": "المستوى P1 · 5 من 8 مواقف متاحة",
+  "Tenant Lounge": "صالة المستأجرين",
+  "3 perks available": "3 امتيازات متاحة",
+  "Mailroom": "غرفة البريد",
+  "1 parcel · locker B-14": "طرد واحد · الخزانة B-14",
+  "Air Quality": "جودة الهواء",
+  "Floor 14 · 23°C · AQI 32": "الطابق 14 · 23°م · جودة الهواء 32",
+  "Recent activity": "النشاط الأخير",
+  "Visitor pass generated": "تم إصدار تصريح الزائر",
+  "Fatima Al-Otaibi · Floor 14": "فاطمة العتيبي · الطابق 14",
+  "Parcel arrived": "وصل الطرد",
+  "Locker B-14": "الخزانة B-14",
+  "IT request resolved": "تم حل طلب تقنية المعلومات",
+  "Room 14-B display fixed": "تم إصلاح شاشة القاعة 14-B",
+  "Yesterday": "أمس",
+  "Home": "الرئيسية",
+  "Lounge": "الصالة",
+  "Requests": "الطلبات",
+  "Profile": "الملف الشخصي",
+  "Visitor access": "دخول الزوار",
+  "Generate a pass — your guest's elevator car is pre-called on arrival at North Core lobby.": "أصدر تصريحًا — سيتم استدعاء المصعد لضيفك تلقائيًا عند وصوله إلى بهو الجناح الشمالي.",
+  "Visitor name": "اسم الزائر",
+  "Purpose": "الغرض من الزيارة",
+  "Arrival window": "موعد الوصول",
+  "Generate visitor pass": "إصدار تصريح الزائر",
+  "Live pass status": "حالة التصريح المباشرة",
+  "Simulate guest arrival": "محاكاة وصول الضيف",
+  "Today's passes": "تصاريح اليوم",
+  "Active": "نشط",
+  "Client meeting · North Core · 10:00–12:00": "اجتماع عميل · الجناح الشمالي · 10:00–12:00",
+  "Boardroom 14-B is running warm since this morning.": "قاعة الاجتماعات 14-B ترتفع حرارتها منذ هذا الصباح.",
+  "Tenant lounge": "صالة المستأجرين",
+  "Events, wellness sessions and rooftop perks for Tower One tenants.": "فعاليات، جلسات عافية، وامتيازات السطح لمستأجري برج ون.",
+  "Networking": "التواصل",
+  "Founders & Finance Mixer": "لقاء المؤسسين والتمويل",
+  "Thu 24 Sep · 18:00–20:00 · Rooftop, F32": "الخميس 24 سبتمبر · 18:00–20:00 · السطح، F32",
+  "14 of 20 spots left": "متبقٍ 14 من أصل 20 مقعدًا",
+  "Reserve": "حجز",
+  "Wellness": "العافية",
+  "Midday Reset — Breathwork": "إعادة ضبط منتصف اليوم — تمارين التنفس",
+  "Tue 29 Sep · 13:00–13:30 · F32 Studio": "الثلاثاء 29 سبتمبر · 13:00–13:30 · استوديو F32",
+  "6 of 15 spots left": "متبقٍ 6 من أصل 15 مقعدًا",
+  "More": "المزيد",
+  "6 rooms across Floors 8–20": "6 قاعات في الطوابق من 8 إلى 20",
+  "Tenant perks & deals": "امتيازات وعروض المستأجرين",
+  "F&B, wellness, retail partners": "المطاعم، العافية، وشركاء التجزئة",
+  "Facilities request": "طلب صيانة",
+  "Category": "الفئة",
+  "HVAC": "التكييف",
+  "Electrical": "الكهرباء",
+  "IT / Network": "تقنية المعلومات / الشبكة",
+  "Urgency": "الأولوية",
+  "Low": "منخفضة",
+  "Normal": "عادية",
+  "Urgent": "عاجلة",
+  "Describe the issue": "صف المشكلة",
+  "Submit request": "إرسال الطلب",
+  "Open requests": "الطلبات المفتوحة",
+  "Conference display flicker": "وميض في شاشة قاعة الاجتماعات",
+  "Room 14-B · In progress": "القاعة 14-B · قيد التنفيذ",
+  "Today": "اليوم",
+  "UX Designer · Innovate Capital · Floor 14": "مصممة تجربة المستخدم · إنوفيت كابيتال · الطابق 14",
+  "My badge / QR pass": "بطاقتي / تصريح الاستجابة السريعة",
+  "My parking bay": "موقف سيارتي",
+  "Notifications": "الإشعارات",
+  "On ›": "مفعّلة ›",
+  "Building handbook": "دليل المبنى",
+  "Sign out": "تسجيل الخروج",
+  "Notification preferences updated": "تم تحديث إعدادات الإشعارات",
+  "Tower One · North Core · 18 employees": "برج ون · الجناح الشمالي · 18 موظفًا",
+  "Active badges": "بطاقات نشطة",
+  "Reserved parking": "مواقف محجوزة",
+  "Due 5 Oct": "تاريخ الاستحقاق 5 أكتوبر",
+  "Until lease renewal": "حتى تجديد العقد",
+  "Enter admin console": "الدخول إلى لوحة الإدارة",
+  "Suite 1402 · Floor 14": "المكتب 1402 · الطابق 14",
+  "Suite 1402 is on track this month — 68% desk utilisation, 2 open facility tickets, and your SAR 4,120 service charge is due in 15 days. Nothing needs your attention today.": "المكتب 1402 يسير وفق الخطة هذا الشهر — نسبة استخدام المكاتب 68%، وتذكرتا صيانة مفتوحتان، ورسوم الخدمات البالغة 4,120 ريال مستحقة خلال 15 يومًا. لا شيء يستدعي انتباهك اليوم.",
+  "SAR 4,120 due": "4,120 ريال مستحقة",
+  "2 open tickets": "تذكرتان مفتوحتان",
+  "18 badges": "18 بطاقة",
+  "Renews in 14 mo.": "يُجدَّد خلال 14 شهرًا",
+  "Company insights": "رؤى الشركة",
+  "30 days": "30 يومًا",
+  "Pay service charge": "دفع رسوم الخدمات",
+  "SAR 4,120 due · 5 Oct 2026": "4,120 ريال مستحقة · 5 أكتوبر 2026",
+  "Manage employee badges": "إدارة بطاقات الموظفين",
+  "18 active · 1 pending revoke": "18 نشطة · بطاقة واحدة معلّقة للإلغاء",
+  "Facilities requests": "طلبات الصيانة",
+  "2 open across the suite": "طلبان مفتوحان في المكتب",
+  "Book a room for a client": "حجز قاعة لعميل",
+  "Recurring bookings available": "تتوفر حجوزات متكررة",
+  "Manage reserved parking": "إدارة المواقف المحجوزة",
+  "4 bays · assign to staff": "4 مواقف · تخصيص للموظفين",
+  "Lease & documents": "العقد والمستندات",
+  "Renews in 14 months": "يُجدَّد خلال 14 شهرًا",
+  "Desk utilisation": "استخدام المكاتب",
+  "68% avg · up 6pts": "متوسط 68% · ارتفاع 6 نقاط",
+  "Visitor traffic": "حركة الزوار",
+  "41 guests this month": "41 زائرًا هذا الشهر",
+  "North Core · 38s": "الجناح الشمالي · 38 ثانية",
+  "Perks claimed": "امتيازات تم استخدامها",
+  "9 by your team": "9 من فريقك",
+  "Badge issued": "تم إصدار بطاقة",
+  "Omar Al-Dossary, new hire": "عمر الدوسري، موظف جديد",
+  "August service charge paid": "تم دفع رسوم خدمات أغسطس",
+  "SAR 3,960": "3,960 ريال",
+  "1 Sep": "1 سبتمبر",
+  "People": "الموظفون",
+  "Billing": "الفواتير",
+  "Lease": "العقد",
+  "Service charge": "رسوم الخدمات",
+  "Suite 1402 · September 2026": "المكتب 1402 · سبتمبر 2026",
+  "due 5 Oct": "مستحقة 5 أكتوبر",
+  "CAM": "رسوم المرافق المشتركة",
+  "Cooling": "التبريد",
+  "Electricity": "الكهرباء",
+  "Pay with STC Pay": "الدفع عبر STC Pay",
+  "Email invoice to finance": "إرسال الفاتورة إلى قسم المالية",
+  "History": "السجل",
+  "August service charge": "رسوم خدمات أغسطس",
+  "SAR 3,960 · paid": "3,960 ريال · مدفوعة",
+  "July service charge": "رسوم خدمات يوليو",
+  "SAR 4,010 · paid": "4,010 ريال · مدفوعة",
+  "1 Aug": "1 أغسطس",
+  "Redirecting to STC Pay…": "جارٍ التحويل إلى STC Pay…",
+  "Invoice emailed to finance@innovatecapital.sa": "تم إرسال الفاتورة إلى finance@innovatecapital.sa",
+  "Employee badges": "بطاقات الموظفين",
+  "Pending": "معلّقة",
+  "Invite a new employee": "دعوة موظف جديد",
+  "Facilities — Suite 1402": "الصيانة — المكتب 1402",
+  "All": "الكل",
+  "Open": "مفتوحة",
+  "+ New request for the suite": "+ طلب جديد للمكتب",
+  "4 bays reserved for Innovate Capital, Level P2. Assign bays from an employee's badge, under People.": "4 مواقف محجوزة لشركة إنوفيت كابيتال، المستوى P2. خصّص المواقف من بطاقة الموظف ضمن قسم الموظفين.",
+  "Unassigned": "غير مخصص",
+  "Assigned": "مخصص",
+  "Suite": "المكتب",
+  "Renews": "التجديد",
+  "Nov 2027": "نوفمبر 2027",
+  "Lease agreement": "عقد الإيجار",
+  "PDF ›": "PDF ›",
+  "Fit-out approval": "موافقة التجهيزات",
+  "Request renewal discussion": "طلب مناقشة التجديد",
+  "Request sent to leasing team": "تم إرسال الطلب إلى فريق التأجير",
+  "Suite 1402 · Floor 14 · Tower One": "المكتب 1402 · الطابق 14 · برج ون",
+  "Employees": "الموظفون",
+  "Parking": "المواقف",
+  "Nearest car to North Core lobby, Floor 14": "أقرب مصعد إلى بهو الجناح الشمالي، الطابق 14",
+  "Arriving": "قيد الوصول",
+  "Seven high-speed cars serve Tower One. Call one ahead so it's waiting when you reach the lobby.": "سبعة مصاعد فائقة السرعة تخدم برج ون. استدعِ أحدها مسبقًا ليكون بانتظارك عند وصولك إلى البهو.",
+  "Call a car to my floor": "استدعاء مصعد إلى طابقي",
+  "EV Charging · Level P1": "شحن السيارات الكهربائية · المستوى P1",
+  "Available": "متاحة",
+  "In use": "قيد الاستخدام",
+  "Hold a bay for 15 minutes": "حجز موقف لمدة 15 دقيقة",
+  "Bay": "الموقف",
+  "Level": "المستوى",
+  "Assigned to you by Innovate Capital. Nearest to the North Core elevator bank.": "مخصص لك من قِبل إنوفيت كابيتال. الأقرب إلى مجموعة مصاعد الجناح الشمالي.",
+  "My access log": "سجل دخولي",
+  "Badge scan — North Core lobby": "مسح البطاقة — بهو الجناح الشمالي",
+  "Ground floor": "الطابق الأرضي",
+  "Elevator Car 3 — Floor 14": "المصعد رقم 3 — الطابق 14",
+  "Pre-called from app": "تم استدعاؤه مسبقًا من التطبيق",
+  "Tenant perks": "امتيازات المستأجرين",
+  "15% off — Ground Floor Café": "خصم 15% — مقهى الطابق الأرضي",
+  "Valid for Tower One badge holders": "متاح لحاملي بطاقات برج ون",
+  "Claim": "استخدام",
+  "Free trial class — F32 Wellness": "حصة تجريبية مجانية — عافية F32",
+  "One per employee, this month": "واحدة لكل موظف هذا الشهر",
+  "Priority valet — Garage P1": "خدمة صف سيارات ذات أولوية — المرآب P1",
+  "For same-day client visits": "لزيارات العملاء في اليوم نفسه",
+  "Perk claimed — check your email": "تم استخدام الامتياز — تحقق من بريدك الإلكتروني",
+  "Mailroom & parcels": "غرفة البريد والطرود",
+  "Locker": "الخزانة",
+  "Waiting": "بانتظار الاستلام",
+  "Unlock & collect": "فتح واستلام",
+  "Access code sent to your phone": "تم إرسال رمز الدخول إلى هاتفك",
+  "Air quality & climate": "جودة الهواء والمناخ",
+  "Temperature": "درجة الحرارة",
+  "AQI": "جودة الهواء",
+  "32 · Good": "32 · جيدة",
+  "CO₂ within target range · fresh-air exchange nominal": "ثاني أكسيد الكربون ضمن المعدل المستهدف · تجديد الهواء النقي طبيعي",
+  "Mon": "الإثنين",
+  "Tue": "الثلاثاء",
+  "Room · Floor 14": "القاعة · الطابق 14",
+  "Confirm booking": "تأكيد الحجز",
+  "Preparing your room": "جارٍ تجهيز قاعتك",
+  "In progress": "قيد التنفيذ",
+  "Lighting": "الإضاءة",
+  "Done": "تم",
+  "Navigate to room": "التنقّل إلى القاعة",
+  "Reserve a parking bay": "حجز موقف سيارة",
+  "Nearest bay": "أقرب موقف",
+  "Shaded until": "مظلل حتى",
+  "Hold bay P2-14": "حجز الموقف P2-14",
+  "Access — seamless identity": "الدخول — هوية سلسة",
+  "Verified in under a second": "التحقق في أقل من ثانية",
+  "North Core lobby · Face ID": "بهو الجناح الشمالي · التعرف على الوجه",
+  "Tower One recognises badge holders on arrival — no tap needed. A QR pass is always available as a fallback, and every visitor pass carries a one-time code for guests who aren't yet enrolled.": "يتعرّف برج ون على حاملي البطاقات فور وصولهم — دون الحاجة للمس. يبقى تصريح رمز الاستجابة السريعة متاحًا دائمًا كبديل، ويحمل كل تصريح زائر رمزًا لمرة واحدة لمن لم يُسجَّل بعد.",
+  "Face ID": "التعرف على الوجه",
+  "QR badge": "بطاقة رمز الاستجابة السريعة",
+  "Navigate — AI wayfinding": "التنقّل — إرشاد بالذكاء الاصطناعي",
+  "Boardroom 14-B": "قاعة الاجتماعات 14-B",
+  "Tenant Lounge, F32": "صالة المستأجرين، F32",
+  "North Core Lobby": "بهو الجناح الشمالي",
+  "Live route": "المسار المباشر",
+  "You · Floor 14 lift lobby": "أنت · بهو مصعد الطابق 14",
+  "2 min walk": "دقيقتان سيرًا على الأقدام",
+  "Via North Core, past the tenant kitchen": "عبر الجناح الشمالي، بعد مطبخ المستأجرين",
+  "Start AR walking directions": "بدء الإرشاد بالواقع المعزز",
+  "Work — AI-enhanced workplace": "العمل — مكان عمل مدعوم بالذكاء الاصطناعي",
+  "Half-open": "نصف مفتوحة",
+  "Blinds": "الستائر",
+  "Book a space": "حجز مساحة",
+  "Rooms suggested by your calendar": "قاعات مقترحة من تقويمك",
+  "Get assistance": "طلب المساعدة",
+  "Message the tenant concierge": "مراسلة كونسيرج المستأجرين",
+  "Tenant concierge notified — reply in your messages": "تم إشعار كونسيرج المستأجرين — الرد في رسائلك",
+  "New facilities request": "طلب صيانة جديد",
+  "Your access badge": "بطاقة دخولك",
+  "Innovate Capital · Floor 14 · Active": "إنوفيت كابيتال · الطابق 14 · نشطة",
+  "Security alert sent": "تم إرسال تنبيه الأمن",
+  "Security Control Room": "غرفة مراقبة الأمن",
+  "Tower One": "برج ون",
+  "has been notified of your location and is responding.": "تم إشعاره بموقعك وهو يستجيب الآن.",
+  "Prototype only — this demo does not place a real call or dispatch security.": "نموذج أولي فقط — لا يقوم هذا العرض التوضيحي بإجراء اتصال حقيقي أو إرسال فريق أمني.",
+  "Badge QR": "رمز البطاقة",
+  "Revoke badge": "إلغاء البطاقة",
+  "Full name": "الاسم الكامل",
+  "Role": "المسمى الوظيفي",
+  "Send invite": "إرسال الدعوة",
+  "Ticket": "التذكرة",
+  "Simulate technician update": "محاكاة تحديث الفني",
+  "AR Wayfinding": "الإرشاد بالواقع المعزز",
+  "This opens your camera and compass to point you toward": "سيفتح هذا كاميرتك والبوصلة لإرشادك نحو",
+  ". Works best on a phone, held up in front of you as you walk.": ". يعمل بأفضل شكل على الهاتف، ممسوكًا أمامك أثناء المشي.",
+  "Enable camera & compass": "تفعيل الكاميرا والبوصلة",
+  "Simulate without camera": "محاكاة بدون كاميرا",
+  "Head straight, past the lobby doors": "تابع مباشرة، بعد أبواب البهو",
+  "Live compass · turn to see it track": "بوصلة مباشرة · استدر لرؤية تتبعها",
+  "Compass simulated from your route — stays in sync as you go": "البوصلة محاكاة بناءً على مسارك — تبقى متزامنة أثناء تقدمك",
+  "Heading out…": "في الطريق…",
+  "You've arrived": "لقد وصلت",
+  "Getting closer…": "تقترب أكثر…",
+  "Almost there…": "أوشكت على الوصول…",
+  "Submitted": "تم الإرسال",
+  "Acknowledged": "تم الاستلام",
+  "Technician assigned": "تم تعيين فني",
+  "Resolved": "تم الحل",
+  "No tickets match this filter.": "لا توجد تذاكر مطابقة لهذا التصفية.",
+  "Take a right at the elevator lobby": "انعطف يمينًا عند بهو المصعد",
+  "Continue straight ahead": "استمر مباشرة",
+  "Turn left, past the tenant kitchen": "انعطف يسارًا، بعد مطبخ المستأجرين",
+  "Almost there — boardroom just ahead on your right": "أوشكت على الوصول — قاعة الاجتماعات أمامك مباشرة على اليمين",
+  "You've arrived at the door": "لقد وصلت إلى الباب",
+  "Pass generated": "تم إصدار التصريح",
+  "Share the QR code, or your guest can enter their name at the North Core lobby kiosk.": "شارك رمز الاستجابة السريعة، أو يمكن لضيفك إدخال اسمه في كشك بهو الجناح الشمالي.",
+  "Arrived & verified": "وصل وتم التحقق",
+  "Face ID matched the pass at North Core lobby — QR is always the fallback.": "تم التحقق من التصريح عبر التعرف على الوجه في بهو الجناح الشمالي — ويبقى رمز الاستجابة السريعة بديلاً دائمًا.",
+  "Elevator called": "تم استدعاء المصعد",
+  "Car 3 is on its way to the lobby, pre-set for Floor 14.": "المصعد رقم 3 في طريقه إلى البهو، مضبوط مسبقًا للطابق 14.",
+  "At your door": "عند بابك",
+  "Your guest has reached Boardroom 14-B.": "وصل ضيفك إلى قاعة الاجتماعات 14-B.",
+  "Visit complete": "انتهت الزيارة",
+  "Ready": "جاهزة",
+  "Cancel invite": "إلغاء الدعوة",
+  "Assign an open bay": "تخصيص موقف متاح",
+  "No open bays right now.": "لا توجد مواقف متاحة حاليًا.",
+  "Parking is only assigned to active badges.": "تُخصَّص المواقف للبطاقات النشطة فقط.",
+  "Reserved bay": "الموقف المخصص",
+  "Invitation sent": "تم إرسال الدعوة",
+  "Hi Layla — ask me to book a room, let a guest in, check your parcel, or anything else around the tower.": "مرحبًا ليلى — اطلبي مني حجز قاعة، السماح بدخول ضيف، تفقّد طردك، أو أي شيء آخر يخص البرج.",
+  "Hi — ask me about billing, employee badges, parking allocation, facilities requests, or your lease.": "مرحبًا — اسألني عن الفواتير، بطاقات الموظفين، توزيع المواقف، طلبات الصيانة، أو عقد الإيجار.",
+  "Book a room for 4 at 2pm": "احجز قاعة لأربعة أشخاص الساعة 2 ظهرًا",
+  "I have a client visiting tomorrow at 10": "لدي عميل سيزورني غدًا الساعة 10",
+  "Where's my parcel?": "أين طردي؟",
+  "Raise a facilities ticket": "قدّم طلب صيانة",
+  "Pay this month's service charge": "ادفع رسوم الخدمات لهذا الشهر",
+  "Add a new employee badge": "أضف بطاقة موظف جديدة",
+  "Show open facilities tickets": "أظهر تذاكر الصيانة المفتوحة",
+  "When does our lease renew?": "متى يُجدَّد عقد الإيجار؟",
+  "Revoke": "إلغاء",
+  "Bay P1-A03 held for 15 minutes": "تم حجز الموقف P1-A03 لمدة 15 دقيقة",
+  "Bay P2-14 held for 15 minutes": "تم حجز الموقف P2-14 لمدة 15 دقيقة",
+  "Boardroom pre-cooled and ready": "قاعة الاجتماعات تم تبريدها وهي جاهزة",
+  "Car 3 called to North Core lobby, Floor 14": "تم استدعاء المصعد رقم 3 إلى بهو الجناح الشمالي، الطابق 14",
+  "Experience: your boardroom is pre-cooled and ready — 3 minutes early": "التجربة: تم تبريد قاعة اجتماعاتك وهي جاهزة — قبل 3 دقائق من الموعد",
+  "Hold to alert Security Control Room": "اضغط مطولًا لتنبيه غرفة مراقبة الأمن",
+  "Request submitted — reference FR-2481": "تم إرسال الطلب — الرقم المرجعي FR-2481",
+  "Enter a name first": "أدخل الاسم أولاً"
+};
+
+function collectI18nNodes(){
+  window._i18nNodes = [];
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode(node){
+      if(!node.textContent.trim()) return NodeFilter.FILTER_REJECT;
+      const tag = node.parentElement ? node.parentElement.tagName : '';
+      if(tag === 'SCRIPT' || tag === 'STYLE') return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  let n;
+  while(n = walker.nextNode()){ window._i18nNodes.push({node: n, original: n.textContent}); }
+}
+
+function applyLanguage(lang){
+  currentLang = lang;
+  window._i18nNodes.forEach(item => {
+    const trimmed = item.original.trim();
+    if(lang === 'ar' && AR_DICT[trimmed]){
+      item.node.textContent = item.original.replace(trimmed, AR_DICT[trimmed]);
+    } else {
+      item.node.textContent = item.original;
+    }
+  });
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-switch button').forEach(b => b.classList.toggle('on', b.dataset.lang === lang));
+}
+
+function refreshI18n(){
+  collectI18nNodes();
+  applyLanguage(currentLang);
+}
+
+function setLanguage(lang){
+  refreshI18n();
+  applyLanguage(lang);
+}
+
 /* ---------- portal / mode routing ---------- */
 let currentMode='portal', pendingRole='employee';
 function chooseRole(role){ pendingRole=role;
@@ -1127,6 +1558,7 @@ function chooseRole(role){ pendingRole=role;
   document.getElementById('a-login').classList.add('active');
   curA='a-login';
   goMode('auth');
+  refreshI18n();
 }
 function goMode(mode){
   document.querySelectorAll('.app-shell').forEach(s=>s.classList.remove('on'));
@@ -1231,6 +1663,7 @@ function openConcierge(){
   openModal('modal-concierge');
   document.getElementById('modal-frame').style.pointerEvents = 'auto';
   setTimeout(()=>document.getElementById('concierge-input').focus(), 350);
+  refreshI18n();
 }
 
 function escapeHtml(s){
@@ -1254,6 +1687,7 @@ function appendAssistantMsg(html){
   row.innerHTML = html;
   log.appendChild(row);
   log.scrollTop = log.scrollHeight;
+  refreshI18n();
 }
 
 function sendConciergeFromInput(){
@@ -1325,7 +1759,9 @@ function resolveConcierge(rawText){
 }
 
 function showToast(elId, msg){
-  const t=document.getElementById(elId); t.textContent=msg; t.classList.add('show');
+  const t=document.getElementById(elId);
+  t.textContent = (currentLang === 'ar' && AR_DICT[msg]) ? AR_DICT[msg] : msg;
+  t.classList.add('show');
   clearTimeout(t._timer); t._timer=setTimeout(()=>t.classList.remove('show'), 3200);
 }
 
@@ -1367,6 +1803,7 @@ function renderPassSteps(){
     const showSub = done || active;
     return '<div class="' + cls + '"><div class="pstep-dot">' + dot + '</div><div><div class="pstep-t">' + step.t + '</div>' + (showSub ? '<div class="pstep-s">' + step.s + '</div>' : '') + '</div></div>';
   }).join('');
+  refreshI18n();
 }
 
 const PARKING_BAYS = ['P2-14', 'P2-15', 'P2-16', 'P2-17'];
@@ -1393,6 +1830,7 @@ function renderEmployeeList(){
     return '<div class="vis-row" style="cursor:pointer;" onclick="openEmployeeDetail(' + e.id + ')"><div class="vis-info"><div class="vis-name">' + escapeHtml(e.name) + '</div><div class="vis-meta">' + escapeHtml(meta) + '</div></div>' + pill + '</div>';
   }).join('');
   renderParkingList();
+  refreshI18n();
 }
 
 function renderParkingList(){
@@ -1497,11 +1935,13 @@ function renderTickets(){
   if(ticketFilter === 'urgent') list = tickets.filter(t => t.urgency === 'Urgent');
   if(list.length === 0){
     wrap.innerHTML = '<p style="font-size:12px;color:var(--text-dim);padding:16px 20px;text-align:center;">No tickets match this filter.</p>';
+    refreshI18n();
     return;
   }
   wrap.innerHTML = list.slice().reverse().map(t =>
     '<div class="act-item" style="cursor:pointer;" onclick="openTicketDetail(' + t.id + ')"><div class="act-ico"><svg class="ic"><use href="#' + ticketIcon(t.category) + '"/></svg></div><div class="act-body"><div class="act-t">' + escapeHtml(t.title) + '</div><div class="act-s">' + escapeHtml(t.location) + ' · raised by ' + escapeHtml(t.raisedBy.split(' ')[0]) + '</div></div><div class="act-time">' + TICKET_STEPS[t.step] + '</div></div>'
   ).join('');
+  refreshI18n();
 }
 
 function setTicketFilter(el, key){
@@ -1520,6 +1960,7 @@ function renderTicketSteps(t){
     const dot = done ? '&#10003;' : (i + 1);
     return '<div class="' + cls + '"><div class="pstep-dot">' + dot + '</div><div><div class="pstep-t">' + label + '</div></div></div>';
   }).join('');
+  refreshI18n();
 }
 
 function openTicketDetail(id){
@@ -1556,10 +1997,10 @@ function openNewTicket(){
 }
 
 function submitNewTicket(){
-  const catEl = document.querySelector('#modal-newticket .cat-tile.sel .cat-name');
+  const catTile = document.querySelector('#modal-newticket .cat-tile.sel');
   const urgEl = document.querySelector('#modal-newticket .urg-tag.sel');
-  const cat = catEl ? catEl.textContent.trim() : 'Other';
-  const urg = urgEl ? urgEl.textContent.trim() : 'Normal';
+  const cat = catTile ? (catTile.dataset.key || catTile.querySelector('.cat-name').textContent.trim()) : 'Other';
+  const urg = urgEl ? (urgEl.dataset.key || urgEl.textContent.trim()) : 'Normal';
   const descRaw = document.getElementById('nt-desc').value.trim() || 'No additional details provided';
   const title = descRaw.length > 44 ? descRaw.slice(0, 44) + '…' : descRaw;
   const t = {id: nextTicketId++, title: title, category: cat, location: 'Suite 1402', urgency: urg, raisedBy: 'You', step: 0};
@@ -1725,13 +2166,14 @@ function updateARInstruction(){
 
 function startARNavigate(){
   const destChip = document.querySelector('#modal-navigate .urg-tag.sel');
-  const dest = destChip ? destChip.textContent.trim() : 'Boardroom 14-B';
+  const dest = destChip ? (destChip.dataset.key || destChip.textContent.trim()) : 'Boardroom 14-B';
+  const destLabel = (currentLang === 'ar' && AR_DICT[dest]) ? AR_DICT[dest] : dest;
   arTargetBearing = (AR_DESTINATIONS[dest] !== undefined) ? AR_DESTINATIONS[dest] : 45;
   arSmoothHeading = 0; arProgress = 0;
   arActiveStepText = null;
-  document.getElementById('ar-gate-dest').textContent = dest;
-  document.getElementById('ar-dest-chip').textContent = dest;
-  document.getElementById('ar-arrived-dest').textContent = dest;
+  document.getElementById('ar-gate-dest').textContent = destLabel;
+  document.getElementById('ar-dest-chip').textContent = destLabel;
+  document.getElementById('ar-arrived-dest').textContent = destLabel;
   document.getElementById('ar-gate').style.display = 'flex';
   document.getElementById('ar-hud').style.display = 'none';
   document.getElementById('ar-arrived').style.display = 'none';
@@ -1984,6 +2426,7 @@ function animateAR(){
 renderTickets();
 renderEmployeeList();
 initEnvSliders();
+collectI18nNodes();
 </script>
 </body>
 </html>
