@@ -90,9 +90,7 @@ img.logo{display:block;}
   border-radius:40px; overflow:hidden;
   box-shadow:0 40px 90px -20px rgba(0,0,0,.45), 0 0 0 10px #050506, 0 0 0 11px #2b2b2f;
 }
-.phone-frame::before{content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:120px; height:26px; background:#050506; border-radius:0 0 16px 16px; z-index:50;}
-.phone-frame[data-nochrome]::before{display:none;}
-@media(max-width:440px){.phone-stage{padding:0;} .phone-frame{width:100vw;height:100vh;border-radius:0;box-shadow:none;} .phone-frame::before{display:none;}}
+@media(max-width:440px){.phone-stage{padding:0;} .phone-frame{width:100vw;height:100vh;border-radius:0;box-shadow:none;}}
 
 .screen{position:absolute; inset:0; display:none; flex-direction:column; overflow-y:auto; background:var(--paper); scrollbar-width:none;}
 .screen::-webkit-scrollbar{display:none;}
@@ -1147,6 +1145,9 @@ let currentMode='portal', pendingRole='employee';
 function chooseRole(role){ pendingRole=role;
   document.getElementById('role-echo').textContent = 'Signing in as ' + (role==='employee'?'Employee':role==='employer'?'Employer':'Building Owner');
   if(role==='owner'){ goMode('owner'); return; }
+  document.getElementById(curA).classList.remove('active');
+  document.getElementById('a-login').classList.add('active');
+  curA='a-login';
   goMode('auth');
 }
 function goMode(mode){
