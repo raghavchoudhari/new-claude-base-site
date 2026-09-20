@@ -1623,8 +1623,7 @@ const AR_DESTINATIONS = {
 };
 const AR_CARDINALS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
 let arStream = null, arScene, arCamera, arRenderer, arArrowGroup, arGlowMesh, arRingMesh, arRAF = null;
-let arTargetBearing = 45, arHeading = 0, arSmoothHeading = 0, arProgress = 0, arRunning = false, arSimulated = false;
-let arHasAbsolute = false, arLastHeadingSample = null, arLastHeadingChangeTime = 0;
+let arTargetBearing = 45, arSmoothHeading = 0, arProgress = 0, arRunning = false, arSimulated = false;
 let arTiltBeta = 0, arTiltGamma = 0;
 let arAutoTimer = null, arLastStepTime = 0, arLastAccelMag = 0;
 let arActiveStepText = null;
@@ -1687,8 +1686,7 @@ function startARNavigate(){
   const destChip = document.querySelector('#modal-navigate .urg-tag.sel');
   const dest = destChip ? destChip.textContent.trim() : 'Boardroom 14-B';
   arTargetBearing = (AR_DESTINATIONS[dest] !== undefined) ? AR_DESTINATIONS[dest] : 45;
-  arHeading = 0; arSmoothHeading = 0; arProgress = 0; arHasAbsolute = false; arLastHeadingSample = null;
-  arLastHeadingChangeTime = Date.now();
+  arSmoothHeading = 0; arProgress = 0;
   arActiveStepText = null;
   document.getElementById('ar-gate-dest').textContent = dest;
   document.getElementById('ar-dest-chip').textContent = dest;
@@ -1765,40 +1763,26 @@ function runAR(simulated){
   arSimulated = simulated;
   document.getElementById('ar-gate').style.display = 'none';
   document.getElementById('ar-hud').style.display = 'flex';
-  document.getElementById('ar-hint').textContent = simulated ? 'Simulated — the arrow sweeps automatically' : 'Turn slowly — the arrow points the way';
+  document.getElementById('ar-hint').textContent = 'Compass simulated from your route — stays in sync as you go';
   initARScene();
   clearInterval(arAutoTimer);
   arAutoTimer = setInterval(()=>{
     arProgress = Math.min(100, arProgress + (simulated ? 4 : 1.2));
-    if(simulated) arHeading = (arHeading + 5 + 360) % 360;
     updateARProgress();
     if(arProgress >= 100) arriveAR();
   }, 300);
   animateAR();
 }
 
+/* Real device tilt still drives the camera parallax below — only the compass
+   heading itself is simulated, since real compass data proved unreliable
+   across devices/browsers to depend on for the demo. */
 function onARHeadingAbsolute(e){
-  if(e.alpha === null || e.alpha === undefined) return;
-  registerHeading((360 - e.alpha + 360) % 360, true);
   arTiltBeta = e.beta || 0; arTiltGamma = e.gamma || 0;
 }
 
 function onARHeading(e){
-  if(typeof e.webkitCompassHeading === 'number'){
-    registerHeading(e.webkitCompassHeading, true);
-  } else if(!arHasAbsolute && e.alpha !== null && e.alpha !== undefined){
-    registerHeading((360 - e.alpha + 360) % 360, false);
-  }
   arTiltBeta = e.beta || 0; arTiltGamma = e.gamma || 0;
-}
-
-function registerHeading(deg, isAbsolute){
-  if(isAbsolute) arHasAbsolute = true;
-  arHeading = deg;
-  if(arLastHeadingSample === null || Math.abs(angDiffDeg(deg, arLastHeadingSample)) > 1.2){
-    arLastHeadingSample = deg;
-    arLastHeadingChangeTime = Date.now();
-  }
 }
 
 function onARMotion(e){
@@ -1920,25 +1904,18 @@ function updateARHud(){
   if(tape && tape._pxPerDeg){
     tape.style.transform = 'translateX(' + (-arSmoothHeading * tape._pxPerDeg) + 'px)';
   }
-  if(!arSimulated){
-    const stale = Date.now() - arLastHeadingChangeTime > 6000;
-    const hint = document.getElementById('ar-hint');
-    if(stale && hint.dataset.mode !== 'calibrate'){
-      hint.textContent = 'Compass looks stuck — move your phone in a slow figure-8 to calibrate';
-      hint.dataset.mode = 'calibrate';
-    } else if(!stale && hint.dataset.mode === 'calibrate'){
-      hint.textContent = 'Turn slowly — the arrow points the way';
-      hint.dataset.mode = '';
-    }
-  }
 }
 
 function animateAR(){
   if(!arRunning) return;
-  const delta = angDiffDeg(arHeading, ((arSmoothHeading % 360) + 360) % 360);
-  arSmoothHeading += delta * 0.15;
-
   const routeTurn = updateARInstruction();
+
+  // Compass display simulates the heading you'd have if you were actually following
+  // the turn-by-turn instructions — real device compass data is too unreliable across
+  // phones/browsers (calibration, permissions) to depend on for this to always move.
+  const simulatedHeading = ((routeTurn % 360) + 360) % 360;
+  const delta = angDiffDeg(simulatedHeading, ((arSmoothHeading % 360) + 360) % 360);
+  arSmoothHeading += delta * 0.12;
 
   if(arArrowGroup){
     const targetRotY = THREE.MathUtils.degToRad(routeTurn);
