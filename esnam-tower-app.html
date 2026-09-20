@@ -53,7 +53,7 @@ img.logo{display:block;}
 #portal .logo{width:168px; margin-bottom:10px;}
 .portal-tag{font-size:12px; letter-spacing:2.6px; color:var(--text-muted); text-transform:uppercase; font-weight:600; margin-bottom:46px;}
 .portal-h{font-size:15px; color:var(--text-muted); text-align:center; max-width:380px; margin:0 0 34px; line-height:1.6;}
-.role-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; width:100%; max-width:920px;}
+.role-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; width:100%; max-width:660px;}
 .role-card{
   background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg);
   padding:26px 22px; cursor:pointer; transition:border-color .15s, transform .15s;
@@ -120,6 +120,7 @@ img.logo{display:block;}
 
 .btn-primary{width:100%; padding:15px; border:none; border-radius:var(--r-sm); background:var(--ink); color:#fff; font-weight:700; font-size:13.5px; letter-spacing:.2px; cursor:pointer; font-family:'Inter';}
 .btn-ghost{width:100%; padding:14px; margin-top:9px; border-radius:var(--r-sm); background:transparent; border:1px solid var(--line-strong); color:var(--text); font-weight:600; font-size:13px; cursor:pointer;}
+.btn-ghost:disabled, .btn-primary:disabled{opacity:.5; cursor:not-allowed;}
 .foot-note{font-size:10.5px; text-align:center; color:var(--text-dim); margin-top:16px; line-height:1.5;}
 
 /* handover / welcome card */
@@ -240,12 +241,30 @@ img.logo{display:block;}
 .zone-tab{flex:1; padding:9px 6px; border-radius:100px; text-align:center; font-size:11.5px; font-weight:700; background:var(--stone); border:1px solid var(--line); cursor:pointer; color:var(--text-muted);}
 .zone-tab.sel{background:var(--ink); color:#fff; border-color:var(--ink);}
 
+.filter-row{display:flex; gap:8px; padding:0 20px 12px;}
+.filter-chip{padding:8px 14px; border-radius:100px; background:var(--stone); border:1px solid var(--line); font-size:11.5px; font-weight:700; cursor:pointer; color:var(--text-muted);}
+.filter-chip.sel{background:var(--ink); color:#fff; border-color:var(--ink);}
 .urg-tag-row{display:flex; gap:8px; padding:0 20px; flex-wrap:wrap;}
 .urg-tag{padding:8px 14px; border-radius:100px; font-size:11.5px; font-weight:700; background:var(--stone); border:1px solid var(--line); cursor:pointer; color:var(--text-muted);}
 .urg-tag.sel{background:var(--ink); color:#fff; border-color:var(--ink);}
 
 .maint-ta{width:calc(100% - 40px); margin:0 20px; padding:12px; border-radius:var(--r-md); border:1px solid var(--line-strong); background:var(--stone); font-family:inherit; font-size:13px; min-height:76px; resize:none;}
 
+.pass-card{display:flex; align-items:center; gap:14px; margin:0 20px 16px; padding:14px; border-radius:var(--r-lg); background:var(--ink); color:#fff;}
+.pass-qr{width:52px;height:52px;border-radius:8px; flex-shrink:0; background:repeating-linear-gradient(0deg,#0A0A0B 0 4px, transparent 4px 8px),repeating-linear-gradient(90deg,#0A0A0B 0 4px, transparent 4px 8px); background-color:#fff; background-blend-mode:multiply;}
+.pass-card-name{font-family:'Space Grotesk'; font-size:14px; font-weight:700;}
+.pass-card-meta{font-size:11px; color:#B9B6AE; margin-top:3px;}
+.pstep-wrap{padding:2px 20px 4px;}
+.pstep{position:relative; display:flex; gap:12px; padding:0 0 20px;}
+.pstep:last-child{padding-bottom:2px;}
+.pstep:not(:last-child)::after{content:''; position:absolute; left:12px; top:26px; bottom:0; width:2px; background:var(--line);}
+.pstep.done:not(:last-child)::after{background:var(--ink);}
+.pstep-dot{width:25px;height:25px;border-radius:50%; background:var(--stone-dim); color:var(--text-dim); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; flex-shrink:0; z-index:1;}
+.pstep.done .pstep-dot{background:var(--ink); color:#fff;}
+.pstep.active .pstep-dot{background:var(--accent); color:#fff;}
+.pstep-t{font-size:12.5px; font-weight:700; color:var(--text-dim);}
+.pstep.done .pstep-t, .pstep.active .pstep-t{color:var(--text);}
+.pstep-s{font-size:11px; color:var(--text-muted); margin-top:3px; line-height:1.5;}
 .vis-row{display:flex; align-items:center; gap:12px; padding:12px 20px; border-bottom:1px solid var(--line);}
 .vis-info{flex:1; min-width:0;}
 .vis-name{font-size:13px; font-weight:700;}
@@ -312,104 +331,6 @@ img.logo{display:block;}
 .toast{position:absolute; left:20px; right:20px; bottom:-120px; z-index:100; background:var(--ink); color:#fff; padding:12px 15px; border-radius:var(--r-md); font-size:12.5px; font-weight:600; display:flex; align-items:center; gap:10px; transition:bottom .3s ease; box-shadow:0 14px 30px rgba(0,0,0,.3);}
 .toast.show{bottom:100px;}
 
-/* ============ OWNER / OPS CONSOLE (desktop) ============ */
-#app-owner{background:#F2F0EC; min-height:100vh;}
-.owner-login-stage{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;}
-.owner-login-card{width:380px; background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); padding:38px 30px;}
-.owner-login-card .auth-logo{width:120px; margin-bottom:26px;}
-
-.owner-console{display:none;}
-.owner-console.on{display:flex; min-height:100vh;}
-.owner-sidebar{width:230px; flex-shrink:0; background:var(--ink); color:#fff; padding:26px 16px; display:flex; flex-direction:column;}
-.owner-sidebar .logo{width:100px; margin:6px 0 30px 10px;}
-.owner-nav-item{display:flex; align-items:center; gap:11px; padding:11px 12px; border-radius:var(--r-sm); font-size:13px; font-weight:600; color:#B9B6AE; cursor:pointer; margin-bottom:2px;}
-.owner-nav-item .ic{width:17px;height:17px;}
-.owner-nav-item.active{background:rgba(201,164,100,.16); color:var(--accent);}
-.owner-sidebar-foot{margin-top:auto; padding:14px 12px; border-top:1px solid rgba(255,255,255,.12); font-size:11px; color:#8B8880;}
-.owner-main{flex:1; min-width:0; padding:30px 36px 60px;}
-.owner-topbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:26px;}
-.owner-h1{font-family:'Space Grotesk'; font-size:23px; font-weight:600;}
-.owner-h1-sub{font-size:12.5px; color:var(--text-muted); margin-top:3px;}
-.owner-topbar-r{display:flex; align-items:center; gap:12px;}
-.owner-avatar{width:36px;height:36px;border-radius:var(--r-sm); background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk'; font-weight:700; font-size:12px;}
-.owner-pill-btn{padding:9px 15px; border-radius:100px; background:#fff; border:1px solid var(--line-strong); font-size:12px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:7px;}
-.owner-pill-btn .ic{width:14px;height:14px;}
-
-.owner-page{display:none;}
-.owner-page.on{display:block;}
-
-.kpi-row{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:22px;}
-.kpi-card{background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); padding:20px;}
-.kpi-lbl{font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:.4px; display:flex; align-items:center; gap:7px;}
-.kpi-lbl .ic{width:14px;height:14px; color:var(--accent-deep);}
-.kpi-val{font-family:'Space Grotesk'; font-size:29px; font-weight:700; margin-top:10px;}
-.kpi-delta{font-size:11.5px; margin-top:6px; font-weight:600;}
-.kpi-delta.up{color:var(--green);}
-.kpi-delta.down{color:var(--red);}
-.kpi-spark{width:100%; height:28px; margin-top:12px; display:block; overflow:visible;}
-.kpi-spark polyline{fill:none; stroke:var(--accent-deep); stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
-.kpi-spark.down polyline{stroke:var(--red);}
-
-.insight-row{display:flex; gap:12px; padding:12px 4px; border-bottom:1px solid var(--line); align-items:flex-start;}
-.insight-row:last-child{border-bottom:none;}
-.insight-ic{width:30px;height:30px;border-radius:9px; flex-shrink:0; display:flex; align-items:center; justify-content:center;}
-.insight-ic .ic{width:15px;height:15px;}
-.insight-row.bad .insight-ic{background:var(--red-tint); color:var(--red);}
-.insight-row.warn .insight-ic{background:#F7EEDD; color:#8A6420;}
-.insight-row.good .insight-ic{background:var(--green-tint); color:var(--green);}
-.insight-t{font-size:13px; font-weight:700;}
-.insight-s{font-size:11.5px; color:var(--text-muted); margin-top:3px; line-height:1.5;}
-
-.area-chart{width:100%; height:90px; display:block; margin-top:4px;}
-.chart-axis{display:flex; justify-content:space-between; font-size:9.5px; color:var(--text-dim); font-weight:600; padding:4px 2px 0;}
-
-.donut-wrap{position:relative; width:150px; height:150px; margin:4px auto 16px;}
-.donut{width:100%; height:100%;}
-.donut-center{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;}
-.donut-val{font-family:'Space Grotesk'; font-size:24px; font-weight:700;}
-.donut-lbl{font-size:10.5px; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:.3px;}
-
-.floor-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:6px; margin-bottom:14px;}
-.fcell{aspect-ratio:1; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff;}
-.fcell.leased{background:var(--ink);}
-.fcell.vacant{background:var(--stone-dim); border:1px dashed var(--line-strong); color:var(--text-dim);}
-.fcell.amenity{background:linear-gradient(135deg,var(--accent),var(--accent-deep));}
-.fcell.retail{background:var(--blue);}
-.grouped-bars{display:flex; align-items:flex-end; gap:14px; height:120px; padding:0 4px;}
-.gb-group{flex:1; display:flex; flex-direction:column; align-items:center; height:100%;}
-.gb-pair{flex:1; display:flex; align-items:flex-end; gap:4px; width:100%; justify-content:center;}
-.gb-bar{width:14px; border-radius:4px 4px 0 0;}
-.gb-bar.billed{background:var(--stone-dim); border:1px solid var(--line-strong); border-bottom:none;}
-.gb-bar.collected{background:var(--accent-deep);}
-.gb-lbl{font-size:10px; color:var(--text-dim); font-weight:700; margin-top:8px;}
-.chart-legend{display:flex; flex-wrap:wrap; gap:12px;}
-.legend-item{display:flex; align-items:center; gap:6px; font-size:10.5px; color:var(--text-muted); font-weight:600;}
-.legend-dot{width:9px;height:9px;border-radius:2.5px; display:inline-block;}
-
-.owner-grid-2{display:grid; grid-template-columns:1.3fr 1fr; gap:16px; margin-bottom:16px;}
-.panel{background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); padding:22px;}
-.panel-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;}
-.panel-title{font-family:'Space Grotesk'; font-size:15.5px; font-weight:600;}
-.panel-sub{font-size:11px; color:var(--text-dim);}
-
-.elev-fleet{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:16px;}
-.fleet-car{border-radius:var(--r-sm); border:1px solid var(--line); padding:10px 6px; text-align:center; background:var(--stone);}
-.fleet-car.run{border-color:var(--green); background:var(--green-tint);}
-.fleet-car.svc{border-color:var(--red); background:var(--red-tint);}
-.fleet-car-n{font-family:'Space Grotesk'; font-size:13px; font-weight:700;}
-.fleet-car-s{font-size:9px; color:var(--text-muted); margin-top:3px; text-transform:uppercase; font-weight:700; letter-spacing:.3px;}
-
-
-table.owner-table{width:100%; border-collapse:collapse; font-size:12.5px;}
-table.owner-table th{text-align:left; font-size:10.5px; color:var(--text-dim); font-weight:700; text-transform:uppercase; letter-spacing:.3px; padding:8px 10px; border-bottom:1px solid var(--line);}
-table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
-.tbl-pill{padding:4px 10px; border-radius:100px; font-size:10px; font-weight:800; text-transform:uppercase;}
-.tbl-pill.good{background:var(--green-tint); color:var(--green);}
-.tbl-pill.warn{background:#F7EEDD; color:#8A6420;}
-.tbl-pill.bad{background:var(--red-tint); color:var(--red);}
-.filter-row{display:flex; gap:8px; margin-bottom:14px;}
-.filter-chip{padding:8px 14px; border-radius:100px; background:var(--stone); border:1px solid var(--line); font-size:11.5px; font-weight:700; cursor:pointer; color:var(--text-muted);}
-.filter-chip.sel{background:var(--ink); color:#fff; border-color:var(--ink);}
 </style>
 </head>
 <body>
@@ -455,7 +376,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
   <div class="portal-topline"></div>
   <img class="logo" src="esnam-logo.png" alt="Esnam">
   <div class="portal-tag">Tower One · Business Tower Platform</div>
-  <p class="portal-h">One platform, three vantage points — the person who works in the tower, the company that leases a floor of it, and the owner who runs it.</p>
+  <p class="portal-h">One platform, two vantage points — the person who works in the tower, and the company that leases a floor of it.</p>
   <div class="role-grid">
     <div class="role-card" onclick="chooseRole('employee')">
       <div class="role-tag">Mobile · Individual</div>
@@ -471,13 +392,6 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
       <div class="role-desc">The tenant company's admin: runs the lease — billing, badges and headcount, parking allocation, and facilities across the whole suite.</div>
       <div class="role-cta">Open employer app <svg class="ic"><use href="#ic-chevron"/></svg></div>
     </div>
-    <div class="role-card" onclick="chooseRole('owner')">
-      <div class="role-tag">Desktop · Asset ops</div>
-      <div class="role-ic"><svg class="ic" style="width:20px;height:20px;stroke:#fff"><use href="#ic-chart"/></svg></div>
-      <div class="role-title">Building Owner</div>
-      <div class="role-desc">Esnam's operations team: occupancy, collections, the elevator fleet, maintenance and tenants across the whole tower — a control room, not a phone screen.</div>
-      <div class="role-cta">Open ops console <svg class="ic"><use href="#ic-chevron"/></svg></div>
-    </div>
   </div>
 </div>
 
@@ -486,7 +400,6 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
   <button data-m="portal" onclick="goMode('portal')">Portal</button>
   <button data-m="employee" onclick="goMode('employee')">Employee</button>
   <button data-m="employer" onclick="goMode('employer')">Employer</button>
-  <button data-m="owner" onclick="goMode('owner')">Owner</button>
 </div>
 
 <!-- ============ SHARED MOBILE AUTH (employee/employer) ============ -->
@@ -535,7 +448,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
         <div class="ho-grid">
           <div class="ho-tile"><div class="ho-tile-v">14</div><div class="ho-tile-l">Your floor</div></div>
           <div class="ho-tile"><div class="ho-tile-v">North Core</div><div class="ho-tile-l">Elevator bank</div></div>
-          <div class="ho-tile"><div class="ho-tile-v">B2 · 14</div><div class="ho-tile-l">Assigned bay</div></div>
+          <div class="ho-tile"><div class="ho-tile-v">P2 · 14</div><div class="ho-tile-l">Assigned bay</div></div>
           <div class="ho-tile"><div class="ho-tile-v">Active</div><div class="ho-tile-l">Badge status</div></div>
         </div>
         <div style="padding:24px 20px 40px; margin-top:auto;"><button class="btn-primary" onclick="navE('e-home')">Enter Tower One</button></div>
@@ -552,7 +465,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
         </div>
         <div class="brief-card">
           <div class="brief-head"><svg class="ic"><use href="#ic-sparkle"/></svg>Tower Assistant</div>
-          <div class="brief-text">Good morning, Layla — your first meeting is at 10:25 in Boardroom 14-B (pre-cooling now). Parking bay B2-14 is yours, and a sandstorm's expected after 3pm, so it's worth leaving a few minutes early and keeping the garage exit in mind.</div>
+          <div class="brief-text">Good morning, Layla — your first meeting is at 10:25 in Boardroom 14-B (pre-cooling now). Parking bay P2-14 is yours, and a sandstorm's expected after 3pm, so it's worth leaving a few minutes early and keeping the garage exit in mind.</div>
           <div class="brief-ask" onclick="openConcierge()"><svg class="ic"><use href="#ic-search"/></svg>Ask the tower anything…</div>
         </div>
         <div class="status-strip">
@@ -579,9 +492,9 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
         <div class="qa-wrap">
           <div class="qa-list">
             <div class="qa-item" onclick="navE('e-gate')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-guest"/></svg></div><div class="qa-body"><div class="qa-t">Let a guest in</div><div class="qa-s">1 active pass · North Core lobby</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
-            <div class="qa-item" onclick="openModal('modal-book')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a meeting room</div><div class="qa-s">6 rooms · next free 11:00, Floor 14</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="openBookModal()"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a meeting room</div><div class="qa-s">6 rooms · next free 11:00, Floor 14</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
             <div class="qa-item" onclick="navE('e-maint')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-wrench"/></svg></div><div class="qa-body"><div class="qa-t">Raise a facilities request</div><div class="qa-s">HVAC, IT, cleaning &amp; more</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
-            <div class="qa-item" onclick="openModal('modal-mypark')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-parking"/></svg></div><div class="qa-body"><div class="qa-t">Check my parking bay</div><div class="qa-s">B2-14 · assigned to you</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="openModal('modal-mypark')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-parking"/></svg></div><div class="qa-body"><div class="qa-t">Check my parking bay</div><div class="qa-s">P2-14 · assigned to you</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
             <div class="qa-item" onclick="navE('e-lounge')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-star"/></svg></div><div class="qa-body"><div class="qa-t">Book the lounge or an event</div><div class="qa-s">2 events open this week</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
             <div class="qa-item" onclick="goTabE('e-profile')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-badge"/></svg></div><div class="qa-body"><div class="qa-t">My badge &amp; access</div><div class="qa-s">QR pass, notification settings</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
           </div>
@@ -599,7 +512,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
           </div>
           <div class="sm-card" onclick="openModal('modal-ev')">
             <div class="sm-card-visual"><div class="sm-badge"><span class="sm-live-dot"></span>Live</div><svg class="sm-glyph"><use href="#ic-bolt"/></svg></div>
-            <div class="sm-card-title">EV Charging</div><div class="sm-card-stat">Level B1 · 5 of 8 free</div>
+            <div class="sm-card-title">EV Charging</div><div class="sm-card-stat">Level P1 · 5 of 8 free</div>
           </div>
           <div class="sm-card" onclick="openModal('modal-deals')">
             <div class="sm-card-visual"><svg class="sm-glyph"><use href="#ic-gift"/></svg></div>
@@ -636,13 +549,27 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
         <div class="topbar"><div class="back" onclick="goTabE('e-home')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div><div class="title">Visitor access</div><div class="spacer"></div></div>
         <div style="padding:0 20px;"><p style="font-size:12px;color:var(--text-muted);margin:0 0 14px;">Generate a pass — your guest's elevator car is pre-called on arrival at North Core lobby.</p>
           <div class="field"><label>Visitor name</label><input id="vis-name" placeholder="e.g. Fatima Al-Otaibi"></div>
-          <div class="field"><label>Purpose</label><input placeholder="e.g. Client meeting" value="Client meeting, Floor 14"></div>
+          <div class="field"><label>Purpose</label><input id="vis-purpose" placeholder="e.g. Client meeting" value="Client meeting, Floor 14"></div>
         </div>
         <div class="section-head" style="padding-top:0;"><div class="section-title" style="font-size:13px;">Arrival window</div></div>
         <div class="time-chip-row" style="padding-bottom:14px;">
           <div class="t-chip sel" onclick="selChip(this,'#e-gate .t-chip')">10:00</div><div class="t-chip" onclick="selChip(this,'#e-gate .t-chip')">10:30</div><div class="t-chip" onclick="selChip(this,'#e-gate .t-chip')">11:00</div><div class="t-chip" onclick="selChip(this,'#e-gate .t-chip')">14:00</div>
         </div>
         <div style="padding:0 20px 16px;"><button class="btn-primary" onclick="genPass()">Generate visitor pass</button></div>
+
+        <div id="pass-tracker" style="display:none;">
+          <div class="section-head" style="padding-top:6px;"><div class="section-title">Live pass status</div></div>
+          <div class="pass-card">
+            <div class="pass-qr"></div>
+            <div class="pass-card-body">
+              <div class="pass-card-name" id="pass-guest-name">Fatima Al-Otaibi</div>
+              <div class="pass-card-meta" id="pass-guest-meta">Client meeting · North Core · 10:00</div>
+            </div>
+          </div>
+          <div class="pstep-wrap" id="pass-steps"></div>
+          <div style="padding:4px 20px 18px;"><button class="btn-ghost" id="pass-advance-btn" onclick="advancePass()">Simulate guest arrival</button></div>
+        </div>
+
         <div class="section-head"><div class="section-title">Today's passes</div></div>
         <div class="vis-row"><div class="vis-info"><div class="vis-name">Fatima Al-Otaibi</div><div class="vis-meta">Client meeting · North Core · 10:00–12:00</div></div><span class="vis-pill pill-active">Active</span></div>
         <div style="height:16px;"></div>
@@ -656,7 +583,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
         <div class="evt-card"><div class="evt-visual"><div class="evt-cat-tag">Wellness</div></div><div class="evt-body"><div class="evt-title">Midday Reset — Breathwork</div><div class="evt-meta">Tue 29 Sep · 13:00–13:30 · F32 Studio</div><div class="evt-progress"><div class="evt-progress-fill" style="width:35%;"></div></div><div class="evt-foot"><div class="evt-spots">6 of 15 spots left</div><button class="btn-sm" onclick="bookEvent(this,'Midday Reset')">Reserve</button></div></div></div>
         <div class="section-head"><div class="section-title">More</div></div>
         <div class="qa-wrap" style="padding-bottom:20px;">
-          <div class="qa-item" onclick="openModal('modal-book')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a meeting room</div><div class="qa-s">6 rooms across Floors 8–20</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+          <div class="qa-item" onclick="openBookModal()"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a meeting room</div><div class="qa-s">6 rooms across Floors 8–20</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
           <div class="qa-item" onclick="openModal('modal-deals')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-gift"/></svg></div><div class="qa-body"><div class="qa-t">Tenant perks &amp; deals</div><div class="qa-s">F&amp;B, wellness, retail partners</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
         </div>
       </div>
@@ -683,7 +610,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
       <div class="screen" id="e-profile">
         <div class="profile-head"><div class="profile-avatar">LA</div><div><div class="profile-name">Layla Al-Harbi</div><div class="profile-role">UX Designer · Innovate Capital · Floor 14</div></div></div>
         <div class="prof-row" onclick="openModal('modal-qr')"><div class="prof-row-l"><svg class="ic"><use href="#ic-badge"/></svg>My badge / QR pass</div><div class="prof-row-r"><svg class="ic" style="width:13px;height:13px"><use href="#ic-chevron"/></svg></div></div>
-        <div class="prof-row" onclick="openModal('modal-mypark')"><div class="prof-row-l"><svg class="ic"><use href="#ic-parking"/></svg>My parking bay</div><div class="prof-row-r">B2-14 ›</div></div>
+        <div class="prof-row" onclick="openModal('modal-mypark')"><div class="prof-row-l"><svg class="ic"><use href="#ic-parking"/></svg>My parking bay</div><div class="prof-row-r">P2-14 ›</div></div>
         <div class="prof-row" onclick="toastE('Notification preferences updated')"><div class="prof-row-l"><svg class="ic"><use href="#ic-bell"/></svg>Notifications</div><div class="prof-row-r">On ›</div></div>
         <div class="prof-row"><div class="prof-row-l"><svg class="ic"><use href="#ic-doc"/></svg>Building handbook</div><div class="prof-row-r">›</div></div>
         <div style="padding:22px 20px; margin-top:auto;"><button class="btn-ghost" onclick="signOut()">Sign out</button></div>
@@ -705,7 +632,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
         </div>
         <div class="ho-grid">
           <div class="ho-tile"><div class="ho-tile-v">18</div><div class="ho-tile-l">Active badges</div></div>
-          <div class="ho-tile"><div class="ho-tile-v">B2 · 4 bays</div><div class="ho-tile-l">Reserved parking</div></div>
+          <div class="ho-tile"><div class="ho-tile-v">P2 · 4 bays</div><div class="ho-tile-l">Reserved parking</div></div>
           <div class="ho-tile"><div class="ho-tile-v">SAR 4,120</div><div class="ho-tile-l">Due 5 Oct</div></div>
           <div class="ho-tile"><div class="ho-tile-v">14 mo.</div><div class="ho-tile-l">Until lease renewal</div></div>
         </div>
@@ -748,7 +675,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
             <div class="qa-item" onclick="navM('m-bill')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-receipt"/></svg></div><div class="qa-body"><div class="qa-t">Pay service charge</div><div class="qa-s">SAR 4,120 due · 5 Oct 2026</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
             <div class="qa-item" onclick="navM('m-people')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-users"/></svg></div><div class="qa-body"><div class="qa-t">Manage employee badges</div><div class="qa-s">18 active · 1 pending revoke</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
             <div class="qa-item" onclick="navM('m-maint')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-wrench"/></svg></div><div class="qa-body"><div class="qa-t">Facilities requests</div><div class="qa-s">2 open across the suite</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
-            <div class="qa-item" onclick="openModal('modal-book')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a room for a client</div><div class="qa-s">Recurring bookings available</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+            <div class="qa-item" onclick="openBookModal()"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a room for a client</div><div class="qa-s">Recurring bookings available</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
             <div class="qa-item" onclick="navM('m-parking')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-parking"/></svg></div><div class="qa-body"><div class="qa-t">Manage reserved parking</div><div class="qa-s">4 bays · assign to staff</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
             <div class="qa-item" onclick="navM('m-lease')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-doc"/></svg></div><div class="qa-body"><div class="qa-t">Lease &amp; documents</div><div class="qa-s">Renews in 14 months</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
           </div>
@@ -789,30 +716,22 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
       <div class="screen" id="m-people">
         <div class="topbar"><div class="back" onclick="goTabM('m-home')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div><div class="title">Employee badges</div><div class="spacer"></div></div>
         <div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Active</div><div class="stat-val">18</div></div><div class="stat-card"><div class="stat-lbl">Pending</div><div class="stat-val">1</div></div></div>
-        <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="toastM('Invite sent')">Invite a new employee</button></div>
-        <div class="vis-row"><div class="vis-info"><div class="vis-name">Layla Al-Harbi</div><div class="vis-meta">UX Designer · badge active</div></div><span class="vis-pill pill-active">Active</span></div>
-        <div class="vis-row"><div class="vis-info"><div class="vis-name">Omar Al-Dossary</div><div class="vis-meta">Account Manager · badge active</div></div><span class="vis-pill pill-active">Active</span></div>
-        <div class="vis-row"><div class="vis-info"><div class="vis-name">Hana Al-Zahrani</div><div class="vis-meta">Left company 12 Sep</div></div><span class="vis-pill pill-warn">Revoke</span></div>
+        <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="openInvite()">Invite a new employee</button></div>
+        <div id="employee-list"></div>
         <div style="height:16px;"></div>
       </div>
 
       <div class="screen" id="m-maint">
         <div class="topbar"><div class="back" onclick="goTabM('m-home')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div><div class="title">Facilities — Suite 1402</div><div class="spacer"></div></div>
-        <div class="filter-row" style="padding:0 20px 4px;"><div class="filter-chip sel">All</div><div class="filter-chip">Open</div><div class="filter-chip">Urgent</div></div>
-        <div style="padding-bottom:14px;">
-          <div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-network"/></svg></div><div class="act-body"><div class="act-t">Conference display flicker</div><div class="act-s">Room 14-B · raised by Layla</div></div><div class="act-time">In progress</div></div>
-          <div class="act-item"><div class="act-ico"><svg class="ic"><use href="#ic-wind"/></svg></div><div class="act-body"><div class="act-t">Boardroom running warm</div><div class="act-s">Room 14-B · raised by Layla</div></div><div class="act-time">New</div></div>
-        </div>
-        <div style="padding:0 20px 16px;"><button class="btn-ghost" onclick="toastM('Request submitted — reference FR-2482')">+ New request for the suite</button></div>
+        <div class="filter-row"><div class="filter-chip sel" onclick="setTicketFilter(this,'all')">All</div><div class="filter-chip" onclick="setTicketFilter(this,'open')">Open</div><div class="filter-chip" onclick="setTicketFilter(this,'urgent')">Urgent</div></div>
+        <div id="maint-list" style="padding-bottom:14px;"></div>
+        <div style="padding:0 20px 16px;"><button class="btn-primary" onclick="openNewTicket()">+ New request for the suite</button></div>
       </div>
 
       <div class="screen" id="m-parking">
         <div class="topbar"><div class="back" onclick="goTabM('m-home')"><svg class="ic" style="width:15px;height:15px"><use href="#ic-back"/></svg></div><div class="title">Reserved parking</div><div class="spacer"></div></div>
-        <p style="font-size:12px;color:var(--text-muted);margin:6px 20px 14px;">4 bays reserved for Innovate Capital, Level B2.</p>
-        <div class="vis-row"><div class="vis-info"><div class="vis-name">B2-14</div><div class="vis-meta">Assigned to Layla Al-Harbi</div></div><span class="vis-pill pill-active">Assigned</span></div>
-        <div class="vis-row"><div class="vis-info"><div class="vis-name">B2-15</div><div class="vis-meta">Assigned to Omar Al-Dossary</div></div><span class="vis-pill pill-active">Assigned</span></div>
-        <div class="vis-row"><div class="vis-info"><div class="vis-name">B2-16</div><div class="vis-meta">Unassigned</div></div><span class="vis-pill pill-done">Open</span></div>
-        <div class="vis-row"><div class="vis-info"><div class="vis-name">B2-17</div><div class="vis-meta">Unassigned</div></div><span class="vis-pill pill-done">Open</span></div>
+        <p style="font-size:12px;color:var(--text-muted);margin:6px 20px 14px;">4 bays reserved for Innovate Capital, Level P2. Assign bays from an employee's badge, under People.</p>
+        <div id="parking-list"></div>
         <div style="height:16px;"></div>
       </div>
 
@@ -836,211 +755,6 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
   </div>
 </div>
 
-<!-- ============ OWNER OPS CONSOLE ============ -->
-<div class="app-shell" id="app-owner">
-  <div class="owner-login-stage" id="owner-login-stage">
-    <div class="owner-login-card">
-      <img class="auth-logo" src="esnam-logo.png" alt="Esnam">
-      <div class="role-echo">Signing in as Building Owner</div>
-      <h2 class="auth-title">Tower One Ops Console</h2>
-      <p class="auth-sub">Asset &amp; operations sign-in for Esnam building management.</p>
-      <div class="field"><label>Work email</label><input type="text" value="ops.lead@esnam.com.sa"></div>
-      <div class="field"><label>Password</label><input type="password" value="••••••••••"></div>
-      <button class="btn-primary" onclick="ownerSignIn()">Sign in</button>
-    </div>
-  </div>
-
-  <div class="owner-console" id="owner-console">
-    <div class="owner-sidebar">
-      <img class="logo logo-invert" src="esnam-logo.png" alt="Esnam" style="width:90px;">
-      <div class="owner-nav-item active" data-op="o-overview" onclick="navO('o-overview')"><svg class="ic"><use href="#ic-chart"/></svg>Overview</div>
-      <div class="owner-nav-item" data-op="o-tenants" onclick="navO('o-tenants')"><svg class="ic"><use href="#ic-building"/></svg>Tenants &amp; Leasing</div>
-      <div class="owner-nav-item" data-op="o-maint" onclick="navO('o-maint')"><svg class="ic"><use href="#ic-wrench"/></svg>Maintenance</div>
-      <div class="owner-nav-item" data-op="o-fin" onclick="navO('o-fin')"><svg class="ic"><use href="#ic-receipt"/></svg>Financials</div>
-      <div class="owner-nav-item" data-op="o-sec" onclick="navO('o-sec')"><svg class="ic"><use href="#ic-shield"/></svg>Security &amp; Access</div>
-      <div class="owner-sidebar-foot">Esnam Business Tower<br>Tower One · Asset Operations</div>
-    </div>
-
-    <div class="owner-main">
-      <!-- OVERVIEW -->
-      <div class="owner-page on" id="o-overview">
-        <div class="owner-topbar">
-          <div><div class="owner-h1">Tower Overview</div><div class="owner-h1-sub">Live status across Tower One · Saturday, 20 September 2026</div></div>
-          <div class="owner-topbar-r"><button class="owner-pill-btn"><svg class="ic"><use href="#ic-search"/></svg>Search tenants</button><div class="owner-avatar">OL</div></div>
-        </div>
-
-        <div class="kpi-row">
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-building"/></svg>Leased occupancy</div><div class="kpi-val">85%</div><div class="kpi-delta up">▲ 3pts vs last quarter</div>
-            <svg class="kpi-spark" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,22 17,20 34,17 50,15 67,12 84,9 100,7"/></svg>
-          </div>
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-receipt"/></svg>Collections rate</div><div class="kpi-val">94%</div><div class="kpi-delta down">▼ 2pts vs last month</div>
-            <svg class="kpi-spark down" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,6 17,8 34,7 50,10 67,14 84,17 100,19"/></svg>
-          </div>
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-wrench"/></svg>Open tickets</div><div class="kpi-val">27</div><div class="kpi-delta down">▲ 4 vs last week</div>
-            <svg class="kpi-spark down" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,18 17,19 34,15 50,17 67,10 84,13 100,6"/></svg>
-          </div>
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-elevator"/></svg>Avg. elevator wait</div><div class="kpi-val">34s</div><div class="kpi-delta up">▲ within 40s target</div>
-            <svg class="kpi-spark" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,14 17,10 34,16 50,12 67,15 84,11 100,13"/></svg>
-          </div>
-        </div>
-
-        <div class="panel" style="margin-bottom:16px;">
-          <div class="panel-head"><div class="panel-title"><svg class="ic" style="width:16px;height:16px;color:var(--accent-deep);vertical-align:-3px;margin-right:6px;"><use href="#ic-sparkle"/></svg>AI-generated insights</div><div class="panel-sub">Updated 5 minutes ago</div></div>
-          <div class="insight-row bad"><div class="insight-ic"><svg class="ic"><use href="#ic-alert"/></svg></div><div class="insight-body"><div class="insight-t">Nabd Health Group is 60+ days overdue on SAR 9,800</div><div class="insight-s">Largest aging balance this quarter — flagged for the collections team.</div></div></div>
-          <div class="insight-row warn"><div class="insight-ic"><svg class="ic"><use href="#ic-alert"/></svg></div><div class="insight-body"><div class="insight-t">Chiller efficiency drop, Zone B has been open 2 days</div><div class="insight-s">The HVAC contractor's 24-hour SLA has been breached on this ticket.</div></div></div>
-          <div class="insight-row good"><div class="insight-ic"><svg class="ic"><use href="#ic-check"/></svg></div><div class="insight-body"><div class="insight-t">Elevator wait holding at 34s despite Car 4 in service</div><div class="insight-s">Load balancing across the remaining six cars is absorbing the loss.</div></div></div>
-          <div class="insight-row warn"><div class="insight-ic"><svg class="ic"><use href="#ic-alert"/></svg></div><div class="insight-body"><div class="insight-t">Floor 18 has sat vacant for 90+ days</div><div class="insight-s">Leasing recommends a fit-out incentive to move this unit.</div></div></div>
-          <div class="insight-row good"><div class="insight-ic"><svg class="ic"><use href="#ic-check"/></svg></div><div class="insight-body"><div class="insight-t">Visitor traffic up 18% month-over-month</div><div class="insight-s">Tenant lounge utilisation is tracking the same curve.</div></div></div>
-        </div>
-
-        <div class="owner-grid-2">
-          <div class="panel">
-            <div class="panel-head"><div class="panel-title">Elevator fleet — North &amp; South Core</div><div class="panel-sub">7 high-speed cars · live</div></div>
-            <div class="elev-fleet">
-              <div class="fleet-car run"><div class="fleet-car-n">C1</div><div class="fleet-car-s">Running</div></div>
-              <div class="fleet-car run"><div class="fleet-car-n">C2</div><div class="fleet-car-s">Running</div></div>
-              <div class="fleet-car run"><div class="fleet-car-n">C3</div><div class="fleet-car-s">Running</div></div>
-              <div class="fleet-car svc"><div class="fleet-car-n">C4</div><div class="fleet-car-s">Service</div></div>
-              <div class="fleet-car run"><div class="fleet-car-n">C5</div><div class="fleet-car-s">Running</div></div>
-              <div class="fleet-car run"><div class="fleet-car-n">C6</div><div class="fleet-car-s">Running</div></div>
-              <div class="fleet-car run"><div class="fleet-car-n">C7</div><div class="fleet-car-s">Running</div></div>
-            </div>
-            <div class="panel-sub" style="margin-bottom:8px;">Average wait time, last 12 hours</div>
-            <svg class="area-chart" viewBox="0 0 300 90" preserveAspectRatio="none">
-              <defs><linearGradient id="elevGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C9A464" stop-opacity="0.45"/><stop offset="100%" stop-color="#C9A464" stop-opacity="0"/></linearGradient></defs>
-              <path d="M0,60 L27,45 L54,35 L82,15 L109,40 L136,55 L163,60 L191,38 L218,25 L245,48 L272,58 L300,52 L300,90 L0,90 Z" fill="url(#elevGrad)"/>
-              <path d="M0,60 L27,45 L54,35 L82,15 L109,40 L136,55 L163,60 L191,38 L218,25 L245,48 L272,58 L300,52" fill="none" stroke="#9C7A42" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <div class="chart-axis"><span>08:00</span><span>11:00</span><span>14:00</span><span>17:00</span><span>20:00</span></div>
-          </div>
-          <div class="panel">
-            <div class="panel-head"><div class="panel-title">Occupancy</div><div class="panel-sub">34 floors</div></div>
-            <div class="donut-wrap">
-              <svg class="donut" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="42" fill="none" stroke="var(--stone-dim)" stroke-width="11"/>
-                <circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="11" stroke-linecap="round" stroke-dasharray="224 264" transform="rotate(-90 50 50)"/>
-              </svg>
-              <div class="donut-center"><div class="donut-val">85%</div><div class="donut-lbl">Leased</div></div>
-            </div>
-            <div class="floor-grid">
-              <div class="fcell retail" title="Floor 1 — Retail &amp; Café">1</div>
-              <div class="fcell leased" title="Floor 2 — Leased">2</div><div class="fcell leased" title="Floor 3 — Leased">3</div><div class="fcell leased" title="Floor 4 — Leased">4</div><div class="fcell leased" title="Floor 5 — Leased">5</div><div class="fcell leased" title="Floor 6 — Leased">6</div>
-              <div class="fcell leased" title="Floor 7 — Leased">7</div><div class="fcell leased" title="Floor 8 — Nabd Health Group">8</div><div class="fcell leased" title="Floor 9 — Leased">9</div><div class="fcell leased" title="Floor 10 — Leased">10</div><div class="fcell vacant" title="Floor 11 — Available for lease">11</div><div class="fcell leased" title="Floor 12 — Leased">12</div>
-              <div class="fcell leased" title="Floor 13 — Leased">13</div><div class="fcell leased" title="Floor 14 — Innovate Capital">14</div><div class="fcell leased" title="Floor 15 — Leased">15</div><div class="fcell leased" title="Floor 16 — Leased">16</div><div class="fcell leased" title="Floor 17 — Leased">17</div><div class="fcell vacant" title="Floor 18 — Available for lease, 90+ days">18</div>
-              <div class="fcell leased" title="Floor 19 — Leased">19</div><div class="fcell leased" title="Floor 20 — Leased">20</div><div class="fcell leased" title="Floor 21 — Leased">21</div><div class="fcell leased" title="Floor 22 — Sanad Logistics">22</div><div class="fcell leased" title="Floor 23 — Leased">23</div><div class="fcell leased" title="Floor 24 — Leased">24</div>
-              <div class="fcell vacant" title="Floor 25 — Available for lease">25</div><div class="fcell leased" title="Floor 26 — Leased">26</div><div class="fcell leased" title="Floor 27 — Leased">27</div><div class="fcell leased" title="Floor 28 — Al-Rasheed Advisory">28</div><div class="fcell leased" title="Floor 29 — Leased">29</div><div class="fcell leased" title="Floor 30 — Leased">30</div>
-              <div class="fcell vacant" title="Floor 31 — Available for lease">31</div><div class="fcell amenity" title="Floor 32 — Tenant Lounge / Amenity">32</div><div class="fcell leased" title="Floor 33 — Leased">33</div><div class="fcell vacant" title="Floor 34 — Available for lease">34</div>
-            </div>
-            <div class="chart-legend">
-              <div class="legend-item"><span class="legend-dot" style="background:var(--ink);"></span>Leased</div>
-              <div class="legend-item"><span class="legend-dot" style="background:var(--stone-dim); border:1px dashed var(--line-strong);"></span>Vacant</div>
-              <div class="legend-item"><span class="legend-dot" style="background:linear-gradient(135deg,var(--accent),var(--accent-deep));"></span>Amenity</div>
-              <div class="legend-item"><span class="legend-dot" style="background:var(--blue);"></span>Retail</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><div class="panel-title">Priority maintenance</div><div class="panel-sub">Across all tenants</div></div>
-          <table class="owner-table">
-            <tr><th>Ticket</th><th>Tenant / Floor</th><th>Category</th><th>Age</th><th>Status</th></tr>
-            <tr><td>Chiller efficiency drop, Zone B</td><td>Building systems · Fl. 1</td><td>HVAC</td><td>2 days</td><td><span class="tbl-pill bad">Overdue</span></td></tr>
-            <tr><td>Conference display flicker</td><td>Innovate Capital · Fl. 14</td><td>IT / Network</td><td>4 hrs</td><td><span class="tbl-pill warn">In progress</span></td></tr>
-            <tr><td>Garage lighting, Level B2</td><td>Building systems · B2</td><td>Electrical</td><td>1 day</td><td><span class="tbl-pill warn">In progress</span></td></tr>
-            <tr><td>Boardroom running warm</td><td>Innovate Capital · Fl. 14</td><td>HVAC</td><td>1 hr</td><td><span class="tbl-pill good">New</span></td></tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- TENANTS -->
-      <div class="owner-page" id="o-tenants">
-        <div class="owner-topbar"><div><div class="owner-h1">Tenants &amp; Leasing</div><div class="owner-h1-sub">28 active tenancies · 85% leased</div></div><div class="owner-topbar-r"><button class="owner-pill-btn"><svg class="ic"><use href="#ic-guest"/></svg>Add tenant</button></div></div>
-        <div class="panel">
-          <table class="owner-table">
-            <tr><th>Company</th><th>Suite / Floor</th><th>Headcount</th><th>Lease expiry</th><th>Standing</th></tr>
-            <tr><td>Innovate Capital</td><td>1402 · Fl. 14</td><td>18</td><td>Nov 2027</td><td><span class="tbl-pill good">Good standing</span></td></tr>
-            <tr><td>Al-Rasheed Advisory</td><td>2801 · Fl. 28</td><td>34</td><td>Mar 2028</td><td><span class="tbl-pill good">Good standing</span></td></tr>
-            <tr><td>Sanad Logistics</td><td>2201–2202 · Fl. 22</td><td>52</td><td>Jan 2027</td><td><span class="tbl-pill warn">Renewal due</span></td></tr>
-            <tr><td>Nabd Health Group</td><td>801 · Fl. 8</td><td>21</td><td>Aug 2026</td><td><span class="tbl-pill bad">Payment overdue</span></td></tr>
-            <tr><td>Floor 18 Suites</td><td>1801–1804 · Fl. 18</td><td>—</td><td>—</td><td><span class="tbl-pill warn">Available for lease</span></td></tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- MAINTENANCE -->
-      <div class="owner-page" id="o-maint">
-        <div class="owner-topbar"><div><div class="owner-h1">Maintenance queue</div><div class="owner-h1-sub">27 open tickets tower-wide</div></div></div>
-        <div class="filter-row"><div class="filter-chip sel">All (27)</div><div class="filter-chip">Overdue (3)</div><div class="filter-chip">HVAC (9)</div><div class="filter-chip">Electrical (6)</div><div class="filter-chip">IT/Network (5)</div></div>
-        <div class="panel">
-          <table class="owner-table">
-            <tr><th>Ticket</th><th>Tenant / Floor</th><th>Category</th><th>Urgency</th><th>Age</th><th>Status</th></tr>
-            <tr><td>Chiller efficiency drop, Zone B</td><td>Building systems · Fl. 1</td><td>HVAC</td><td>Urgent</td><td>2 days</td><td><span class="tbl-pill bad">Overdue</span></td></tr>
-            <tr><td>Conference display flicker</td><td>Innovate Capital · Fl. 14</td><td>IT/Network</td><td>Normal</td><td>4 hrs</td><td><span class="tbl-pill warn">In progress</span></td></tr>
-            <tr><td>Garage lighting, Level B2</td><td>Building systems · B2</td><td>Electrical</td><td>Normal</td><td>1 day</td><td><span class="tbl-pill warn">In progress</span></td></tr>
-            <tr><td>Boardroom running warm</td><td>Innovate Capital · Fl. 14</td><td>HVAC</td><td>Normal</td><td>1 hr</td><td><span class="tbl-pill good">New</span></td></tr>
-            <tr><td>Lobby door sensor fault</td><td>Building systems · Fl. 1</td><td>Electrical</td><td>Low</td><td>3 days</td><td><span class="tbl-pill bad">Overdue</span></td></tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- FINANCIALS -->
-      <div class="owner-page" id="o-fin">
-        <div class="owner-topbar"><div><div class="owner-h1">Financials</div><div class="owner-h1-sub">Service charge collections, Tower One</div></div></div>
-        <div class="kpi-row">
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-receipt"/></svg>Billed this month</div><div class="kpi-val">SAR 612K</div></div>
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-receipt"/></svg>Collected</div><div class="kpi-val">SAR 575K</div></div>
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-alert"/></svg>Outstanding</div><div class="kpi-val">SAR 37K</div></div>
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-chart"/></svg>Collections rate</div><div class="kpi-val">94%</div></div>
-        </div>
-        <div class="panel" style="margin-bottom:16px;">
-          <div class="panel-head"><div class="panel-title">Billed vs. collected</div><div class="panel-sub">Last 6 months, SAR 000s</div></div>
-          <div class="grouped-bars">
-            <div class="gb-group"><div class="gb-pair"><div class="gb-bar billed" style="height:78%"></div><div class="gb-bar collected" style="height:70%"></div></div><div class="gb-lbl">Apr</div></div>
-            <div class="gb-group"><div class="gb-pair"><div class="gb-bar billed" style="height:82%"></div><div class="gb-bar collected" style="height:76%"></div></div><div class="gb-lbl">May</div></div>
-            <div class="gb-group"><div class="gb-pair"><div class="gb-bar billed" style="height:80%"></div><div class="gb-bar collected" style="height:78%"></div></div><div class="gb-lbl">Jun</div></div>
-            <div class="gb-group"><div class="gb-pair"><div class="gb-bar billed" style="height:88%"></div><div class="gb-bar collected" style="height:81%"></div></div><div class="gb-lbl">Jul</div></div>
-            <div class="gb-group"><div class="gb-pair"><div class="gb-bar billed" style="height:92%"></div><div class="gb-bar collected" style="height:84%"></div></div><div class="gb-lbl">Aug</div></div>
-            <div class="gb-group"><div class="gb-pair"><div class="gb-bar billed" style="height:100%"></div><div class="gb-bar collected" style="height:94%"></div></div><div class="gb-lbl">Sep</div></div>
-          </div>
-          <div class="chart-legend" style="margin-top:10px;">
-            <div class="legend-item"><span class="legend-dot" style="background:var(--stone-dim); border:1px solid var(--line-strong);"></span>Billed</div>
-            <div class="legend-item"><span class="legend-dot" style="background:var(--accent-deep);"></span>Collected</div>
-          </div>
-        </div>
-        <div class="panel">
-          <div class="panel-head"><div class="panel-title">Aging — outstanding balances</div></div>
-          <table class="owner-table">
-            <tr><th>Tenant</th><th>Current</th><th>30 days</th><th>60 days</th><th>90+ days</th><th>Status</th></tr>
-            <tr><td>Nabd Health Group</td><td>—</td><td>SAR 12,400</td><td>SAR 9,800</td><td>—</td><td><span class="tbl-pill bad">Overdue</span></td></tr>
-            <tr><td>Sanad Logistics</td><td>SAR 8,200</td><td>—</td><td>—</td><td>—</td><td><span class="tbl-pill warn">Due soon</span></td></tr>
-            <tr><td>Innovate Capital</td><td>SAR 4,120</td><td>—</td><td>—</td><td>—</td><td><span class="tbl-pill good">Current</span></td></tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- SECURITY -->
-      <div class="owner-page" id="o-sec">
-        <div class="owner-topbar"><div><div class="owner-h1">Security &amp; Access</div><div class="owner-h1-sub">Tower-wide log · 0 open incidents</div></div></div>
-        <div class="kpi-row">
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-shield"/></svg>Incidents, 30 days</div><div class="kpi-val">2</div><div class="kpi-delta up">Both resolved</div></div>
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-guest"/></svg>Visitor passes today</div><div class="kpi-val">57</div></div>
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-badge"/></svg>Active badges</div><div class="kpi-val">1,240</div></div>
-          <div class="kpi-card"><div class="kpi-lbl"><svg class="ic"><use href="#ic-alert"/></svg>SOS alerts, 30 days</div><div class="kpi-val">0</div></div>
-        </div>
-        <div class="panel">
-          <div class="panel-head"><div class="panel-title">Recent access log</div></div>
-          <table class="owner-table">
-            <tr><th>Event</th><th>Location</th><th>Time</th></tr>
-            <tr><td>Visitor pass — Fatima Al-Otaibi</td><td>North Core lobby</td><td>Today, 10:02</td></tr>
-            <tr><td>Delivery courier checked in</td><td>Service entrance, B1</td><td>Today, 08:47</td></tr>
-            <tr><td>After-hours access, Floor 22</td><td>South Core</td><td>Yesterday, 21:14</td></tr>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ============ SHARED MODALS (mobile apps) ============ -->
 <div class="phone-stage" style="position:fixed; inset:0; pointer-events:none; padding:0;">
   <div class="phone-frame" style="position:relative; box-shadow:none; background:transparent; pointer-events:none;" id="modal-frame" data-nochrome="1">
@@ -1056,14 +770,14 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
     </div></div></div>
 
   <div class="smart-modal" id="modal-ev"><div class="smart-sheet"><div class="sheet-handle"></div>
-    <div class="sheet-head"><div class="sheet-title">EV Charging · Level B1</div><div class="sheet-close" onclick="closeModal('modal-ev')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-head"><div class="sheet-title">EV Charging · Level P1</div><div class="sheet-close" onclick="closeModal('modal-ev')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
     <div class="sheet-body"><div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Available</div><div class="stat-val">5 bays</div></div><div class="stat-card"><div class="stat-lbl">In use</div><div class="stat-val">3 bays</div></div></div>
-      <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="toastAny('Bay B1-A03 held for 15 minutes'); closeModal('modal-ev')">Hold a bay for 15 minutes</button></div>
+      <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="toastAny('Bay P1-A03 held for 15 minutes'); closeModal('modal-ev')">Hold a bay for 15 minutes</button></div>
     </div></div></div>
 
   <div class="smart-modal" id="modal-mypark"><div class="smart-sheet"><div class="sheet-handle"></div>
     <div class="sheet-head"><div class="sheet-title">My parking bay</div><div class="sheet-close" onclick="closeModal('modal-mypark')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
-    <div class="sheet-body"><div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Bay</div><div class="stat-val">B2-14</div></div><div class="stat-card"><div class="stat-lbl">Level</div><div class="stat-val">B2</div></div></div>
+    <div class="sheet-body"><div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Bay</div><div class="stat-val">P2-14</div></div><div class="stat-card"><div class="stat-lbl">Level</div><div class="stat-val">P2</div></div></div>
       <p style="font-size:11.5px;color:var(--text-muted);margin:0 20px 14px;">Assigned to you by Innovate Capital. Nearest to the North Core elevator bank.</p>
     </div></div></div>
 
@@ -1079,7 +793,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
     <div class="sheet-body">
       <div class="vis-row"><div class="vis-info"><div class="vis-name">15% off — Ground Floor Café</div><div class="vis-meta">Valid for Tower One badge holders</div></div><button class="btn-sm" onclick="claimDeal(this)">Claim</button></div>
       <div class="vis-row"><div class="vis-info"><div class="vis-name">Free trial class — F32 Wellness</div><div class="vis-meta">One per employee, this month</div></div><button class="btn-sm" onclick="claimDeal(this)">Claim</button></div>
-      <div class="vis-row"><div class="vis-info"><div class="vis-name">Priority valet — Garage B1</div><div class="vis-meta">For same-day client visits</div></div><button class="btn-sm" onclick="claimDeal(this)">Claim</button></div>
+      <div class="vis-row"><div class="vis-info"><div class="vis-name">Priority valet — Garage P1</div><div class="vis-meta">For same-day client visits</div></div><button class="btn-sm" onclick="claimDeal(this)">Claim</button></div>
     </div></div></div>
 
   <div class="smart-modal" id="modal-parcel"><div class="smart-sheet"><div class="sheet-handle"></div>
@@ -1097,17 +811,32 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
   <div class="smart-modal" id="modal-book"><div class="smart-sheet"><div class="sheet-handle"></div>
     <div class="sheet-head"><div class="sheet-title">Book a meeting room</div><div class="sheet-close" onclick="closeModal('modal-book')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
     <div class="sheet-body">
-      <div class="date-chip-row" style="padding-bottom:12px;"><div class="d-chip sel" onclick="selChip(this,'#modal-book .d-chip')"><div class="d-num">20</div><div class="d-sub">Today</div></div><div class="d-chip" onclick="selChip(this,'#modal-book .d-chip')"><div class="d-num">21</div><div class="d-sub">Mon</div></div><div class="d-chip" onclick="selChip(this,'#modal-book .d-chip')"><div class="d-num">22</div><div class="d-sub">Tue</div></div></div>
-      <div class="time-chip-row" style="padding-bottom:14px;"><div class="t-chip" onclick="selChip(this,'#modal-book .t-chip')">10:00</div><div class="t-chip sel" onclick="selChip(this,'#modal-book .t-chip')">11:00</div><div class="t-chip" onclick="selChip(this,'#modal-book .t-chip')">14:00</div><div class="t-chip" onclick="selChip(this,'#modal-book .t-chip')">16:00</div></div>
-      <div class="section-head" style="padding-top:0;"><div class="section-title" style="font-size:12.5px;">Room · Floor 14</div></div>
-      <div class="cats-grid" style="padding-bottom:14px;"><div class="cat-tile sel" onclick="selChip(this,'#modal-book .cat-tile')"><svg class="ic"><use href="#ic-building"/></svg><div class="cat-name">14-B · 8p</div></div><div class="cat-tile" onclick="selChip(this,'#modal-book .cat-tile')"><svg class="ic"><use href="#ic-building"/></svg><div class="cat-name">14-C · 4p</div></div><div class="cat-tile" onclick="selChip(this,'#modal-book .cat-tile')"><svg class="ic"><use href="#ic-star"/></svg><div class="cat-name">F32 · 12p</div></div></div>
-      <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="toastAny('Boardroom 14-B booked for 11:00'); closeModal('modal-book')">Confirm booking</button></div>
+      <div id="book-view-form">
+        <div class="date-chip-row" style="padding-bottom:12px;"><div class="d-chip sel" onclick="selChip(this,'#modal-book .d-chip')"><div class="d-num">20</div><div class="d-sub">Today</div></div><div class="d-chip" onclick="selChip(this,'#modal-book .d-chip')"><div class="d-num">21</div><div class="d-sub">Mon</div></div><div class="d-chip" onclick="selChip(this,'#modal-book .d-chip')"><div class="d-num">22</div><div class="d-sub">Tue</div></div></div>
+        <div class="time-chip-row" style="padding-bottom:14px;"><div class="t-chip" onclick="selChip(this,'#modal-book .t-chip')">10:00</div><div class="t-chip sel" onclick="selChip(this,'#modal-book .t-chip')">11:00</div><div class="t-chip" onclick="selChip(this,'#modal-book .t-chip')">14:00</div><div class="t-chip" onclick="selChip(this,'#modal-book .t-chip')">16:00</div></div>
+        <div class="section-head" style="padding-top:0;"><div class="section-title" style="font-size:12.5px;">Room · Floor 14</div></div>
+        <div class="cats-grid" style="padding-bottom:14px;"><div class="cat-tile sel" onclick="selChip(this,'#modal-book .cat-tile')"><svg class="ic"><use href="#ic-building"/></svg><div class="cat-name">14-B · 8p</div></div><div class="cat-tile" onclick="selChip(this,'#modal-book .cat-tile')"><svg class="ic"><use href="#ic-building"/></svg><div class="cat-name">14-C · 4p</div></div><div class="cat-tile" onclick="selChip(this,'#modal-book .cat-tile')"><svg class="ic"><use href="#ic-star"/></svg><div class="cat-name">F32 · 12p</div></div></div>
+        <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="confirmBooking()">Confirm booking</button></div>
+      </div>
+      <div id="book-view-ready" style="display:none;">
+        <div class="pass-card" style="background:linear-gradient(160deg,#20212A,#121317);">
+          <div class="qa-ico" style="background:transparent; border:1px solid rgba(255,255,255,.18);"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div>
+          <div><div class="pass-card-name" id="book-room-name">Boardroom 14-B</div><div class="pass-card-meta" id="book-room-meta">Today · 11:00 · 8p</div></div>
+        </div>
+        <div class="section-head" style="padding-top:4px;"><div class="section-title" style="font-size:13px;">Preparing your room</div><div class="section-sub" id="book-prep-status">In progress</div></div>
+        <div style="padding:0 20px 12px;"><div class="aq-bar"><div class="aq-fill" id="book-prep-fill" style="width:0%;"></div></div></div>
+        <div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Temperature</div><div class="stat-val" id="book-prep-temp">26°C</div></div><div class="stat-card"><div class="stat-lbl">Lighting</div><div class="stat-val" id="book-prep-light">40%</div></div></div>
+        <div style="padding:8px 20px 12px; display:flex; gap:10px;">
+          <button class="btn-ghost" style="margin-top:0;" onclick="closeModal('modal-book')">Done</button>
+          <button class="btn-primary" onclick="closeModal('modal-book'); openModal('modal-navigate')">Navigate to room</button>
+        </div>
+      </div>
     </div></div></div>
 
   <div class="smart-modal" id="modal-park"><div class="smart-sheet"><div class="sheet-handle"></div>
     <div class="sheet-head"><div class="sheet-title">Reserve a parking bay</div><div class="sheet-close" onclick="closeModal('modal-park')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
-    <div class="sheet-body"><div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Nearest bay</div><div class="stat-val">B2-14</div></div><div class="stat-card"><div class="stat-lbl">Shaded until</div><div class="stat-val">16:00</div></div></div>
-      <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="toastAny('Bay B2-14 held for 15 minutes'); closeModal('modal-park')">Hold bay B2-14</button></div>
+    <div class="sheet-body"><div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Nearest bay</div><div class="stat-val">P2-14</div></div><div class="stat-card"><div class="stat-lbl">Shaded until</div><div class="stat-val">16:00</div></div></div>
+      <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="toastAny('Bay P2-14 held for 15 minutes'); closeModal('modal-park')">Hold bay P2-14</button></div>
     </div></div></div>
 
   <div class="smart-modal" id="modal-access"><div class="smart-sheet"><div class="sheet-handle"></div>
@@ -1146,7 +875,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
       <div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Temperature</div><div class="stat-val">23°C</div></div><div class="stat-card"><div class="stat-lbl">Lighting</div><div class="stat-val">70%</div></div></div>
       <div class="qa-wrap" style="padding-bottom:6px;">
         <div class="qa-list">
-          <div class="qa-item" onclick="closeModal('modal-work'); openModal('modal-book')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a space</div><div class="qa-s">Rooms suggested by your calendar</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
+          <div class="qa-item" onclick="closeModal('modal-work'); openBookModal()"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a space</div><div class="qa-s">Rooms suggested by your calendar</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
           <div class="qa-item" onclick="toastAny('Boardroom 14-B set to 22°C, blinds half-closed')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-wind"/></svg></div><div class="qa-body"><div class="qa-t">Adjust environment</div><div class="qa-s">Climate, lighting &amp; blinds</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
           <div class="qa-item" onclick="toastAny('Tenant concierge notified — reply in your messages')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-sparkle"/></svg></div><div class="qa-body"><div class="qa-t">Get assistance</div><div class="qa-s">Message the tenant concierge</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
         </div>
@@ -1163,6 +892,60 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
         <input id="concierge-input" type="text" placeholder="Ask the tower anything…" onkeydown="if(event.key==='Enter'){sendConciergeFromInput();}">
         <button class="concierge-send" onclick="sendConciergeFromInput()"><svg class="ic"><use href="#ic-send"/></svg></button>
       </div>
+    </div>
+  </div></div>
+
+  <div class="smart-modal" id="modal-employee"><div class="smart-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title" id="emp-name">Employee</div><div class="sheet-close" onclick="closeModal('modal-employee')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body">
+      <p style="font-size:11.5px;color:var(--text-muted);margin:0 20px 14px;" id="emp-role"></p>
+      <div style="margin:0 20px 16px;padding:16px;border-radius:14px;background:var(--stone);text-align:center;">
+        <div class="pass-qr" style="margin:0 auto 10px;width:70px;height:70px;"></div>
+        <div style="font-size:11px;color:var(--text-muted);">Badge QR</div>
+      </div>
+      <div id="emp-bay-section"></div>
+      <div style="padding:8px 20px 16px;"><button class="btn-ghost" id="emp-revoke-btn" style="color:var(--red);border-color:var(--red-tint);" onclick="revokeFromDetail()">Revoke badge</button></div>
+    </div>
+  </div></div>
+
+  <div class="smart-modal" id="modal-invite"><div class="smart-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">Invite a new employee</div><div class="sheet-close" onclick="closeModal('modal-invite')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body">
+      <div style="padding:0 20px;">
+        <div class="field"><label>Full name</label><input id="inv-name" placeholder="e.g. Sara Al-Qahtani"></div>
+        <div class="field"><label>Role</label><input id="inv-role" placeholder="e.g. Financial Analyst"></div>
+      </div>
+      <div style="padding:8px 20px 12px;"><button class="btn-primary" onclick="submitInvite()">Send invite</button></div>
+    </div>
+  </div></div>
+
+  <div class="smart-modal" id="modal-ticket"><div class="smart-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title" id="ticket-title">Ticket</div><div class="sheet-close" onclick="closeModal('modal-ticket')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body">
+      <p style="font-size:11.5px;color:var(--text-muted);margin:0 20px 16px;" id="ticket-meta"></p>
+      <div class="pstep-wrap" id="ticket-steps"></div>
+      <div style="padding:6px 20px 16px;"><button class="btn-ghost" id="ticket-advance-btn" onclick="advanceTicket()">Simulate technician update</button></div>
+    </div>
+  </div></div>
+
+  <div class="smart-modal" id="modal-newticket"><div class="smart-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="sheet-title">New facilities request</div><div class="sheet-close" onclick="closeModal('modal-newticket')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
+    <div class="sheet-body">
+      <div class="section-head" style="padding-top:2px;"><div class="section-title" style="font-size:13px;">Category</div></div>
+      <div class="cats-grid" style="padding-bottom:14px;">
+        <div class="cat-tile sel" onclick="selChip(this,'#modal-newticket .cat-tile')"><svg class="ic"><use href="#ic-wind"/></svg><div class="cat-name">HVAC</div></div>
+        <div class="cat-tile" onclick="selChip(this,'#modal-newticket .cat-tile')"><svg class="ic"><use href="#ic-bolt"/></svg><div class="cat-name">Electrical</div></div>
+        <div class="cat-tile" onclick="selChip(this,'#modal-newticket .cat-tile')"><svg class="ic"><use href="#ic-network"/></svg><div class="cat-name">IT / Network</div></div>
+      </div>
+      <div class="section-head" style="padding-top:0;"><div class="section-title" style="font-size:13px;">Urgency</div></div>
+      <div class="urg-tag-row" style="padding-bottom:14px;"><div class="urg-tag" onclick="selChip(this,'#modal-newticket .urg-tag')">Low</div><div class="urg-tag sel" onclick="selChip(this,'#modal-newticket .urg-tag')">Normal</div><div class="urg-tag" onclick="selChip(this,'#modal-newticket .urg-tag')">Urgent</div></div>
+      <div class="section-head" style="padding-top:0;"><div class="section-title" style="font-size:13px;">Describe the issue</div></div>
+      <div style="padding-bottom:14px;"><textarea class="maint-ta" id="nt-desc" placeholder="What's wrong, and where?"></textarea></div>
+      <div style="padding:0 20px 12px;"><button class="btn-primary" onclick="submitNewTicket()">Submit request</button></div>
     </div>
   </div></div>
 
@@ -1191,8 +974,7 @@ table.owner-table td{padding:11px 10px; border-bottom:1px solid var(--line);}
 /* ---------- portal / mode routing ---------- */
 let currentMode='portal', pendingRole='employee';
 function chooseRole(role){ pendingRole=role;
-  document.getElementById('role-echo').textContent = 'Signing in as ' + (role==='employee'?'Employee':role==='employer'?'Employer':'Building Owner');
-  if(role==='owner'){ goMode('owner'); return; }
+  document.getElementById('role-echo').textContent = 'Signing in as ' + (role==='employee'?'Employee':'Employer');
   document.getElementById(curA).classList.remove('active');
   document.getElementById('a-login').classList.add('active');
   curA='a-login';
@@ -1205,7 +987,6 @@ function goMode(mode){
   if(mode==='auth'){ document.getElementById('app-auth').classList.add('on'); }
   else if(mode==='employee'){ document.getElementById('app-employee').classList.add('on'); document.getElementById('sos-fab').classList.add('show'); }
   else if(mode==='employer'){ document.getElementById('app-employer').classList.add('on'); document.getElementById('sos-fab').classList.add('show'); }
-  else if(mode==='owner'){ document.getElementById('app-owner').classList.add('on'); document.getElementById('sos-fab').classList.remove('show'); }
   currentMode = mode;
   document.querySelectorAll('.mode-switch button').forEach(b=>b.classList.toggle('on', b.dataset.m===mode || (mode==='auth'&&b.dataset.m===pendingRole)));
 }
@@ -1326,7 +1107,7 @@ function resolveConcierge(rawText){
   if(t.includes('client') && (t.includes('visit') || t.includes('tomorrow') || t.includes('guest'))){
     return '<div class="cmsg-title">All set for your client visit</div>'
       + '<div class="cmsg-step">✓ Visitor pass generated</div>'
-      + '<div class="cmsg-step">✓ Parking bay B2-14 held for the visit window</div>'
+      + '<div class="cmsg-step">✓ Parking bay P2-14 held for the visit window</div>'
       + '<div class="cmsg-step">✓ Boardroom 14-B booked, pre-cooling 10 minutes before arrival</div>'
       + '<div class="cmsg-step">✓ Wayfinding link ready to share with your guest</div>';
   }
@@ -1346,7 +1127,7 @@ function resolveConcierge(rawText){
     return 'Your lease on Suite 1402 renews in <b>14 months</b> (Nov 2027).<div class="cmsg-step" style="cursor:pointer;text-decoration:underline;" onclick="toastAny(\'Request sent to leasing team\')">Request renewal discussion</div>';
   }
   if(t.includes('park')){
-    return 'Bay <b>B2-14</b> is yours and free right now.<div class="cmsg-step" style="cursor:pointer;text-decoration:underline;" onclick="toastAny(\'Visitor bay held for 15 minutes\')">Hold a visitor bay instead</div>';
+    return 'Bay <b>P2-14</b> is yours and free right now.<div class="cmsg-step" style="cursor:pointer;text-decoration:underline;" onclick="toastAny(\'Visitor bay held for 15 minutes\')">Hold a visitor bay instead</div>';
   }
   if(t.includes('guest') || t.includes('visitor')){
     return 'I can generate a visitor pass now.<div class="cmsg-step" style="cursor:pointer;text-decoration:underline;" onclick="toastAny(\'Visitor pass generated — elevator will be pre-called on arrival\')">Generate visitor pass</div>';
@@ -1365,22 +1146,312 @@ function showToast(elId, msg){
   clearTimeout(t._timer); t._timer=setTimeout(()=>t.classList.remove('show'), 3200);
 }
 
-/* ---------- owner console ---------- */
-function ownerSignIn(){
-  document.getElementById('owner-login-stage').style.display='none';
-  document.getElementById('owner-console').classList.add('on');
-}
-function navO(id){
-  document.querySelectorAll('.owner-page').forEach(p=>p.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
-  document.querySelectorAll('.owner-nav-item').forEach(el=>el.classList.toggle('active', el.dataset.op===id));
-}
-
 /* ---------- shared widgets ---------- */
 function openModal(id){ document.getElementById(id).classList.add('open'); document.getElementById('modal-frame').style.pointerEvents='auto'; }
 function closeModal(id){ document.getElementById(id).classList.remove('open'); document.getElementById('modal-frame').style.pointerEvents='none'; }
 function selChip(el, scopeSelector){ document.querySelectorAll(scopeSelector).forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); }
-function genPass(){ const n=document.getElementById('vis-name').value||'Your guest'; toastE(n+"'s pass is ready — their elevator car will be pre-called"); }
+const PASS_STEPS = [
+  {t:'Pass generated', s:'Share the QR code, or your guest can enter their name at the North Core lobby kiosk.'},
+  {t:'Arrived & verified', s:'Face ID matched the pass at North Core lobby — QR is always the fallback.'},
+  {t:'Elevator called', s:'Car 3 is on its way to the lobby, pre-set for Floor 14.'},
+  {t:'At your door', s:'Your guest has reached Boardroom 14-B.'}
+];
+let passStep = 0;
+
+function genPass(){
+  const name = document.getElementById('vis-name').value.trim() || 'Your guest';
+  const purpose = document.getElementById('vis-purpose').value.trim() || 'Meeting';
+  const timeChip = document.querySelector('#e-gate .t-chip.sel');
+  const time = timeChip ? timeChip.textContent.trim() : '10:00';
+  document.getElementById('pass-guest-name').textContent = name;
+  document.getElementById('pass-guest-meta').textContent = purpose + ' · North Core · ' + time;
+  passStep = 0;
+  renderPassSteps();
+  document.getElementById('pass-tracker').style.display = 'block';
+  const btn = document.getElementById('pass-advance-btn');
+  btn.disabled = false;
+  btn.textContent = 'Simulate guest arrival';
+  toastE(name + "'s pass is ready — their elevator car will be pre-called on arrival");
+}
+
+function renderPassSteps(){
+  const wrap = document.getElementById('pass-steps');
+  wrap.innerHTML = PASS_STEPS.map((step, i)=>{
+    const done = i < passStep;
+    const active = i === passStep;
+    const cls = done ? 'pstep done' : (active ? 'pstep active' : 'pstep');
+    const dot = done ? '&#10003;' : (i + 1);
+    const showSub = done || active;
+    return '<div class="' + cls + '"><div class="pstep-dot">' + dot + '</div><div><div class="pstep-t">' + step.t + '</div>' + (showSub ? '<div class="pstep-s">' + step.s + '</div>' : '') + '</div></div>';
+  }).join('');
+}
+
+const PARKING_BAYS = ['P2-14', 'P2-15', 'P2-16', 'P2-17'];
+let employees = [
+  {id:1, name:'Layla Al-Harbi', role:'UX Designer', status:'active', bay:'P2-14'},
+  {id:2, name:'Omar Al-Dossary', role:'Account Manager', status:'active', bay:'P2-15'},
+  {id:3, name:'Hana Al-Zahrani', role:'Left company · 12 Sep', status:'flagged', bay:null}
+];
+let nextEmployeeId = 4;
+let currentEmployeeId = null;
+
+function renderEmployeeList(){
+  const activeCount = employees.filter(e => e.status === 'active').length;
+  const pendingCount = employees.filter(e => e.status === 'pending').length;
+  const statEls = document.querySelectorAll('#m-people .stat-val');
+  if(statEls.length >= 2){ statEls[0].textContent = activeCount; statEls[1].textContent = pendingCount; }
+  const wrap = document.getElementById('employee-list');
+  if(!wrap) return;
+  wrap.innerHTML = employees.map(e => {
+    let pill, meta;
+    if(e.status === 'pending'){ pill = '<span class="vis-pill pill-warn">Pending</span>'; meta = 'Invitation sent'; }
+    else if(e.status === 'flagged'){ pill = '<span class="vis-pill pill-warn" style="cursor:pointer;" onclick="event.stopPropagation(); revokeEmployee(' + e.id + ')">Revoke</span>'; meta = e.role; }
+    else { pill = '<span class="vis-pill pill-active">Active</span>'; meta = e.role + (e.bay ? ' · ' + e.bay : ' · no bay assigned'); }
+    return '<div class="vis-row" style="cursor:pointer;" onclick="openEmployeeDetail(' + e.id + ')"><div class="vis-info"><div class="vis-name">' + escapeHtml(e.name) + '</div><div class="vis-meta">' + escapeHtml(meta) + '</div></div>' + pill + '</div>';
+  }).join('');
+  renderParkingList();
+}
+
+function renderParkingList(){
+  const wrap = document.getElementById('parking-list');
+  if(!wrap) return;
+  wrap.innerHTML = PARKING_BAYS.map(code => {
+    const owner = employees.find(e => e.bay === code && e.status === 'active');
+    if(owner) return '<div class="vis-row"><div class="vis-info"><div class="vis-name">' + code + '</div><div class="vis-meta">Assigned to ' + escapeHtml(owner.name) + '</div></div><span class="vis-pill pill-active">Assigned</span></div>';
+    return '<div class="vis-row"><div class="vis-info"><div class="vis-name">' + code + '</div><div class="vis-meta">Unassigned</div></div><span class="vis-pill pill-done">Open</span></div>';
+  }).join('');
+}
+
+function openInvite(){
+  document.getElementById('inv-name').value = '';
+  document.getElementById('inv-role').value = '';
+  openModal('modal-invite');
+}
+
+function submitInvite(){
+  const name = document.getElementById('inv-name').value.trim();
+  const role = document.getElementById('inv-role').value.trim() || 'Employee';
+  if(!name){ toastM('Enter a name first'); return; }
+  employees.push({id: nextEmployeeId++, name: name, role: role, status: 'pending', bay: null});
+  renderEmployeeList();
+  closeModal('modal-invite');
+  toastM('Invite sent to ' + name);
+}
+
+function openEmployeeDetail(id){
+  const e = employees.find(x => x.id === id);
+  if(!e) return;
+  currentEmployeeId = id;
+  renderEmployeeDetail(e);
+  openModal('modal-employee');
+}
+
+function renderEmployeeDetail(e){
+  document.getElementById('emp-name').textContent = e.name;
+  document.getElementById('emp-role').textContent = e.role;
+  const bayWrap = document.getElementById('emp-bay-section');
+  if(e.status !== 'active'){
+    bayWrap.innerHTML = '<p style="font-size:11.5px;color:var(--text-dim);padding:0 20px 8px;">Parking is only assigned to active badges.</p>';
+  } else if(e.bay){
+    bayWrap.innerHTML = '<div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Reserved bay</div><div class="stat-val">' + e.bay + '</div></div></div>';
+  } else {
+    const open = PARKING_BAYS.filter(code => !employees.some(x => x.bay === code && x.status === 'active'));
+    if(open.length === 0){
+      bayWrap.innerHTML = '<p style="font-size:11.5px;color:var(--text-dim);padding:0 20px 8px;">No open bays right now.</p>';
+    } else {
+      bayWrap.innerHTML = '<div class="section-head" style="padding-top:0;"><div class="section-title" style="font-size:12.5px;">Assign an open bay</div></div><div class="urg-tag-row" style="padding-bottom:8px;">' + open.map(code => '<div class="urg-tag" onclick="assignBay(\'' + code + '\')">' + code + '</div>').join('') + '</div>';
+    }
+  }
+  const revokeBtn = document.getElementById('emp-revoke-btn');
+  revokeBtn.style.display = 'block';
+  revokeBtn.textContent = e.status === 'pending' ? 'Cancel invite' : 'Revoke badge';
+}
+
+function assignBay(code){
+  const e = employees.find(x => x.id === currentEmployeeId);
+  if(!e) return;
+  e.bay = code;
+  renderEmployeeDetail(e);
+  renderEmployeeList();
+  toastM(code + ' assigned to ' + e.name);
+}
+
+function revokeFromDetail(){
+  revokeEmployee(currentEmployeeId);
+  closeModal('modal-employee');
+}
+
+function revokeEmployee(id){
+  const idx = employees.findIndex(x => x.id === id);
+  if(idx === -1) return;
+  const name = employees[idx].name;
+  employees.splice(idx, 1);
+  renderEmployeeList();
+  toastM('Badge revoked for ' + name);
+}
+
+const TICKET_STEPS = ['Submitted', 'Acknowledged', 'Technician assigned', 'In progress', 'Resolved'];
+let tickets = [
+  {id:1, title:'Conference display flicker', category:'IT / Network', location:'Room 14-B', urgency:'Normal', raisedBy:'Layla Al-Harbi', step:3},
+  {id:2, title:'Boardroom running warm', category:'HVAC', location:'Room 14-B', urgency:'Normal', raisedBy:'Layla Al-Harbi', step:0}
+];
+let ticketFilter = 'all';
+let nextTicketId = 3;
+let currentTicketId = null;
+
+function ticketIcon(cat){
+  if(cat === 'HVAC') return 'ic-wind';
+  if(cat === 'Electrical') return 'ic-bolt';
+  if(cat === 'IT / Network') return 'ic-network';
+  return 'ic-wrench';
+}
+
+function renderTickets(){
+  const wrap = document.getElementById('maint-list');
+  if(!wrap) return;
+  let list = tickets;
+  if(ticketFilter === 'open') list = tickets.filter(t => t.step < TICKET_STEPS.length - 1);
+  if(ticketFilter === 'urgent') list = tickets.filter(t => t.urgency === 'Urgent');
+  if(list.length === 0){
+    wrap.innerHTML = '<p style="font-size:12px;color:var(--text-dim);padding:16px 20px;text-align:center;">No tickets match this filter.</p>';
+    return;
+  }
+  wrap.innerHTML = list.slice().reverse().map(t =>
+    '<div class="act-item" style="cursor:pointer;" onclick="openTicketDetail(' + t.id + ')"><div class="act-ico"><svg class="ic"><use href="#' + ticketIcon(t.category) + '"/></svg></div><div class="act-body"><div class="act-t">' + escapeHtml(t.title) + '</div><div class="act-s">' + escapeHtml(t.location) + ' · raised by ' + escapeHtml(t.raisedBy.split(' ')[0]) + '</div></div><div class="act-time">' + TICKET_STEPS[t.step] + '</div></div>'
+  ).join('');
+}
+
+function setTicketFilter(el, key){
+  document.querySelectorAll('#m-maint .filter-chip').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  ticketFilter = key;
+  renderTickets();
+}
+
+function renderTicketSteps(t){
+  const wrap = document.getElementById('ticket-steps');
+  wrap.innerHTML = TICKET_STEPS.map((label, i) => {
+    const done = i < t.step;
+    const active = i === t.step;
+    const cls = done ? 'pstep done' : (active ? 'pstep active' : 'pstep');
+    const dot = done ? '&#10003;' : (i + 1);
+    return '<div class="' + cls + '"><div class="pstep-dot">' + dot + '</div><div><div class="pstep-t">' + label + '</div></div></div>';
+  }).join('');
+}
+
+function openTicketDetail(id){
+  const t = tickets.find(x => x.id === id);
+  if(!t) return;
+  currentTicketId = id;
+  document.getElementById('ticket-title').textContent = t.title;
+  document.getElementById('ticket-meta').textContent = t.location + ' · ' + t.category + ' · ' + t.urgency + ' urgency · raised by ' + t.raisedBy;
+  renderTicketSteps(t);
+  const btn = document.getElementById('ticket-advance-btn');
+  if(t.step >= TICKET_STEPS.length - 1){ btn.textContent = 'Resolved'; btn.disabled = true; }
+  else { btn.textContent = 'Simulate technician update'; btn.disabled = false; }
+  openModal('modal-ticket');
+}
+
+function advanceTicket(){
+  const t = tickets.find(x => x.id === currentTicketId);
+  if(!t || t.step >= TICKET_STEPS.length - 1) return;
+  t.step++;
+  renderTicketSteps(t);
+  toastM(t.title + ': now ' + TICKET_STEPS[t.step]);
+  const btn = document.getElementById('ticket-advance-btn');
+  if(t.step >= TICKET_STEPS.length - 1){ btn.textContent = 'Resolved'; btn.disabled = true; }
+  renderTickets();
+}
+
+function openNewTicket(){
+  document.getElementById('nt-desc').value = '';
+  const cats = document.querySelectorAll('#modal-newticket .cat-tile');
+  cats.forEach((c, i) => c.classList.toggle('sel', i === 0));
+  const urgs = document.querySelectorAll('#modal-newticket .urg-tag');
+  urgs.forEach((c, i) => c.classList.toggle('sel', i === 1));
+  openModal('modal-newticket');
+}
+
+function submitNewTicket(){
+  const catEl = document.querySelector('#modal-newticket .cat-tile.sel .cat-name');
+  const urgEl = document.querySelector('#modal-newticket .urg-tag.sel');
+  const cat = catEl ? catEl.textContent.trim() : 'Other';
+  const urg = urgEl ? urgEl.textContent.trim() : 'Normal';
+  const descRaw = document.getElementById('nt-desc').value.trim() || 'No additional details provided';
+  const title = descRaw.length > 44 ? descRaw.slice(0, 44) + '…' : descRaw;
+  const t = {id: nextTicketId++, title: title, category: cat, location: 'Suite 1402', urgency: urg, raisedBy: 'You', step: 0};
+  tickets.push(t);
+  ticketFilter = 'all';
+  const filterChips = document.querySelectorAll('#m-maint .filter-chip');
+  filterChips.forEach((c, i) => c.classList.toggle('sel', i === 0));
+  renderTickets();
+  closeModal('modal-newticket');
+  toastM('Facilities request submitted — reference FR-' + (2480 + t.id));
+}
+
+function openBookModal(){
+  document.getElementById('book-view-form').style.display = 'block';
+  document.getElementById('book-view-ready').style.display = 'none';
+  clearInterval(window._prepTimer);
+  openModal('modal-book');
+}
+
+function confirmBooking(){
+  const dchip = document.querySelector('#modal-book .d-chip.sel');
+  const tchip = document.querySelector('#modal-book .t-chip.sel');
+  const cchip = document.querySelector('#modal-book .cat-tile.sel');
+  const day = dchip ? dchip.querySelector('.d-sub').textContent.trim() : 'Today';
+  const time = tchip ? tchip.textContent.trim() : '11:00';
+  const roomParts = (cchip ? cchip.querySelector('.cat-name').textContent : '14-B · 8p').split('·');
+  const roomNum = roomParts[0].trim();
+  const roomCap = (roomParts[1] || '').trim();
+  document.getElementById('book-room-name').textContent = (roomNum === 'F32' ? 'Rooftop room F32' : 'Boardroom ' + roomNum);
+  document.getElementById('book-room-meta').textContent = day + ' · ' + time + ' · ' + roomCap;
+  document.getElementById('book-view-form').style.display = 'none';
+  document.getElementById('book-view-ready').style.display = 'block';
+  runRoomPrep();
+}
+
+function runRoomPrep(){
+  const fill = document.getElementById('book-prep-fill');
+  const tempEl = document.getElementById('book-prep-temp');
+  const lightEl = document.getElementById('book-prep-light');
+  const statusEl = document.getElementById('book-prep-status');
+  let pct = 0;
+  fill.style.width = '0%';
+  tempEl.textContent = '26°C';
+  lightEl.textContent = '40%';
+  statusEl.textContent = 'In progress';
+  clearInterval(window._prepTimer);
+  window._prepTimer = setInterval(()=>{
+    pct += 12;
+    if(pct >= 100){
+      pct = 100;
+      clearInterval(window._prepTimer);
+      statusEl.textContent = 'Ready';
+      tempEl.textContent = '22°C';
+      lightEl.textContent = '70%';
+      toastAny('Boardroom pre-cooled and ready');
+    } else {
+      tempEl.textContent = Math.max(22, 26 - Math.round(pct / 25)) + '°C';
+      lightEl.textContent = Math.min(70, 40 + Math.round(pct * 0.3)) + '%';
+    }
+    fill.style.width = pct + '%';
+  }, 260);
+}
+
+function advancePass(){
+  if(passStep >= PASS_STEPS.length) return;
+  const step = PASS_STEPS[passStep];
+  passStep++;
+  renderPassSteps();
+  toastE(step.s);
+  if(passStep >= PASS_STEPS.length){
+    const btn = document.getElementById('pass-advance-btn');
+    btn.textContent = 'Visit complete';
+    btn.disabled = true;
+  }
+}
 function claimDeal(btn){ btn.textContent='Claimed'; btn.style.opacity=.55; btn.onclick=null; toastAny('Perk claimed — check your email'); }
 function bookEvent(btn,name){ btn.textContent='Reserved'; btn.style.opacity=.55; btn.onclick=null; toastAny('Reserved: '+name); }
 
@@ -1391,6 +1462,9 @@ let sosTimer=null, sosHeld=false;
 function sosStart(){ sosHeld=false; const fab=document.getElementById('sos-fab'), ring=document.getElementById('sos-ring'); fab.classList.add('arming'); let p=0;
   sosTimer=setInterval(()=>{ p+=100/12; ring.style.setProperty('--p', Math.min(p,100)+'%'); if(p>=100){ clearInterval(sosTimer); sosHeld=true; fab.classList.remove('arming'); openModal('modal-panic'); document.getElementById('modal-frame').style.pointerEvents='auto'; } },100); }
 function sosEnd(){ clearInterval(sosTimer); document.getElementById('sos-fab').classList.remove('arming'); if(!sosHeld) toastAny('Hold to alert Security Control Room'); }
+
+renderTickets();
+renderEmployeeList();
 </script>
 </body>
 </html>
