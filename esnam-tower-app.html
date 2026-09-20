@@ -138,7 +138,7 @@ img.logo{display:block;}
 
 /* dashboard head */
 .dash-head{padding:50px 20px 4px;}
-.dash-logo{height:18px; display:block; margin-bottom:16px;}
+.dash-logo{height:30px; display:block; margin-bottom:16px;}
 
 .brief-card{margin:14px 20px 16px; padding:16px 16px 14px; border-radius:var(--r-lg); background:linear-gradient(160deg,#fff 40%, var(--accent-tint) 220%); border:1px solid var(--line);}
 .brief-head{display:flex; align-items:center; gap:7px; font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--accent-deep); margin-bottom:9px;}
@@ -368,6 +368,17 @@ img.logo{display:block;}
 .ar-tape-target{position:absolute; bottom:2px; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; color:var(--accent);}
 .ar-tape-target .ic{width:12px;height:12px; stroke:var(--accent);}
 
+.env-panel{padding:2px 20px 8px;}
+.env-row{margin-bottom:20px;}
+.env-row-head{display:flex; align-items:center; gap:9px; margin-bottom:11px;}
+.env-row-head .ic{width:16px;height:16px; color:var(--text-muted); flex-shrink:0;}
+.env-row-name{font-size:12.5px; font-weight:700; flex:1;}
+.env-row-val{font-family:'Space Grotesk'; font-size:13.5px; font-weight:700; color:var(--accent-deep);}
+.env-slider{-webkit-appearance:none; appearance:none; width:100%; height:5px; border-radius:100px; background:var(--line); outline:none; cursor:pointer; display:block; margin:0;}
+.env-slider::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:22px; height:22px; border-radius:50%; background:var(--ink); border:3px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,.35); cursor:pointer;}
+.env-slider::-moz-range-thumb{width:22px; height:22px; border-radius:50%; background:var(--ink); border:3px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,.35); cursor:pointer;}
+.env-slider::-moz-range-track{height:5px; border-radius:100px; background:transparent;}
+
 </style>
 </head>
 <body>
@@ -400,6 +411,7 @@ img.logo{display:block;}
 <symbol id="ic-star" viewBox="0 0 24 24"><path d="m12 3 2.6 5.9 6.4.6-4.9 4.3 1.5 6.3L12 16.9 6.4 20.1l1.5-6.3-4.9-4.3 6.4-.6z"/></symbol>
 <symbol id="ic-leaf" viewBox="0 0 24 24"><path d="M20 4C9 4 4 9 4 17v3h3c8 0 13-5 13-16z"/><path d="M7.5 19.5 18 9"/></symbol>
 <symbol id="ic-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="3.4"/><path d="M10.4 12.6 18 5M15.5 7.5 18 5l2 2M16 11l2 2"/></symbol>
+<symbol id="ic-blinds" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1.4"/><path d="M4 8.5h16M4 12.5h16M4 16.5h16"/></symbol>
 <symbol id="ic-send" viewBox="0 0 24 24"><path d="M6 18 18 6"/><path d="M9 6h9v9"/></symbol>
 <symbol id="ic-network" viewBox="0 0 24 24"><path d="M12 4c4.5 2.7 6.5 6.7 6.5 11"/><path d="M12 8c2.6 1.7 3.8 4 3.8 7"/><path d="M12 12c1 .9 1.4 2 1.4 3"/><circle cx="12" cy="19" r="1.4"/></symbol>
 <symbol id="ic-face" viewBox="0 0 24 24"><path d="M8 4.5H6A1.5 1.5 0 0 0 4.5 6v2M16 4.5h2A1.5 1.5 0 0 1 19.5 6v2M8 19.5H6A1.5 1.5 0 0 1 4.5 18v-2M16 19.5h2a1.5 1.5 0 0 0 1.5-1.5v-2"/><circle cx="12" cy="10.6" r="2.9"/><path d="M8.3 16.2c.8-1.7 2.1-2.5 3.7-2.5s2.9.8 3.7 2.5"/></symbol>
@@ -909,11 +921,23 @@ img.logo{display:block;}
   <div class="smart-modal" id="modal-work"><div class="smart-sheet"><div class="sheet-handle"></div>
     <div class="sheet-head"><div class="sheet-title">Work — AI-enhanced workplace</div><div class="sheet-close" onclick="closeModal('modal-work')"><svg class="ic"><use href="#ic-close"/></svg></div></div>
     <div class="sheet-body">
-      <div class="stat2x2"><div class="stat-card"><div class="stat-lbl">Temperature</div><div class="stat-val">23°C</div></div><div class="stat-card"><div class="stat-lbl">Lighting</div><div class="stat-val">70%</div></div></div>
+      <div class="env-panel">
+        <div class="env-row">
+          <div class="env-row-head"><svg class="ic"><use href="#ic-wind"/></svg><span class="env-row-name">Temperature</span><span class="env-row-val" id="env-temp-val">23°C</span></div>
+          <input type="range" class="env-slider" id="env-temp" min="18" max="26" step="1" value="23" oninput="envUpdate('temp', this.value)" onchange="envConfirm('temp')">
+        </div>
+        <div class="env-row">
+          <div class="env-row-head"><svg class="ic"><use href="#ic-sparkle"/></svg><span class="env-row-name">Lighting</span><span class="env-row-val" id="env-light-val">70%</span></div>
+          <input type="range" class="env-slider" id="env-light" min="0" max="100" step="5" value="70" oninput="envUpdate('light', this.value)" onchange="envConfirm('light')">
+        </div>
+        <div class="env-row" style="margin-bottom:8px;">
+          <div class="env-row-head"><svg class="ic"><use href="#ic-blinds"/></svg><span class="env-row-name">Blinds</span><span class="env-row-val" id="env-blinds-val">Half-open</span></div>
+          <input type="range" class="env-slider" id="env-blinds" min="0" max="100" step="10" value="50" oninput="envUpdate('blinds', this.value)" onchange="envConfirm('blinds')">
+        </div>
+      </div>
       <div class="qa-wrap" style="padding-bottom:6px;">
         <div class="qa-list">
           <div class="qa-item" onclick="closeModal('modal-work'); openBookModal()"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-calendar"/></svg></div><div class="qa-body"><div class="qa-t">Book a space</div><div class="qa-s">Rooms suggested by your calendar</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
-          <div class="qa-item" onclick="toastAny('Boardroom 14-B set to 22°C, blinds half-closed')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-wind"/></svg></div><div class="qa-body"><div class="qa-t">Adjust environment</div><div class="qa-s">Climate, lighting &amp; blinds</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
           <div class="qa-item" onclick="toastAny('Tenant concierge notified — reply in your messages')"><div class="qa-ico"><svg class="ic" style="stroke:#fff"><use href="#ic-sparkle"/></svg></div><div class="qa-body"><div class="qa-t">Get assistance</div><div class="qa-s">Message the tenant concierge</div></div><div class="qa-chev"><svg class="ic"><use href="#ic-chevron"/></svg></div></div>
         </div>
       </div>
@@ -1096,6 +1120,41 @@ function goTabM(id){ navM(id); }
 function toastM(msg){ showToast('toast-m', msg); }
 function toastAny(msg){ if(currentMode==='employee') toastE(msg); else if(currentMode==='employer') toastM(msg); }
 function fireExperience(){ toastAny('Experience: your boardroom is pre-cooled and ready — 3 minutes early'); }
+
+/* ---------- Smart office sliders ---------- */
+function envSliderFill(el){
+  const min = parseFloat(el.min), max = parseFloat(el.max), val = parseFloat(el.value);
+  const pct = ((val - min) / (max - min)) * 100;
+  el.style.background = 'linear-gradient(to right, var(--accent) ' + pct + '%, var(--line) ' + pct + '%)';
+}
+
+function blindsLabel(v){
+  v = parseFloat(v);
+  if(v <= 20) return 'Open';
+  if(v >= 80) return 'Closed';
+  return 'Half-open';
+}
+
+function envUpdate(kind, value){
+  const el = document.getElementById('env-' + kind);
+  if(el) envSliderFill(el);
+  if(kind === 'temp') document.getElementById('env-temp-val').textContent = value + '°C';
+  else if(kind === 'light') document.getElementById('env-light-val').textContent = value + '%';
+  else if(kind === 'blinds') document.getElementById('env-blinds-val').textContent = blindsLabel(value);
+}
+
+function envConfirm(kind){
+  if(kind === 'temp') toastAny('Boardroom 14-B set to ' + document.getElementById('env-temp').value + '°C');
+  else if(kind === 'light') toastAny('Lighting set to ' + document.getElementById('env-light').value + '%');
+  else if(kind === 'blinds') toastAny('Blinds set to ' + blindsLabel(document.getElementById('env-blinds').value).toLowerCase());
+}
+
+function initEnvSliders(){
+  ['env-temp', 'env-light', 'env-blinds'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) envSliderFill(el);
+  });
+}
 
 /* ---------- Tower Assistant concierge ---------- */
 const CONCIERGE_GREETING = {
@@ -1836,6 +1895,7 @@ function animateAR(){
 
 renderTickets();
 renderEmployeeList();
+initEnvSliders();
 </script>
 </body>
 </html>
