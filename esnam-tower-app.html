@@ -356,6 +356,17 @@ img.logo{display:block;}
 .ar-arrived{display:none; position:relative; z-index:6; flex:1; flex-direction:column; align-items:center; justify-content:center; background:rgba(10,10,11,.94); color:#fff; text-align:center; padding:32px;}
 .ar-arrived-check{width:64px;height:64px;border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; margin-bottom:18px;}
 .ar-arrived .btn-primary{max-width:220px;}
+.ar-heading-badge{position:relative; z-index:5; margin:14px auto 0; display:flex; align-items:baseline; gap:6px; background:rgba(0,0,0,.45); backdrop-filter:blur(6px); padding:7px 14px; border-radius:100px; width:fit-content; color:#fff;}
+.ar-heading-badge #ar-heading-deg{font-family:'Space Grotesk'; font-size:14px; font-weight:700; color:var(--accent);}
+.ar-heading-badge .ar-heading-card{font-size:11px; font-weight:700; color:#B9B6AE; letter-spacing:.5px;}
+.ar-tape-wrap{position:relative; z-index:5; height:46px; margin-top:10px; overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent); mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);}
+.ar-tape-center{position:absolute; left:50%; top:0; bottom:0; width:2px; background:var(--accent); transform:translateX(-50%); z-index:2; box-shadow:0 0 8px rgba(201,164,100,.8);}
+.ar-tape{position:absolute; top:0; left:50%; height:100%; display:flex; align-items:flex-end; will-change:transform;}
+.ar-tape-tick{position:absolute; top:0; bottom:8px; width:1px; background:rgba(255,255,255,.3);}
+.ar-tape-tick.major{background:rgba(255,255,255,.6); bottom:0;}
+.ar-tape-label{position:absolute; bottom:0; font-size:10px; font-weight:800; color:#fff; transform:translateX(-50%);}
+.ar-tape-target{position:absolute; bottom:2px; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; color:var(--accent);}
+.ar-tape-target .ic{width:12px;height:12px; stroke:var(--accent);}
 
 </style>
 </head>
@@ -1012,9 +1023,17 @@ img.logo{display:block;}
 
   <div class="ar-hud" id="ar-hud">
     <div class="ar-topbar">
-      <div class="ar-dest-chip" id="ar-dest-chip">Boardroom 14-B</div>
+      <div class="ar-dest-chip"><svg class="ic" style="width:13px;height:13px;stroke:var(--accent);margin-right:6px;vertical-align:-2px;"><use href="#ic-route"/></svg><span id="ar-dest-chip">Boardroom 14-B</span></div>
       <div class="ar-close" onclick="closeAR()"><svg class="ic" style="stroke:#fff;width:15px;height:15px;"><use href="#ic-close"/></svg></div>
     </div>
+
+    <div class="ar-heading-badge"><span id="ar-heading-deg">0°</span><span class="ar-heading-card" id="ar-heading-card">N</span></div>
+
+    <div class="ar-tape-wrap">
+      <div class="ar-tape-center"></div>
+      <div class="ar-tape" id="ar-tape"></div>
+    </div>
+
     <div class="ar-hint" id="ar-hint">Turn slowly — the arrow points the way</div>
     <div class="ar-panel">
       <div class="ar-panel-row"><div class="ar-panel-label" id="ar-progress-label">Heading out…</div><div class="ar-panel-pct" id="ar-progress-pct">0%</div></div>
@@ -1529,16 +1548,30 @@ const AR_DESTINATIONS = {
   'Tenant Lounge, F32': 200,
   'North Core Lobby': 0
 };
-let arStream = null, arScene, arCamera, arRenderer, arArrowGroup, arRAF = null;
-let arTargetBearing = 45, arHeading = 0, arProgress = 0, arRunning = false;
+const AR_CARDINALS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+let arStream = null, arScene, arCamera, arRenderer, arArrowGroup, arGlowMesh, arRingMesh, arRAF = null;
+let arTargetBearing = 45, arHeading = 0, arSmoothHeading = 0, arProgress = 0, arRunning = false, arSimulated = false;
+let arHasAbsolute = false, arLastHeadingSample = null, arLastHeadingChangeTime = 0;
+let arTiltBeta = 0, arTiltGamma = 0;
 let arAutoTimer = null, arLastStepTime = 0, arLastAccelMag = 0;
+
+function angDiffDeg(a, b){
+  let d = (a - b) % 360;
+  if(d < -180) d += 360;
+  if(d > 180) d -= 360;
+  return d;
+}
+function headingToCardinal(deg){
+  const i = Math.round(((deg % 360 + 360) % 360) / 22.5) % 16;
+  return AR_CARDINALS[i];
+}
 
 function startARNavigate(){
   const destChip = document.querySelector('#modal-navigate .urg-tag.sel');
   const dest = destChip ? destChip.textContent.trim() : 'Boardroom 14-B';
   arTargetBearing = (AR_DESTINATIONS[dest] !== undefined) ? AR_DESTINATIONS[dest] : 45;
-  arHeading = 0;
-  arProgress = 0;
+  arHeading = 0; arSmoothHeading = 0; arProgress = 0; arHasAbsolute = false; arLastHeadingSample = null;
+  arLastHeadingChangeTime = Date.now();
   document.getElementById('ar-gate-dest').textContent = dest;
   document.getElementById('ar-dest-chip').textContent = dest;
   document.getElementById('ar-arrived-dest').textContent = dest;
@@ -1546,8 +1579,30 @@ function startARNavigate(){
   document.getElementById('ar-hud').style.display = 'none';
   document.getElementById('ar-arrived').style.display = 'none';
   document.getElementById('ar-error').style.display = 'none';
+  buildARTape();
   closeModal('modal-navigate');
   document.getElementById('ar-overlay').style.display = 'flex';
+}
+
+function buildARTape(){
+  const tape = document.getElementById('ar-tape');
+  const pxPerDeg = 6;
+  const spanStart = -720, spanEnd = 1080; // generous buffer so multiple full turns don't scroll off the built content
+  let html = '';
+  for(let d = spanStart; d <= spanEnd; d += 10){
+    const mod = ((d % 360) + 360) % 360;
+    const isMajor = mod % 90 === 0;
+    html += '<div class="ar-tape-tick' + (isMajor ? ' major' : '') + '" style="left:' + (d * pxPerDeg) + 'px;"></div>';
+    if(mod % 30 === 0){
+      html += '<div class="ar-tape-label" style="left:' + (d * pxPerDeg) + 'px;">' + headingToCardinal(mod) + '</div>';
+    }
+  }
+  for(let k = -2; k <= 3; k++){
+    const x = (arTargetBearing + k * 360) * pxPerDeg;
+    html += '<div class="ar-tape-target" style="left:' + x + 'px;"><svg class="ic"><use href="#ic-route"/></svg></div>';
+  }
+  tape.innerHTML = html;
+  tape._pxPerDeg = pxPerDeg;
 }
 
 async function enableAR(){
@@ -1575,6 +1630,7 @@ async function enableAR(){
       await DeviceMotionEvent.requestPermission();
     }
   } catch(e){ /* sensors denied — progress still advances on a timer, arrow just won't turn with the phone */ }
+  window.addEventListener('deviceorientationabsolute', onARHeadingAbsolute);
   window.addEventListener('deviceorientation', onARHeading);
   window.addEventListener('devicemotion', onARMotion);
   runAR(false);
@@ -1588,6 +1644,7 @@ function simulateAR(){
 
 function runAR(simulated){
   arRunning = true;
+  arSimulated = simulated;
   document.getElementById('ar-gate').style.display = 'none';
   document.getElementById('ar-hud').style.display = 'flex';
   document.getElementById('ar-hint').textContent = simulated ? 'Simulated — the arrow sweeps automatically' : 'Turn slowly — the arrow points the way';
@@ -1595,16 +1652,35 @@ function runAR(simulated){
   clearInterval(arAutoTimer);
   arAutoTimer = setInterval(()=>{
     arProgress = Math.min(100, arProgress + (simulated ? 4 : 1.2));
-    if(simulated) arHeading += 5;
+    if(simulated) arHeading = (arHeading + 5 + 360) % 360;
     updateARProgress();
     if(arProgress >= 100) arriveAR();
   }, 300);
   animateAR();
 }
 
+function onARHeadingAbsolute(e){
+  if(e.alpha === null || e.alpha === undefined) return;
+  registerHeading((360 - e.alpha + 360) % 360, true);
+  arTiltBeta = e.beta || 0; arTiltGamma = e.gamma || 0;
+}
+
 function onARHeading(e){
-  if(typeof e.webkitCompassHeading === 'number'){ arHeading = e.webkitCompassHeading; }
-  else if(e.alpha !== null && e.alpha !== undefined){ arHeading = 360 - e.alpha; }
+  if(typeof e.webkitCompassHeading === 'number'){
+    registerHeading(e.webkitCompassHeading, true);
+  } else if(!arHasAbsolute && e.alpha !== null && e.alpha !== undefined){
+    registerHeading((360 - e.alpha + 360) % 360, false);
+  }
+  arTiltBeta = e.beta || 0; arTiltGamma = e.gamma || 0;
+}
+
+function registerHeading(deg, isAbsolute){
+  if(isAbsolute) arHasAbsolute = true;
+  arHeading = deg;
+  if(arLastHeadingSample === null || Math.abs(angDiffDeg(deg, arLastHeadingSample)) > 1.2){
+    arLastHeadingSample = deg;
+    arLastHeadingChangeTime = Date.now();
+  }
 }
 
 function onARMotion(e){
@@ -1640,6 +1716,7 @@ function closeAR(){
   clearInterval(arAutoTimer);
   arRunning = false;
   if(arRAF) cancelAnimationFrame(arRAF);
+  window.removeEventListener('deviceorientationabsolute', onARHeadingAbsolute);
   window.removeEventListener('deviceorientation', onARHeading);
   window.removeEventListener('devicemotion', onARMotion);
   if(arStream){ arStream.getTracks().forEach(t => t.stop()); arStream = null; }
@@ -1658,27 +1735,45 @@ function initARScene(){
   arCamera = new THREE.PerspectiveCamera(55, w / h, 0.1, 100);
   arCamera.position.set(0, 0, 5);
 
-  arScene.add(new THREE.AmbientLight(0xffffff, 0.7));
-  const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+  arScene.add(new THREE.AmbientLight(0xffffff, 0.75));
+  const dir = new THREE.DirectionalLight(0xffffff, 0.9);
   dir.position.set(2, 4, 3);
   arScene.add(dir);
+  const rim = new THREE.PointLight(0xC9A464, 1.2, 8);
+  rim.position.set(-1, -1, 2);
+  arScene.add(rim);
+
+  arArrowGroup = new THREE.Group();
 
   const shape = new THREE.Shape();
-  shape.moveTo(0, 1);
-  shape.lineTo(0.7, 0.1);
-  shape.lineTo(0.25, 0.1);
-  shape.lineTo(0.25, -1);
-  shape.lineTo(-0.25, -1);
-  shape.lineTo(-0.25, 0.1);
-  shape.lineTo(-0.7, 0.1);
+  shape.moveTo(0, 1.05);
+  shape.lineTo(0.62, 0.15);
+  shape.lineTo(0.24, 0.15);
+  shape.lineTo(0.24, -0.95);
+  shape.lineTo(-0.24, -0.95);
+  shape.lineTo(-0.24, 0.15);
+  shape.lineTo(-0.62, 0.15);
   shape.closePath();
-  const geo = new THREE.ExtrudeGeometry(shape, {depth: 0.28, bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.05, bevelSegments: 2});
-  const mat = new THREE.MeshStandardMaterial({color: 0xC9A464, metalness: 0.3, roughness: 0.35, emissive: 0x40300a, emissiveIntensity: 0.4});
+  const geo = new THREE.ExtrudeGeometry(shape, {depth: 0.24, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.06, bevelSegments: 3});
+  geo.center();
+  const mat = new THREE.MeshStandardMaterial({color: 0xC9A464, metalness: 0.55, roughness: 0.25, emissive: 0x6b4e1e, emissiveIntensity: 0.55});
   const mesh = new THREE.Mesh(geo, mat);
-  arArrowGroup = new THREE.Group();
   arArrowGroup.add(mesh);
-  arArrowGroup.position.set(0, -0.3, 0);
-  arArrowGroup.rotation.x = -0.3;
+
+  const glowGeo = new THREE.CircleGeometry(0.85, 40);
+  const glowMat = new THREE.MeshBasicMaterial({color: 0xC9A464, transparent: true, opacity: 0.22, side: THREE.DoubleSide});
+  arGlowMesh = new THREE.Mesh(glowGeo, glowMat);
+  arGlowMesh.position.z = -0.25;
+  arArrowGroup.add(arGlowMesh);
+
+  const ringGeo = new THREE.RingGeometry(0.95, 1.0, 48, 1, 0, Math.PI * 1.4);
+  const ringMat = new THREE.MeshBasicMaterial({color: 0xC9A464, transparent: true, opacity: 0.5, side: THREE.DoubleSide});
+  arRingMesh = new THREE.Mesh(ringGeo, ringMat);
+  arRingMesh.position.z = -0.2;
+  arArrowGroup.add(arRingMesh);
+
+  arArrowGroup.position.set(0, -0.2, 0);
+  arArrowGroup.rotation.x = -0.25;
   arScene.add(arArrowGroup);
 
   window.addEventListener('resize', resizeARCanvas);
@@ -1694,14 +1789,47 @@ function resizeARCanvas(){
   arCamera.updateProjectionMatrix();
 }
 
+function updateARHud(){
+  const cardinal = headingToCardinal(arSmoothHeading);
+  document.getElementById('ar-heading-deg').textContent = Math.round(((arSmoothHeading % 360) + 360) % 360) + '°';
+  document.getElementById('ar-heading-card').textContent = cardinal;
+  const tape = document.getElementById('ar-tape');
+  if(tape && tape._pxPerDeg){
+    tape.style.transform = 'translateX(' + (-arSmoothHeading * tape._pxPerDeg) + 'px)';
+  }
+  if(!arSimulated){
+    const stale = Date.now() - arLastHeadingChangeTime > 6000;
+    const hint = document.getElementById('ar-hint');
+    if(stale && hint.dataset.mode !== 'calibrate'){
+      hint.textContent = 'Compass looks stuck — move your phone in a slow figure-8 to calibrate';
+      hint.dataset.mode = 'calibrate';
+    } else if(!stale && hint.dataset.mode === 'calibrate'){
+      hint.textContent = 'Turn slowly — the arrow points the way';
+      hint.dataset.mode = '';
+    }
+  }
+}
+
 function animateAR(){
   if(!arRunning) return;
+  const delta = angDiffDeg(arHeading, ((arSmoothHeading % 360) + 360) % 360);
+  arSmoothHeading += delta * 0.15;
+
   if(arArrowGroup){
-    const rel = ((arTargetBearing - arHeading) % 360 + 360) % 360;
-    const relRad = THREE.MathUtils.degToRad(rel > 180 ? rel - 360 : rel);
-    arArrowGroup.rotation.y += (relRad - arArrowGroup.rotation.y) * 0.08;
-    arArrowGroup.position.y = -0.3 + Math.sin(Date.now() / 500) * 0.08;
+    const relDeg = arTargetBearing - arSmoothHeading;
+    const targetRotY = THREE.MathUtils.degToRad(relDeg);
+    arArrowGroup.rotation.y += (targetRotY - arArrowGroup.rotation.y) * 0.18;
+    const t = Date.now() / 1000;
+    arArrowGroup.position.y = -0.2 + Math.sin(t * 1.3) * 0.09;
+    const pulse = 1 + Math.sin(t * 2.2) * 0.05;
+    arArrowGroup.scale.set(pulse, pulse, pulse);
+    if(arRingMesh) arRingMesh.rotation.z = t * 0.6;
+    if(arGlowMesh) arGlowMesh.material.opacity = 0.18 + Math.sin(t * 2.2) * 0.06;
+    arCamera.position.x = THREE.MathUtils.clamp(arTiltGamma / 90, -1, 1) * 0.4;
+    arCamera.position.y = THREE.MathUtils.clamp((arTiltBeta - 60) / 90, -1, 1) * -0.3;
+    arCamera.lookAt(0, -0.2, 0);
   }
+  updateARHud();
   if(arRenderer && arScene && arCamera) arRenderer.render(arScene, arCamera);
   arRAF = requestAnimationFrame(animateAR);
 }
