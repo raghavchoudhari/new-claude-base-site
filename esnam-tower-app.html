@@ -1655,6 +1655,8 @@ const AR_ROUTE_STEPS = [
   {at: 100, turn: 0,   text: "You've arrived at the door"}
 ];
 
+function clampNum(v, min, max){ return Math.min(max, Math.max(min, v)); }
+
 function angDiffDeg(a, b){
   let d = (a - b) % 360;
   if(d < -180) d += 360;
@@ -1687,7 +1689,8 @@ function updateARInstruction(){
   const fb = document.getElementById('ar-fallback-arrow');
   if(fb && fb.style.display !== 'none'){
     const pulse = 1 + Math.sin(Date.now() / 1000 * 2.6) * 0.16;
-    fb.style.transform = 'translate(-50%,-50%) rotate(' + rot + 'deg) scale(' + pulse + ')';
+    const xDrift = clampNum(state.turn / 90, -1, 1) * 26;
+    fb.style.transform = 'translate(calc(-50% + ' + xDrift + 'px), -50%) rotate(' + rot + 'deg) scale(' + pulse + ')';
   }
   if(state.text !== arActiveStepText){
     arActiveStepText = state.text;
@@ -1944,6 +1947,8 @@ function animateAR(){
   if(arArrowGroup){
     const targetRotY = THREE.MathUtils.degToRad(routeTurn);
     arArrowGroup.rotation.y += (targetRotY - arArrowGroup.rotation.y) * 0.1;
+    const targetX = THREE.MathUtils.clamp(routeTurn / 90, -1, 1) * 0.55;
+    arArrowGroup.position.x += (targetX - arArrowGroup.position.x) * 0.08;
     const t = Date.now() / 1000;
     arArrowGroup.position.y = -0.2 + Math.sin(t * 1.6) * 0.14;
     const pulse = 1 + Math.sin(t * 2.6) * 0.16;
